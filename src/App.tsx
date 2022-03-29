@@ -1,35 +1,49 @@
 import React from 'react';
 import './App.css';
-import TodoList, {TaskType} from "./TodoList";
+import Task, {TasksType} from './TodoList';
+
 
 function App() {
-    const ToDoListTitle_1: string = 'What to buy';
-    const ToDoListTitle_2: string = 'What to learn';
-    const ToDoListTitle_3: string = 'What to read';
 
-    const tasks_1: TaskType[] = [
-        {id: 1, title: "HTML", isDone: true},
-        {id: 2, title: "CSS", isDone: true},
-        {id: 3, title: "JS/TS", isDone: false},
+    const title_1: string = 'What to do';
+    const title_2: string = 'What to buy';
+    const title_3: string = 'What to learn';
+
+    const task_1: TasksType[] = [
+        {id: 1, title: 'Sleep', isCheked: true},
+        {id: 2, title: 'Eat', isCheked: true},
+        {id: 3, title: 'Doing', isCheked: false}
+
     ]
 
-    const tasks_2: TaskType[] = [
-        {id: 1, title: "Milk", isDone: true},
-        {id: 2, title: "Sugar", isDone: true},
-        {id: 3, title: "Salt", isDone: false},
+    const task_2: TasksType[] = [
+        {id: 1, title: 'Milk', isCheked: true},
+        {id: 2, title: 'Ice-cream', isCheked: true},
+        {id: 3, title: 'Water', isCheked: false}
+
     ]
+
+    const task_3: TasksType[] = [
+        {id: 1, title: 'HTML', isCheked: true},
+        {id: 2, title: 'JS', isCheked: true},
+        {id: 3, title: 'React', isCheked: false}
+    ]
+
 
     return (
         <div className="App">
-            <TodoList
-                title = {ToDoListTitle_1}
-                tasks = {tasks_1}
+            <Task
+                title={title_1}
+                tasks={task_1}
             />
-            <TodoList
-                title = {ToDoListTitle_2}
-                tasks = {tasks_2}
+            <Task
+                title={title_2}
+                tasks={task_2}
             />
-            {/*<TodoList title = {ToDoListTitle_3}/>*/}
+            <Task
+                title={title_3}
+                tasks={task_3}
+            />
         </div>
     );
 }
