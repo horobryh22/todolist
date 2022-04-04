@@ -2,16 +2,31 @@ import React from 'react';
 
 type PropsType = {
     title: string
-    tasks: TasksType[]
+    tasks: Array<TasksType>
+    removeTask: (taskId: number) => void
+    changeFilter: (filter: FilterValuesType) => void
 }
 
+export type FilterValuesType = 'all' | 'completed' | 'active';
+
+
 export type TasksType = {
-    id: number,
-    isCheked: boolean,
+    id: number
+    isDone: boolean
     title: string
 }
 
-const Task = ({title, tasks}: PropsType) => { // применили деструктуризацию в данном месте кода
+export const ToDoList = ({title, tasks, removeTask, changeFilter}: PropsType) => { // применили деструктуризацию в данном месте кода
+
+    const tasksList = tasks.map((task) => {
+        return (
+            <li key={task.id}><input type="checkbox" checked={task.isDone}/>
+                <span>{task.title}</span>
+                <button onClick={() => removeTask(task.id)}>x</button>
+            </li>
+        )
+    });
+
     return (
         <div>
             <h3>{title}</h3>
@@ -20,17 +35,13 @@ const Task = ({title, tasks}: PropsType) => { // применили дестру
                 <button>+</button>
             </div>
             <ul>
-                <li><input type="checkbox" checked={tasks[0].isCheked}/> <span>{tasks[0].title}</span></li>
-                <li><input type="checkbox" checked={tasks[1].isCheked}/> <span>{tasks[1].title}</span></li>
-                <li><input type="checkbox" checked={tasks[2].isCheked}/> <span>{tasks[2].title}</span></li>
+                {tasksList}
             </ul>
             <div>
-                <button>All</button>
-                <button>Active</button>
-                <button>Completed</button>
+                <button onClick={() => changeFilter('all')}>All</button>
+                <button onClick={() => changeFilter('active')}>Active</button>
+                <button onClick={() => changeFilter('completed')}>Completed</button>
             </div>
         </div>
     )
 }
-
-export default Task;
