@@ -1,4 +1,6 @@
 import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
+import {Button} from './components/Button';
+import {FullInput} from './components/FullInput';
 
 type ToDoListType = {
     title: string
@@ -18,7 +20,6 @@ export type TasksType = {
 
 export const ToDoList: React.FC<ToDoListType> = ({title, tasks, removeTask, changeFilter, addTask}) => {
 
-    const [inputValue, setInputValue] = useState<string>('');
 
     const tasksList = tasks.map((task) => {
 
@@ -27,40 +28,30 @@ export const ToDoList: React.FC<ToDoListType> = ({title, tasks, removeTask, chan
         return (
             <li key={task.id}><input type="checkbox" checked={task.isDone}/>
                 <span>{task.title}</span>
-                <button onClick={onClickButtonHandler}>x</button>
+                <Button name={'x'} callback={onClickButtonHandler}/>
             </li>
         )
     });
 
-    const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>): void => {
-        setInputValue(e.currentTarget.value);
+    const onClickHandler = (filter: FilterValuesType) => {
+        changeFilter(filter)
     }
-    const onClickButtonHandler = (): void => {
-        const trimmedTitle = inputValue.trim();
-        if (trimmedTitle) addTask(inputValue);
-        setInputValue('');
-    };
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>): void => {
-        e.key === 'Enter' && onClickButtonHandler();
+
+    const addTaskHandler = (taskName: string): void => {
+        addTask(taskName);
     }
-    const onClickAllHandler = (): void => changeFilter('all');
-    const onClickActiveHandler = (): void => changeFilter('active');
-    const onClickCompletedHandler = (): void => changeFilter('completed');
 
     return (
         <div>
             <h3>{title}</h3>
-            <div>
-                <input onChange={onChangeInputHandler} value={inputValue} onKeyPress={onKeyPressHandler}/>
-                <button onClick={onClickButtonHandler}>+</button>
-            </div>
+            <FullInput callback={addTaskHandler} buttonName={'+'}/>
             <ul>
                 {tasksList}
             </ul>
             <div>
-                <button onClick={onClickAllHandler}>All</button>
-                <button onClick={onClickActiveHandler}>Active</button>
-                <button onClick={onClickCompletedHandler}>Completed</button>
+                <Button name={'All'} callback={() => onClickHandler('all')}/>
+                <Button name={'Active'} callback={() => onClickHandler('active')}/>
+                <Button name={'Completed'} callback={() => onClickHandler('completed')}/>
             </div>
         </div>
     )
