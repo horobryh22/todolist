@@ -1,6 +1,7 @@
 import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
 import {Button} from './components/Button';
 import {FullInput} from './components/FullInput';
+import {Input} from './components/Input';
 
 type ToDoListType = {
     title: string
@@ -20,6 +21,7 @@ export type TasksType = {
 
 export const ToDoList: React.FC<ToDoListType> = ({title, tasks, removeTask, changeFilter, addTask}) => {
 
+    const [inputValue, setInputValue] = useState<string>('');
 
     const tasksList = tasks.map((task) => {
 
@@ -37,14 +39,23 @@ export const ToDoList: React.FC<ToDoListType> = ({title, tasks, removeTask, chan
         changeFilter(filter)
     }
 
-    const addTaskHandler = (taskName: string): void => {
-        addTask(taskName);
+    // const addTaskHandler = (taskName: string): void => {
+    //     addTask(taskName);
+    // }
+
+
+    const onClickButtonHandler = (inputValue: string) => {
+        const trimmedTitle = inputValue.trim();
+        if (trimmedTitle) addTask(inputValue);
+        setInputValue('');
     }
 
     return (
         <div>
             <h3>{title}</h3>
-            <FullInput callback={addTaskHandler} buttonName={'+'}/>
+            {/*<FullInput callback={addTaskHandler} buttonName={'+'}/>*/}
+            <Input inputValue={inputValue} setInputValue={setInputValue}/>
+            <Button name={'+'} callback={() => onClickButtonHandler(inputValue)}/>
             <ul>
                 {tasksList}
             </ul>
