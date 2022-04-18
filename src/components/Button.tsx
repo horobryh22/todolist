@@ -1,18 +1,19 @@
 import React from 'react';
-import {FilterValuesType} from '../TodoList';
+import '../App.css';
 
 type ButtonPropsType = {
     name: string
     callback: () => void
+    classNameButton?: string
 }
 
-export const Button: React.FC<ButtonPropsType> = ({name, callback}) => {
+export const Button: React.FC<ButtonPropsType> = ({name, callback, classNameButton}) => {
 
     const onClickHandler = () => {
         callback();
     }
 
     return (
-        <button onClick={onClickHandler}>{name}</button>
+        <button className={classNameButton} onClick={onClickHandler}>{name}</button>
     );
 };
