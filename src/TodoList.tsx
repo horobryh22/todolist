@@ -6,11 +6,13 @@ import {Input} from './components/Input';
 type ToDoListType = {
     title: string
     tasks: Array<TasksType>
-    addTask: (taskName: string) => void
-    removeTask: (taskId: string) => void
-    changeFilter: (filter: FilterValuesType) => void
+    addTask: (todolistID: string, taskName: string) => void
+    todolistID: string
+    removeTask: (todolistID: string, taskId: string) => void
+    changeFilter: (todolistID: string, filter: FilterValuesType) => void
     filter: FilterValuesType
-    changeTaskStatus: (taskId: string, isDone: boolean) => void
+    removeToDoList: (todolistID: string) => void
+    changeTaskStatus: (todolistID: string, taskId: string, isDone: boolean) => void
 }
 
 export type FilterValuesType = 'all' | 'completed' | 'active';
@@ -28,6 +30,8 @@ export const ToDoList: React.FC<ToDoListType> = ({
                                                      removeTask,
                                                      changeFilter,
                                                      addTask,
+                                                     removeToDoList,
+                                                     todolistID,
                                                      filter
                                                  }) => {
 
@@ -41,8 +45,8 @@ export const ToDoList: React.FC<ToDoListType> = ({
 
     const tasksList = tasks.map((task) => {
 
-        const onClickButtonHandler = () => removeTask(task.id);
-        const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(task.id, e.currentTarget.checked);
+        const onClickButtonHandler = () => removeTask(todolistID, task.id);
+        const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(todolistID, task.id, e.currentTarget.checked);
         const taskClass = task.isDone ? 'is-done' : '';
 
         return (
@@ -56,7 +60,7 @@ export const ToDoList: React.FC<ToDoListType> = ({
     const tasksListChanged = tasksList.length ? tasksList : <div>Нет никаких задач</div>
 
     const onClickHandler = (filter: FilterValuesType) => {
-        changeFilter(filter)
+        changeFilter(todolistID, filter);
     }
 
     // const addTaskHandler = (taskName: string): void => {
@@ -67,7 +71,7 @@ export const ToDoList: React.FC<ToDoListType> = ({
     const onClickButtonHandler = (inputValue: string) => {
         const trimmedTitle = inputValue.trim();
         if (trimmedTitle) {
-            addTask(inputValue);
+            addTask(todolistID, inputValue);
             setError(null);
         } else {
             setError('Text is wrong');
@@ -75,9 +79,16 @@ export const ToDoList: React.FC<ToDoListType> = ({
         setInputValue('');
     }
 
+    const removeTodolistHandler = () => {
+        removeToDoList(todolistID);
+    }
+
     return (
         <div>
-            <h3>{title}</h3>
+            <h3>
+                {title}
+                <Button classNameButton={''} name={'x'} callback={removeTodolistHandler}/>
+            </h3>
             {/*<FullInput callback={addTaskHandler} buttonName={'+'}/>*/}
             <Input inputValue={inputValue} setInputValue={setInputValue} error={error} setError={setError}/>
             <Button name={'+'} callback={() => onClickButtonHandler(inputValue)}/>
