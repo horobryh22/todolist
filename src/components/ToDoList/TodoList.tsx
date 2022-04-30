@@ -1,6 +1,5 @@
 import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
 import {Button} from './Button/Button';
-import {FullInput} from './Input/FullInput';
 import {Input} from './Input/Input';
 
 type ToDoListType = {
