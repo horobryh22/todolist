@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
-import {Button} from './components/Button';
-import {FullInput} from './components/FullInput';
-import {Input} from './components/Input';
+import {Button} from './Button/Button';
+import {FullInput} from './Input/FullInput';
+import {Input} from './Input/Input';
 
 type ToDoListType = {
     title: string
@@ -87,7 +87,7 @@ export const ToDoList: React.FC<ToDoListType> = ({
         <div>
             <h3>
                 {title}
-                <Button classNameButton={''} name={'x'} callback={removeTodolistHandler}/>
+                <Button name={'x'} callback={removeTodolistHandler}/>
             </h3>
             {/*<FullInput callback={addTaskHandler} buttonName={'+'}/>*/}
             <Input inputValue={inputValue} setInputValue={setInputValue} error={error} setError={setError}/>
@@ -97,9 +97,9 @@ export const ToDoList: React.FC<ToDoListType> = ({
                 {tasksListChanged}
             </ul>
             <div>
-                <Button classNameButton={allBtnClasses} name={'All'} callback={() => onClickHandler('all')}/>
-                <Button classNameButton={activeBtnClasses} name={'Active'} callback={() => onClickHandler('active')}/>
-                <Button classNameButton={completedBtnClasses} name={'Completed'}
+                <Button className={allBtnClasses}  name={'All'} callback={() => onClickHandler('all')}/>
+                <Button className={activeBtnClasses} name={'Active'} callback={() => onClickHandler('active')}/>
+                <Button className={completedBtnClasses} name={'Completed'}
                         callback={() => onClickHandler('completed')}/>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import {ToDoList, FilterValuesType} from './TodoList';
+import {ToDoList, FilterValuesType} from './components/ToDoList/TodoList';
 import {v1} from 'uuid';
 
 export type TodoListsType = {
@@ -52,7 +52,12 @@ export const App = () => {
             title: taskName,
             isDone: false
         }
-        setTasks({...tasks, [todolistID]: [newTask, ...tasks[todolistID]]});
+        const newObj = {...tasks, [todolistID]: [newTask, ...tasks[todolistID]]};
+        console.log(newObj[todolistID][1] === tasks[todolistID][0]);
+        console.log(newObj[todolistID][1] === tasks[todolistID].map(el => ({...el}))[0]);
+        console.log(newObj);
+        console.log(tasks);
+        setTasks(newObj);
     }
 
     const changeTaskStatus = (todolistID: string, taskId: string, isDone: boolean) => {

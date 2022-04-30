@@ -1,5 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {Button} from './Button';
+import {Button} from '../Button/Button';
 
 export type FullInputType = {
     callback: (taskName: string) => void
