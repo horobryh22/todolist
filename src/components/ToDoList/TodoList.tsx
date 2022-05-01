@@ -62,11 +62,6 @@ export const ToDoList: React.FC<ToDoListType> = ({
         changeFilter(todolistID, filter);
     }
 
-    // const addTaskHandler = (taskName: string): void => {
-    //     addTask(taskName);
-    // }
-
-
     const onClickButtonHandler = (inputValue: string) => {
         const trimmedTitle = inputValue.trim();
         if (trimmedTitle) {
@@ -88,7 +83,6 @@ export const ToDoList: React.FC<ToDoListType> = ({
                 {title}
                 <Button name={'x'} callback={removeTodolistHandler}/>
             </h3>
-            {/*<FullInput callback={addTaskHandler} buttonName={'+'}/>*/}
             <Input inputValue={inputValue} setInputValue={setInputValue} error={error} setError={setError}/>
             <Button name={'+'} callback={() => onClickButtonHandler(inputValue)}/>
             {error && <div className={'error-message'}>{error}</div>}
