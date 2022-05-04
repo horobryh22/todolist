@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {KeyboardEvent, useRef, useState} from 'react';
 import '../../../App.css';
 
 export type FullInputType = {
@@ -8,34 +8,31 @@ export type FullInputType = {
 
 export const FullInput: React.FC<FullInputType> = ({callback, buttonName}) => {
 
+    const inputRef = useRef<HTMLInputElement>(null);
     const [error, setError] = useState<null | string>(null);
-    const [inputValue, setInputValue] = useState<string>('');
-
-    const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>): void => {
-        setInputValue(e.currentTarget.value);
-    }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>): void => {
         e.key === 'Enter' && onClickButtonHandler();
     }
 
     const onClickButtonHandler = (): void => {
-        const trimmedTitle = inputValue.trim();
-        if (trimmedTitle) {
-            callback(inputValue);
-            setError(null);
-        } else {
-            setError('Text is wrong');
+        if (inputRef.current) {
+            const trimmedTitle = inputRef.current.value.trim();
+            if (trimmedTitle) {
+                callback(trimmedTitle);
+                setError(null);
+            } else {
+                setError('Text is wrong');
+            }
+            inputRef.current.value = '';
         }
-        setInputValue('');
     };
 
     return (
         <div>
             <input
                 className={error ? 'error' : ''}
-                onChange={onChangeInputHandler}
-                value={inputValue}
+                ref={inputRef}
                 onKeyPress={onKeyPressHandler}
             />
             <button onClick={onClickButtonHandler}>{buttonName}</button>
