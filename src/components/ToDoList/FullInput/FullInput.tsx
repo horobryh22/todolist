@@ -1,5 +1,8 @@
 import React, {KeyboardEvent, useRef, useState} from 'react';
 import '../../../App.css';
+import {Button, TextField} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+
 
 export type FullInputType = {
     callback: (taskName: string) => void
@@ -22,7 +25,7 @@ export const FullInput: React.FC<FullInputType> = ({callback, buttonName}) => {
                 callback(trimmedTitle);
                 setError(null);
             } else {
-                setError('Text is wrong');
+                setError('Incorrect entry');
             }
             inputRef.current.value = '';
         }
@@ -30,13 +33,19 @@ export const FullInput: React.FC<FullInputType> = ({callback, buttonName}) => {
 
     return (
         <div>
-            <input
-                className={error ? 'error' : ''}
-                ref={inputRef}
+            <TextField
+                inputRef={inputRef}
+                variant="standard"
+                error={Boolean(error)}
                 onKeyPress={onKeyPressHandler}
+                helperText={error}
+                size="small"/>
+            <Button
+                variant={'contained'}
+                style={{maxWidth: '25px', maxHeight: '25px', minWidth: '25px', minHeight: '25px'}}
+                onClick={onClickButtonHandler}
+                startIcon={<AddIcon style={{paddingLeft: '10px'}}/>}
             />
-            <button onClick={onClickButtonHandler}>{buttonName}</button>
-            {error && <div className={'error-message'}>{error}</div>}
         </div>
     );
 };

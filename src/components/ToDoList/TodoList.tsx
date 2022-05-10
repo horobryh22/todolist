@@ -1,7 +1,9 @@
 import React, {ChangeEvent} from 'react';
-import {Button} from './Button/Button';
 import {FullInput} from './FullInput/FullInput';
 import {EditableSpan} from '../EditableSpan/EditableSpan';
+import {Checkbox, IconButton} from '@mui/material';
+import {Button} from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type ToDoListType = {
     title: string
@@ -39,11 +41,6 @@ export const ToDoList: React.FC<ToDoListType> = ({
                                                      changeTaskTitle
                                                  }) => {
 
-    const allBtnClasses = filter === 'all' ? 'active-filter' : '';
-    const activeBtnClasses = filter === 'active' ? 'active-filter' : '';
-    const completedBtnClasses = filter === 'completed' ? 'active-filter' : '';
-
-
     const tasksList = tasks.map((task) => {
 
         const onClickButtonHandler = () => removeTask(todolistID, task.id);
@@ -55,11 +52,13 @@ export const ToDoList: React.FC<ToDoListType> = ({
         }
 
         return (
-            <li className={taskClass}
+            <li className={taskClass} style={{listStyleType: 'none'}}
                 key={task.id}>
-                <input type="checkbox" checked={task.isDone} onChange={onChangeHandler}/>
-                <EditableSpan title={task.title} callback={changeTaskTitleHandler}/>
-                <Button name={'x'} callback={onClickButtonHandler}/>
+                <Checkbox checked={task.isDone} size="small" onChange={onChangeHandler}/>
+                <EditableSpan title={task.title}  callback={changeTaskTitleHandler}/>
+                <IconButton onClick={onClickButtonHandler} color="primary">
+                    <DeleteIcon fontSize="small"/>
+                </IconButton>
             </li>
         )
     });
@@ -86,18 +85,36 @@ export const ToDoList: React.FC<ToDoListType> = ({
         <div>
             <h3>
                 <EditableSpan title={title} callback={changeTodolistNameHandler}/>
-                <Button name={'x'} callback={removeTodolistHandler}/>
+                <IconButton onClick={removeTodolistHandler} color="primary">
+                    <DeleteIcon fontSize="medium" />
+                </IconButton>
             </h3>
             <FullInput callback={addTaskHandler} buttonName={'+'}/>
-            <ul>
+            <ul style={{padding: '0'}}>
                 {tasksListChanged}
             </ul>
             <div>
-                <Button className={allBtnClasses} name={'All'} callback={() => onClickHandler('all')}/>
-                <Button className={activeBtnClasses} name={'Active'} callback={() => onClickHandler('active')}/>
-                <Button className={completedBtnClasses} name={'Completed'}
-                        callback={() => onClickHandler('completed')}/>
+                <Button
+                    variant={filter === 'all' ? 'outlined' : 'text'}
+                    size={'small'}
+                    color={filter === 'all' ? 'primary' : 'inherit'}
+                    onClick={() => onClickHandler('all')}
+                >All</Button>
+                <Button
+                    variant={filter === 'active' ? 'outlined' : 'text'}
+                    size={'small'}
+                    color={filter === 'active' ? 'error' : 'inherit'}
+                    onClick={() => onClickHandler('active')}
+                >Active</Button>
+                <Button
+                    variant={filter === 'completed' ? 'outlined' : 'text'}
+                    size={'small'}
+                    color={filter === 'completed' ? 'success' : 'inherit'}
+                    onClick={() => onClickHandler('completed')}
+                >Completed</Button>
             </div>
         </div>
     )
 }
+
+
