@@ -9,9 +9,7 @@ export type ActionTypesReducer =
     | ReturnType<typeof deleteTasksAC>
     | ReturnType<typeof createTasksAC>;
 
-export type TasksReducerType = (state: TasksStateType, action: ActionTypesReducer) => TasksStateType;
-
-export const TasksReducer: TasksReducerType = (state, action) => {
+export const tasksReducer = (state: TasksStateType, action: ActionTypesReducer): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK': {
             const id = action.payload.todolistID;
@@ -21,7 +19,6 @@ export const TasksReducer: TasksReducerType = (state, action) => {
             const id = action.payload.todolistID;
             return {...state, [id]: [{id: v1(), title: action.payload.taskName, isDone: false}, ...state[id]]};
         }
-
         case 'CHANGE-TASK-STATUS': {
             const id = action.payload.todolistID;
             const changedState = state[id].map(el => el.id === action.payload.taskId
@@ -31,7 +28,6 @@ export const TasksReducer: TasksReducerType = (state, action) => {
                 } : el);
             return {...state, [id]: changedState};
         }
-
         case 'CHANGE-TASK-TITLE': {
             const id = action.payload.todolistId;
             const changedState = state[id].map(el => el.id === action.payload.taskId
@@ -65,6 +61,7 @@ export const removeTaskAC = (todolistID: string, taskId: string) => {
         }
     } as const;
 };
+
 export const addTaskAC = (todolistID: string, taskName: string) => {
     return {
         type: 'ADD-TASK',
@@ -74,6 +71,7 @@ export const addTaskAC = (todolistID: string, taskName: string) => {
         }
     } as const;
 };
+
 export const changeTaskStatusAC = (todolistID: string, taskId: string, isDone: boolean) => {
     return {
         type: 'CHANGE-TASK-STATUS',
@@ -84,6 +82,7 @@ export const changeTaskStatusAC = (todolistID: string, taskId: string, isDone: b
         }
     } as const;
 };
+
 export const changeTaskTitleAC = (todolistId: string, taskId: string, newTitle: string) => {
     return {
         type: 'CHANGE-TASK-TITLE',
@@ -94,6 +93,7 @@ export const changeTaskTitleAC = (todolistId: string, taskId: string, newTitle: 
         }
     } as const;
 };
+
 export const deleteTasksAC = (todolistID: string) => {
     return {
         type: 'DELETE-TASKS',
@@ -102,6 +102,7 @@ export const deleteTasksAC = (todolistID: string) => {
         }
     } as const
 };
+
 export const createTasksAC = (id: string) => {
     return {
         type: 'CREATE-TASKS',

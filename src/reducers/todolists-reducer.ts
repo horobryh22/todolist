@@ -7,16 +7,13 @@ export type ActionTypesTodolists =
     | ReturnType<typeof changeFilterAC>
     | ReturnType<typeof changeTodolistNameAC>;
 
-export type TodolistsReducerType = (state: Array<TodoListType>, action: ActionTypesTodolists) => Array<TodoListType>;
-
-export const TodolistsReducer: TodolistsReducerType = (state, action) => {
+export const todolistsReducer = (state: Array<TodoListType>, action: ActionTypesTodolists): Array<TodoListType> => {
     switch (action.type) {
         case 'REMOVE-TODOLIST': {
             return state.filter(td => td.id !== action.payload.todolistID);
         }
         case 'ADD-TODOLIST': {
-            state = [{id: action.payload.id, title: action.payload.todolistTitle, filter: 'all'}, ...state];
-            return state;
+            return [...state, {id: action.payload.id, title: action.payload.todolistTitle, filter: 'all'}];
         }
         case 'CHANGE-FILTER': {
             return state.map(td => td.id === action.payload.todolistID

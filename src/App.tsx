@@ -7,20 +7,21 @@ import ButtonAppBar from './components/ButtonAppBar/ButtonAppBar';
 import {Container, css, Grid, Paper, styled} from '@mui/material';
 
 import {
+    ActionTypesReducer,
     addTaskAC,
     changeTaskStatusAC,
     changeTaskTitleAC, createTasksAC, deleteTasksAC,
     removeTaskAC,
-    TasksReducer, TasksReducerType
-} from './reducers/TasksReducer';
+    tasksReducer
+} from './reducers/tasks-reducer';
 
 import {
+    ActionTypesTodolists,
     addTodolistAC,
     changeFilterAC,
     changeTodolistNameAC,
-    removeToDoListAC,
-    TodolistsReducer, TodolistsReducerType
-} from './reducers/TodolistsReducer';
+    removeToDoListAC, todolistsReducer,
+} from './reducers/todolists-reducer';
 
 
 type StyledPaperProps = {
@@ -35,7 +36,6 @@ const StyledPaper = styled(Paper, {})<StyledPaperProps>`
   `}
 `;
 
-
 export type TodoListType = {
     id: string
     title: string
@@ -46,17 +46,20 @@ export type TasksStateType = {
     [key: string]: Array<TasksType>
 }
 
+export type TodolistsReducerType = (state: Array<TodoListType>, action: ActionTypesTodolists) => Array<TodoListType>;
+export type TasksReducerType = (state: TasksStateType, action: ActionTypesReducer) => TasksStateType;
+
 export const App = () => {
 
     let todolistID1 = v1();
     let todolistID2 = v1();
 
-    const [todolists, todolistsDispatch] = useReducer<TodolistsReducerType>(TodolistsReducer, [
+    const [todolists, todolistsDispatch] = useReducer<TodolistsReducerType>(todolistsReducer, [
         {id: todolistID1, title: 'What to learn', filter: 'all'},
         {id: todolistID2, title: 'What to buy', filter: 'all'},
     ]);
 
-    const [tasks, tasksDispatch] = useReducer<TasksReducerType>(TasksReducer, {
+    const [tasks, tasksDispatch] = useReducer<TasksReducerType>(tasksReducer, {
         [todolistID1]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
             {id: v1(), title: 'JS', isDone: true},
@@ -72,8 +75,6 @@ export const App = () => {
             {id: v1(), title: 'GraphQL2', isDone: false},
         ]
     });
-
-    console.log(tasks);
 
     const addTodolist = (todolistTitle: string) => {
         const id = v1();
