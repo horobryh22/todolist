@@ -3,8 +3,9 @@ import './App.css';
 import {ToDoList, FilterValuesType, TasksType} from './components/ToDoList/TodoList';
 import {v1} from 'uuid';
 import {FullInput} from './components/ToDoList/FullInput/FullInput';
-import ButtonAppBar from './ButtonAppBar/ButtonAppBar';
-import {Container, Grid, Paper} from '@mui/material';
+import ButtonAppBar from './components/ButtonAppBar/ButtonAppBar';
+import {Container, css, Grid, Paper, styled} from '@mui/material';
+
 import {
     addTaskAC,
     changeTaskStatusAC,
@@ -20,6 +21,20 @@ import {
     removeToDoListAC,
     TodolistsReducer, TodolistsReducerType
 } from './reducers/TodolistsReducer';
+
+
+type StyledPaperProps = {
+    primary?: boolean
+}
+
+const StyledPaper = styled(Paper, {})<StyledPaperProps>`
+  background-color: red;
+  ${props => props.primary && css`
+    background: #4dad4d;
+    color: black;
+  `}
+`;
+
 
 export type TodoListType = {
     id: string
@@ -57,6 +72,8 @@ export const App = () => {
             {id: v1(), title: 'GraphQL2', isDone: false},
         ]
     });
+
+    console.log(tasks);
 
     const addTodolist = (todolistTitle: string) => {
         const id = v1();
@@ -112,10 +129,9 @@ export const App = () => {
 
                             return (
 
-                                <Grid item xs={3}>
-                                    <Paper elevation={8} style={{padding: '20px'}}>
+                                <Grid item xs={3} key={tl.id}>
+                                    <StyledPaper primary elevation={8} style={{padding: '20px'}}>
                                         <ToDoList
-                                            key={tl.id}
                                             title={tl.title}
                                             addTask={addTask}
                                             filter={tl.filter}
@@ -128,7 +144,7 @@ export const App = () => {
                                             changeTaskStatus={changeTaskStatus}
                                             changeTodolistName={changeTodolistName}
                                         />
-                                    </Paper>
+                                    </StyledPaper>
                                 </Grid>
                             )
                         })}
