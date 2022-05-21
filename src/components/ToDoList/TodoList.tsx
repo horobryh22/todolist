@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useMemo} from 'react';
+import React, {ChangeEvent, useCallback, useMemo} from 'react';
 import {FullInput} from './FullInput/FullInput';
 import {EditableSpan} from '../EditableSpan/EditableSpan';
 import {Checkbox, IconButton} from '@mui/material';
@@ -49,11 +49,9 @@ export const ToDoList: React.FC<ToDoListType> = React.memo (({
             if (filter === 'completed') return task.isDone;
             if (filter === 'active') return !task.isDone;
         })
-    }, [filter]);
-
+    }, [filter, tasks]);
 
     const tasksList = filteredTasks.map((task) => {
-
         const onClickButtonHandler = () => removeTask(todolistID, task.id);
         const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(todolistID, task.id, e.currentTarget.checked);
         const taskClass = task.isDone ? 'is-done' : '';
@@ -76,21 +74,21 @@ export const ToDoList: React.FC<ToDoListType> = React.memo (({
 
     const tasksListChanged = tasksList.length ? tasksList : <div>Нет никаких задач</div>
 
-    const onClickHandler = (filter: FilterValuesType) => {
+    const onClickHandler = useCallback((filter: FilterValuesType) => {
         changeFilter(todolistID, filter);
-    }
+    }, []);
 
-    const removeTodolistHandler = () => {
+    const removeTodolistHandler = useCallback(() => {
         removeToDoList(todolistID);
-    }
+    }, []);
 
-    const addTaskHandler = (newTitle: string) => {
+    const addTaskHandler = useCallback((newTitle: string) => {
         addTask(todolistID, newTitle);
-    }
+    }, []);
 
-    const changeTodolistNameHandler = (newTitle: string) => {
+    const changeTodolistNameHandler = useCallback((newTitle: string) => {
         changeTodolistName(todolistID, newTitle);
-    }
+    }, []);
 
     return (
         <div>

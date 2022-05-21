@@ -115,7 +115,6 @@ export const App = () => {
     }, []);
 
     const mappedTodolists = todolists.map(tl => {
-
         return (
             <Grid item xs={3} key={tl.id}>
                 <StyledPaper primary elevation={8} style={{padding: '20px'}}>
