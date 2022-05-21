@@ -5,7 +5,7 @@ type EditableSpanPropsType = {
     callback: (newTitle: string) => void
 }
 
-export const EditableSpan: React.FC<EditableSpanPropsType> = ({title, callback}) => {
+export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo(({title, callback}) => {
 
     const [editMode, setEditMode] = useState(false);
     const [inputValue, setInputValue] = useState<string>(title);
@@ -22,4 +22,5 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = ({title, callback})
     return editMode
         ? <input onChange={onChangeInputHandler} value={inputValue} autoFocus onBlur={onDoubleClickHandler}/>
         : <span onDoubleClick={onDoubleClickHandler}>{title}</span>
-};
+});
+

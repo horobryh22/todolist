@@ -7,9 +7,9 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
-export default function ButtonAppBar() {
+export const ButtonAppBar = React.memo(() => {
     return (
-        <Box sx={{ flexGrow: 1 }} style={{marginBottom: '40px'}}>
+        <Box sx={{flexGrow: 1}} style={{marginBottom: '40px'}}>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
@@ -17,11 +17,11 @@ export default function ButtonAppBar() {
                         edge="start"
                         color="inherit"
                         aria-label="menu"
-                        sx={{ mr: 2 }}
+                        sx={{mr: 2}}
                     >
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                         News
                     </Typography>
                     <Button color="inherit">Login</Button>
@@ -29,4 +29,4 @@ export default function ButtonAppBar() {
             </AppBar>
         </Box>
     );
-}
+})

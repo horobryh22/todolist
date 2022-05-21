@@ -22,7 +22,7 @@ export type InputType = {
     setError: (error: string | null) => void
 }
 
-export const Input: React.FC<InputType> = ({inputValue, setInputValue, error, setError}) => {
+export const Input: React.FC<InputType> = React.memo(({inputValue, setInputValue, error, setError}) => {
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.currentTarget.value);
@@ -34,5 +34,5 @@ export const Input: React.FC<InputType> = ({inputValue, setInputValue, error, se
             <input className={error ? 'error' : ''} value={inputValue} onChange={onChangeHandler}/>
         </>
     );
-};
+});
 

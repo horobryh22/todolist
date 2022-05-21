@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useMemo} from 'react';
 import {FullInput} from './FullInput/FullInput';
 import {EditableSpan} from '../EditableSpan/EditableSpan';
 import {Checkbox, IconButton} from '@mui/material';
@@ -27,7 +27,7 @@ export type TasksType = {
     isDone: boolean
 }
 
-export const ToDoList: React.FC<ToDoListType> = ({
+export const ToDoList: React.FC<ToDoListType> = React.memo (({
                                                      title,
                                                      tasks,
                                                      changeTaskStatus,
@@ -41,7 +41,18 @@ export const ToDoList: React.FC<ToDoListType> = ({
                                                      changeTaskTitle
                                                  }) => {
 
-    const tasksList = tasks.map((task) => {
+    console.log('Todolist rendered again');
+
+    const filteredTasks = useMemo(() => {
+        return tasks.filter(task => {
+            if (filter === 'all') return true;
+            if (filter === 'completed') return task.isDone;
+            if (filter === 'active') return !task.isDone;
+        })
+    }, [filter]);
+
+
+    const tasksList = filteredTasks.map((task) => {
 
         const onClickButtonHandler = () => removeTask(todolistID, task.id);
         const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(todolistID, task.id, e.currentTarget.checked);
@@ -115,6 +126,5 @@ export const ToDoList: React.FC<ToDoListType> = ({
             </div>
         </div>
     )
-}
-
+})
 

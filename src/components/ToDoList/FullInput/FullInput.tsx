@@ -9,7 +9,7 @@ export type FullInputType = {
     buttonName: string
 }
 
-export const FullInput: React.FC<FullInputType> = ({callback, buttonName}) => {
+export const FullInput: React.FC<FullInputType> = React.memo(({callback, buttonName}) => {
 
     const inputRef = useRef<HTMLInputElement>(null);
     const [error, setError] = useState<null | string>(null);
@@ -48,4 +48,5 @@ export const FullInput: React.FC<FullInputType> = ({callback, buttonName}) => {
             />
         </div>
     );
-};
+});
+

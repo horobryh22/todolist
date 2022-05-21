@@ -1,16 +1,18 @@
-import React, {useReducer} from 'react';
+import React, {useCallback, useReducer} from 'react';
 import './App.css';
-import {ToDoList, FilterValuesType, TasksType} from './components/ToDoList/TodoList';
+import {FilterValuesType, TasksType, ToDoList} from './components/ToDoList/TodoList';
 import {v1} from 'uuid';
 import {FullInput} from './components/ToDoList/FullInput/FullInput';
-import ButtonAppBar from './components/ButtonAppBar/ButtonAppBar';
+import {ButtonAppBar} from './components/ButtonAppBar/ButtonAppBar';
 import {Container, css, Grid, Paper, styled} from '@mui/material';
 
 import {
     ActionTypesReducer,
     addTaskAC,
     changeTaskStatusAC,
-    changeTaskTitleAC, createTasksAC, deleteTasksAC,
+    changeTaskTitleAC,
+    createTasksAC,
+    deleteTasksAC,
     removeTaskAC,
     tasksReducer
 } from './reducers/tasks-reducer';
@@ -20,7 +22,8 @@ import {
     addTodolistAC,
     changeFilterAC,
     changeTodolistNameAC,
-    removeToDoListAC, todolistsReducer,
+    removeToDoListAC,
+    todolistsReducer,
 } from './reducers/todolists-reducer';
 
 
@@ -76,34 +79,63 @@ export const App = () => {
         ]
     });
 
-    const addTodolist = (todolistTitle: string) => {
+    const addTodolist = useCallback((todolistTitle: string) => {
         const id = v1();
         todolistsDispatch(addTodolistAC(todolistTitle, id));
         tasksDispatch(createTasksAC(id));
-    }
-    const removeToDoList = (todolistID: string) => {
+    }, []);
+
+    const removeToDoList = useCallback((todolistID: string) => {
         tasksDispatch(deleteTasksAC(todolistID));
         todolistsDispatch(removeToDoListAC(todolistID));
-    }
-    const changeFilter = (todolistID: string, filter: FilterValuesType) => {
-        todolistsDispatch(changeFilterAC(todolistID, filter));
-    }
-    const changeTodolistName = (todolistId: string, newTitle: string) => {
-        todolistsDispatch(changeTodolistNameAC(todolistId, newTitle));
-    }
+    }, []);
 
-    const addTask = (todolistID: string, taskName: string): void => {
+    const changeFilter = useCallback((todolistID: string, filter: FilterValuesType) => {
+        todolistsDispatch(changeFilterAC(todolistID, filter));
+    }, []);
+
+    const changeTodolistName = useCallback((todolistId: string, newTitle: string) => {
+        todolistsDispatch(changeTodolistNameAC(todolistId, newTitle));
+    }, []);
+
+    const addTask = useCallback((todolistID: string, taskName: string): void => {
         tasksDispatch(addTaskAC(todolistID, taskName))
-    }
-    const removeTask = (todolistID: string, taskId: string): void => {
+    }, []);
+
+    const removeTask = useCallback((todolistID: string, taskId: string): void => {
         tasksDispatch(removeTaskAC(todolistID, taskId));
-    }
-    const changeTaskStatus = (todolistID: string, taskId: string, isDone: boolean) => {
+    }, []);
+
+    const changeTaskStatus = useCallback((todolistID: string, taskId: string, isDone: boolean) => {
         tasksDispatch(changeTaskStatusAC(todolistID, taskId, isDone))
-    }
-    const changeTaskTitle = (todolistId: string, taskId: string, newTitle: string) => {
+    }, []);
+
+    const changeTaskTitle = useCallback((todolistId: string, taskId: string, newTitle: string) => {
         tasksDispatch(changeTaskTitleAC(todolistId, taskId, newTitle))
-    }
+    }, []);
+
+    const mappedTodolists = todolists.map(tl => {
+
+        return (
+            <Grid item xs={3} key={tl.id}>
+                <StyledPaper primary elevation={8} style={{padding: '20px'}}>
+                    <ToDoList
+                        title={tl.title}
+                        addTask={addTask}
+                        filter={tl.filter}
+                        todolistID={tl.id}
+                        tasks={tasks[tl.id]}
+                        removeTask={removeTask}
+                        changeFilter={changeFilter}
+                        removeToDoList={removeToDoList}
+                        changeTaskTitle={changeTaskTitle}
+                        changeTaskStatus={changeTaskStatus}
+                        changeTodolistName={changeTodolistName}
+                    />
+                </StyledPaper>
+            </Grid>
+        )
+    });
 
     return (
         <div>
@@ -120,35 +152,7 @@ export const App = () => {
                         />
                     </Grid>
                     <Grid container spacing={2} style={{paddingTop: '40px'}}>
-                        {todolists.map(tl => {
-
-                            const filteredTasks = tasks[tl.id].filter((task) => {
-                                if (tl.filter === 'all') return true;
-                                if (tl.filter === 'completed') return task.isDone;
-                                if (tl.filter === 'active') return !task.isDone;
-                            })
-
-                            return (
-
-                                <Grid item xs={3} key={tl.id}>
-                                    <StyledPaper primary elevation={8} style={{padding: '20px'}}>
-                                        <ToDoList
-                                            title={tl.title}
-                                            addTask={addTask}
-                                            filter={tl.filter}
-                                            todolistID={tl.id}
-                                            tasks={filteredTasks}
-                                            removeTask={removeTask}
-                                            changeFilter={changeFilter}
-                                            removeToDoList={removeToDoList}
-                                            changeTaskTitle={changeTaskTitle}
-                                            changeTaskStatus={changeTaskStatus}
-                                            changeTodolistName={changeTodolistName}
-                                        />
-                                    </StyledPaper>
-                                </Grid>
-                            )
-                        })}
+                        {mappedTodolists}
                     </Grid>
                 </Grid>
             </Container>

@@ -17,7 +17,7 @@ type ButtonPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>
     color?: string
 }
 
-export const Button: React.FC<ButtonPropsType> = ({name, callback, color, ...props}) => {
+export const Button: React.FC<ButtonPropsType> = React.memo(({name, callback, color, ...props}) => {
 
     const onClickHandler = () => {
         callback();
@@ -26,4 +26,5 @@ export const Button: React.FC<ButtonPropsType> = ({name, callback, color, ...pro
     return (
         <button style={{color}} onClick={onClickHandler} className={classes.button} {...props}>{name}</button>
     );
-};
+});
+
