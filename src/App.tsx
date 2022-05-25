@@ -11,8 +11,6 @@ import {
     addTaskAC,
     changeTaskStatusAC,
     changeTaskTitleAC,
-    createTasksAC,
-    deleteTasksAC,
     removeTaskAC,
     tasksReducer
 } from './reducers/tasks-reducer';
@@ -82,11 +80,11 @@ export const App = () => {
     const addTodolist = useCallback((todolistTitle: string) => {
         const id = v1();
         todolistsDispatch(addTodolistAC(todolistTitle, id));
-        tasksDispatch(createTasksAC(id));
+        tasksDispatch(addTodolistAC(todolistTitle, id));
     }, []);
 
     const removeToDoList = useCallback((todolistID: string) => {
-        tasksDispatch(deleteTasksAC(todolistID));
+        tasksDispatch(removeToDoListAC(todolistID));
         todolistsDispatch(removeToDoListAC(todolistID));
     }, []);
 
