@@ -1,21 +1,18 @@
-import {TasksStateType, TodoListType} from '../App';
 import {v1} from 'uuid';
-import {tasksReducer} from './tasks-reducer';
-import {addTodolistAC, removeToDoListAC, todolistsReducer} from './todolists-reducer';
+import {tasksReducer, TasksStateType} from './tasks-reducer';
+import {addTodolistAC, removeToDoListAC, todolistsReducer, TodoListType} from './todolists-reducer';
 
 
 let initialStateForTasks: TasksStateType;
 let initialStateForTodolists: Array<TodoListType>;
 let todolistId1: string;
 let todolistId2: string;
-let todolistId3: string;
 
 
 beforeEach(() => {
 
     todolistId1 = v1();
     todolistId2 = v1();
-    todolistId3 = v1();
 
     initialStateForTodolists = [
         {id: todolistId1, title: 'What to learn', filter: 'all'},
@@ -45,6 +42,8 @@ test('todolist and its tasks should be removed', () => {
     const endStateTodolists = todolistsReducer(initialStateForTodolists, removeToDoListAC(todolistId1));
     const endStateTasks = tasksReducer(initialStateForTasks,  removeToDoListAC(todolistId1));
 
+    expect(endStateTasks).not.toBe(initialStateForTasks);
+    expect(endStateTasks).not.toBe(initialStateForTasks);
     expect(endStateTodolists.length).toBe(1);
     expect(endStateTasks[todolistId1]).toBeUndefined();
     expect(endStateTasks[todolistId2]).toBeDefined();
@@ -53,16 +52,20 @@ test('todolist and its tasks should be removed', () => {
 
 test('todolist and tasks should be created and added', () => {
 
-    const endStateTodolists = todolistsReducer(initialStateForTodolists, addTodolistAC('What to study', todolistId3));
-    const endStateTasks = tasksReducer(initialStateForTasks,  addTodolistAC('', todolistId3));
+    const action = addTodolistAC('What to study');
 
-    expect(endStateTodolists[2]).toEqual({id: todolistId3, title: 'What to study', filter: 'all'});
-    expect(endStateTodolists.length).toBe(3)
-    expect(endStateTasks[todolistId3].length).toBe(0);
-    expect(endStateTasks[todolistId3].length).toBeDefined();
-    expect(endStateTasks).toEqual({
-        [todolistId1]: endStateTasks[todolistId1],
-        [todolistId2]: endStateTasks[todolistId2],
-        [todolistId3]: []
-    })
+    const endStateTodolists = todolistsReducer(initialStateForTodolists, action);
+    const endStateTasks = tasksReducer(initialStateForTasks,  action);
+
+
+    const keys = Object.keys(endStateTasks);
+    const newKey = keys.find(k => k !== todolistId1 && k !== todolistId2);
+    if (!newKey) {
+        throw Error('new key should be added');
+    }
+
+    expect(keys.length).toBe(3);
+    expect(endStateTodolists.length).toBe(3);
+    expect(endStateTasks[newKey]).toEqual([]);
+    expect(endStateTodolists[2].id).toBe(newKey);
 })

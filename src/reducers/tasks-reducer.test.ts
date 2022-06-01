@@ -1,13 +1,17 @@
-import {TasksStateType} from '../App';
 import {v1} from 'uuid';
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './tasks-reducer';
-import {addTodolistAC, removeToDoListAC} from './todolists-reducer';
+import {
+    addTaskAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    removeTaskAC,
+    tasksReducer,
+    TasksStateType
+} from './tasks-reducer';
 
 
 let startState: TasksStateType;
 let todolistId1: string;
 let todolistId2: string;
-let todolistId3: string;
 let taskName: string;
 
 beforeEach(() => {
@@ -15,7 +19,6 @@ beforeEach(() => {
     taskName = 'Learn English'
     todolistId1 = v1();
     todolistId2 = v1();
-    todolistId3 = v1();
 
     startState = {
         [todolistId1]: [
@@ -69,24 +72,3 @@ test('correct task should change its status', () => {
     expect(endState[todolistId1][1].isDone).toBe(false);
     expect(endState[todolistId2][1].isDone).toBe(true);
 });
-
-test('tasks should be removed from app', () => {
-    const endState = tasksReducer(startState,  removeToDoListAC(todolistId1));
-
-    expect(endState[todolistId1]).toBeUndefined()
-    expect(endState[todolistId2]).toBeDefined()
-    expect(endState).toEqual({[todolistId2]: endState[todolistId2]})
-})
-
-test('tasks should be created from app', () => {
-
-    const endState = tasksReducer(startState,  addTodolistAC('', todolistId3));
-
-    expect(endState[todolistId3].length).toBe(0);
-    expect(endState[todolistId3].length).toBeDefined();
-    expect(endState).toEqual({
-        [todolistId1]: endState[todolistId1],
-        [todolistId2]: endState[todolistId2],
-        [todolistId3]: []
-    })
-})

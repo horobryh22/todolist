@@ -1,28 +1,12 @@
-import React, {useCallback, useReducer} from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
-import {FilterValuesType, TasksType, ToDoList} from './components/ToDoList/TodoList';
-import {v1} from 'uuid';
+import {ToDoList} from './components/ToDoList/TodoList';
 import {FullInput} from './components/ToDoList/FullInput/FullInput';
 import {ButtonAppBar} from './components/ButtonAppBar/ButtonAppBar';
 import {Container, css, Grid, Paper, styled} from '@mui/material';
 
-import {
-    ActionTypesReducer,
-    addTaskAC,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
-    removeTaskAC,
-    tasksReducer
-} from './reducers/tasks-reducer';
-
-import {
-    ActionTypesTodolists,
-    addTodolistAC,
-    changeFilterAC,
-    changeTodolistNameAC,
-    removeToDoListAC,
-    todolistsReducer,
-} from './reducers/todolists-reducer';
+import {addTodolistAC,} from './reducers/todolists-reducer';
+import {useTypedDispatch, useTypedSelector} from './hooks/hooks';
 
 
 type StyledPaperProps = {
@@ -37,80 +21,15 @@ const StyledPaper = styled(Paper, {})<StyledPaperProps>`
   `}
 `;
 
-export type TodoListType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
-
-export type TasksStateType = {
-    [key: string]: Array<TasksType>
-}
-
-export type TodolistsReducerType = (state: Array<TodoListType>, action: ActionTypesTodolists) => Array<TodoListType>;
-export type TasksReducerType = (state: TasksStateType, action: ActionTypesReducer) => TasksStateType;
 
 export const App = () => {
 
-    let todolistID1 = v1();
-    let todolistID2 = v1();
-
-    const [todolists, todolistsDispatch] = useReducer<TodolistsReducerType>(todolistsReducer, [
-        {id: todolistID1, title: 'What to learn', filter: 'all'},
-        {id: todolistID2, title: 'What to buy', filter: 'all'},
-    ]);
-
-    const [tasks, tasksDispatch] = useReducer<TasksReducerType>(tasksReducer, {
-        [todolistID1]: [
-            {id: v1(), title: 'HTML&CSS', isDone: true},
-            {id: v1(), title: 'JS', isDone: true},
-            {id: v1(), title: 'ReactJS', isDone: false},
-            {id: v1(), title: 'Rest API', isDone: false},
-            {id: v1(), title: 'GraphQL', isDone: false},
-        ],
-        [todolistID2]: [
-            {id: v1(), title: 'HTML&CSS2', isDone: true},
-            {id: v1(), title: 'JS2', isDone: true},
-            {id: v1(), title: 'ReactJS2', isDone: false},
-            {id: v1(), title: 'Rest API2', isDone: false},
-            {id: v1(), title: 'GraphQL2', isDone: false},
-        ]
-    });
+    const dispatch = useTypedDispatch();
+    const {todolists} = useTypedSelector(state => state);
 
     const addTodolist = useCallback((todolistTitle: string) => {
-        const id = v1();
-        todolistsDispatch(addTodolistAC(todolistTitle, id));
-        tasksDispatch(addTodolistAC(todolistTitle, id));
-    }, []);
-
-    const removeToDoList = useCallback((todolistID: string) => {
-        tasksDispatch(removeToDoListAC(todolistID));
-        todolistsDispatch(removeToDoListAC(todolistID));
-    }, []);
-
-    const changeFilter = useCallback((todolistID: string, filter: FilterValuesType) => {
-        todolistsDispatch(changeFilterAC(todolistID, filter));
-    }, []);
-
-    const changeTodolistName = useCallback((todolistId: string, newTitle: string) => {
-        todolistsDispatch(changeTodolistNameAC(todolistId, newTitle));
-    }, []);
-
-    const addTask = useCallback((todolistID: string, taskName: string): void => {
-        tasksDispatch(addTaskAC(todolistID, taskName))
-    }, []);
-
-    const removeTask = useCallback((todolistID: string, taskId: string): void => {
-        tasksDispatch(removeTaskAC(todolistID, taskId));
-    }, []);
-
-    const changeTaskStatus = useCallback((todolistID: string, taskId: string, isDone: boolean) => {
-        tasksDispatch(changeTaskStatusAC(todolistID, taskId, isDone))
-    }, []);
-
-    const changeTaskTitle = useCallback((todolistId: string, taskId: string, newTitle: string) => {
-        tasksDispatch(changeTaskTitleAC(todolistId, taskId, newTitle))
-    }, []);
+        dispatch(addTodolistAC(todolistTitle))
+    }, [dispatch]);
 
     const mappedTodolists = todolists.map(tl => {
         return (
@@ -118,16 +37,8 @@ export const App = () => {
                 <StyledPaper primary elevation={8} style={{padding: '20px'}}>
                     <ToDoList
                         title={tl.title}
-                        addTask={addTask}
                         filter={tl.filter}
                         todolistID={tl.id}
-                        tasks={tasks[tl.id]}
-                        removeTask={removeTask}
-                        changeFilter={changeFilter}
-                        removeToDoList={removeToDoList}
-                        changeTaskTitle={changeTaskTitle}
-                        changeTaskStatus={changeTaskStatus}
-                        changeTodolistName={changeTodolistName}
                     />
                 </StyledPaper>
             </Grid>
