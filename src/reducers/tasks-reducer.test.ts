@@ -1,12 +1,6 @@
 import {v1} from 'uuid';
-import {
-    addTaskAC,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
-    removeTaskAC,
-    tasksReducer,
-    TasksStateType
-} from './tasks-reducer';
+import {tasksReducer, TasksStateType} from './tasks-reducer';
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './action-creators/action-creators';
 
 
 let startState: TasksStateType;
@@ -58,7 +52,7 @@ test('correct task should be added', () => {
 
 test('correct task should change its name', () => {
 
-    const endState = tasksReducer(startState,  changeTaskTitleAC(todolistId1, startState[todolistId1][1].id, taskName))
+    const endState = tasksReducer(startState, changeTaskTitleAC(todolistId1, startState[todolistId1][1].id, taskName))
 
     expect(endState[todolistId1].length).toBe(5);
     expect(endState[todolistId1][0].title).toBe('HTML&CSS');
@@ -67,7 +61,7 @@ test('correct task should change its name', () => {
 
 test('correct task should change its status', () => {
 
-    const endState = tasksReducer(startState,  changeTaskStatusAC(todolistId1, startState[todolistId1][1].id, false));
+    const endState = tasksReducer(startState, changeTaskStatusAC(todolistId1, startState[todolistId1][1].id, false));
 
     expect(endState[todolistId1][1].isDone).toBe(false);
     expect(endState[todolistId2][1].isDone).toBe(true);

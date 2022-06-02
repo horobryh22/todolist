@@ -1,12 +1,7 @@
 import {v1} from 'uuid';
 import {FilterValuesType} from '../components/ToDoList/TodoList';
-import {
-    addTodolistAC,
-    changeFilterAC,
-    changeTodolistNameAC,
-    removeToDoListAC,
-    todolistsReducer, TodoListType
-} from './todolists-reducer';
+import {todolistsReducer, TodoListType} from './todolists-reducer';
+import {addTodolistAC, changeFilterAC, changeTodolistNameAC, removeToDoListAC} from './action-creators/action-creators';
 
 let startState: Array<TodoListType>;
 let todolistId1: string;

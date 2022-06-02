@@ -1,11 +1,12 @@
 import {FilterValuesType} from '../components/ToDoList/TodoList';
 import {v1} from 'uuid';
+import * as actionCreators from './action-creators/action-creators';
 
 export type ActionTypesTodolists =
-    ReturnType<typeof removeToDoListAC>
-    | ReturnType<typeof addTodolistAC>
-    | ReturnType<typeof changeFilterAC>
-    | ReturnType<typeof changeTodolistNameAC>;
+    ReturnType<typeof actionCreators.removeToDoListAC>
+    | ReturnType<typeof actionCreators.addTodolistAC>
+    | ReturnType<typeof actionCreators.changeFilterAC>
+    | ReturnType<typeof actionCreators.changeTodolistNameAC>;
 
 export type TodoListType = {
     id: string
@@ -44,38 +45,3 @@ export const todolistsReducer = (state: Array<TodoListType> = initialState, acti
     }
 }
 
-export const removeToDoListAC = (todolistID: string) => {
-    return {
-        type: 'REMOVE-TODOLIST',
-        payload: {
-            todolistID
-        }
-    } as const
-};
-export const addTodolistAC = (todolistTitle: string) => {
-    return {
-        type: 'ADD-TODOLIST',
-        payload: {
-            todolistTitle,
-            id: v1()
-        }
-    } as const
-};
-export const changeFilterAC = (todolistID: string, filter: FilterValuesType) => {
-    return {
-        type: 'CHANGE-FILTER',
-        payload: {
-            todolistID,
-            filter
-        }
-    } as const
-};
-export const changeTodolistNameAC = (todolistId: string, newTitle: string) => {
-    return {
-        type: 'CHANGE-TODOLIST-NAME',
-        payload: {
-            todolistId,
-            newTitle
-        }
-    } as const
-};

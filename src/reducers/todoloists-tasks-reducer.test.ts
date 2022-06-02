@@ -1,6 +1,7 @@
 import {v1} from 'uuid';
 import {tasksReducer, TasksStateType} from './tasks-reducer';
-import {addTodolistAC, removeToDoListAC, todolistsReducer, TodoListType} from './todolists-reducer';
+import {todolistsReducer, TodoListType} from './todolists-reducer';
+import {addTodolistAC, removeToDoListAC} from './action-creators/action-creators';
 
 
 let initialStateForTasks: TasksStateType;

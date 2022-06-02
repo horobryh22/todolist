@@ -1,6 +1,14 @@
 import {v1} from 'uuid';
-import {addTodolistAC, removeToDoListAC, todolistID1, todolistID2} from './todolists-reducer';
+import {todolistID1, todolistID2} from './todolists-reducer';
 import {TasksType} from '../components/ToDoList/TodoList';
+import {
+    addTaskAC,
+    addTodolistAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    removeTaskAC,
+    removeToDoListAC
+} from './action-creators/action-creators';
 
 export type ActionTypesReducer =
     ReturnType<typeof removeTaskAC>
@@ -67,41 +75,4 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     }
 }
 
-export const removeTaskAC = (todolistID: string, taskId: string) => {
-    return {
-        type: 'REMOVE-TASK',
-        payload: {
-            todolistID,
-            taskId
-        }
-    } as const;
-};
-export const addTaskAC = (todolistID: string, taskName: string) => {
-    return {
-        type: 'ADD-TASK',
-        payload: {
-            todolistID,
-            taskName
-        }
-    } as const;
-};
-export const changeTaskStatusAC = (todolistID: string, taskId: string, isDone: boolean) => {
-    return {
-        type: 'CHANGE-TASK-STATUS',
-        payload: {
-            todolistID,
-            taskId,
-            isDone
-        }
-    } as const;
-};
-export const changeTaskTitleAC = (todolistId: string, taskId: string, newTitle: string) => {
-    return {
-        type: 'CHANGE-TASK-TITLE',
-        payload: {
-            todolistId,
-            taskId,
-            newTitle
-        }
-    } as const;
-};
+

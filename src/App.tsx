@@ -4,9 +4,9 @@ import {ToDoList} from './components/ToDoList/TodoList';
 import {FullInput} from './components/ToDoList/FullInput/FullInput';
 import {ButtonAppBar} from './components/ButtonAppBar/ButtonAppBar';
 import {Container, css, Grid, Paper, styled} from '@mui/material';
-
-import {addTodolistAC,} from './reducers/todolists-reducer';
 import {useTypedDispatch, useTypedSelector} from './hooks/hooks';
+import * as actionCreators from './reducers/action-creators/action-creators'
+import {bindActionCreators} from 'redux';
 
 
 type StyledPaperProps = {
@@ -21,15 +21,15 @@ const StyledPaper = styled(Paper, {})<StyledPaperProps>`
   `}
 `;
 
-
 export const App = () => {
 
     const dispatch = useTypedDispatch();
-    const {todolists} = useTypedSelector(state => state);
+    const {addTodolistAC: addNewTodo} =  bindActionCreators(actionCreators, dispatch);
+    const todolists = useTypedSelector(state => state.todolists);
 
     const addTodolist = useCallback((todolistTitle: string) => {
-        dispatch(addTodolistAC(todolistTitle))
-    }, [dispatch]);
+        addNewTodo(todolistTitle);
+    }, [addNewTodo]);
 
     const mappedTodolists = todolists.map(tl => {
         return (
