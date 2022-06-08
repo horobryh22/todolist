@@ -42,6 +42,7 @@ export const App = () => {
                         title={tl.title}
                         filter={tl.filter}
                         todolistID={tl.id}
+                        key={tl.id}
                     />
                 </StyledPaper>
             </Grid>

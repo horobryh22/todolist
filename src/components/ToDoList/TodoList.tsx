@@ -22,7 +22,7 @@ export type TasksType = {
 
 export const ToDoList: React.FC<ToDoListType> = React.memo(({title, todolistID, filter}) => {
 
-    console.log('Todolist called');
+    console.log('Todolist called')
 
     const dispatch = useTypedDispatch();
 

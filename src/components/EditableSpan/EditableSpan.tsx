@@ -18,11 +18,15 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo(({title,
 
     const onDoubleClickHandler = useCallback(() => {
         setEditMode(!editMode);
-        callback(inputValue);
-    }, [callback, editMode, inputValue])
+    }, [editMode]);
+    
+    const onBlurHandler = useCallback(() => {
+            setEditMode(!editMode);
+            callback(inputValue);
+    } ,[callback, editMode, inputValue])
 
     return editMode
-        ? <input onChange={onChangeInputHandler} value={inputValue} autoFocus onBlur={onDoubleClickHandler}/>
+        ? <input onChange={onChangeInputHandler} value={inputValue} autoFocus onDoubleClick={onDoubleClickHandler} onBlur={onBlurHandler}/>
         : <span onDoubleClick={onDoubleClickHandler}>{title}</span>
 });
 
