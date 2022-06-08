@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useCallback, useState} from 'react';
 
 type EditableSpanPropsType = {
     title: string
@@ -7,17 +7,19 @@ type EditableSpanPropsType = {
 
 export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo(({title, callback}) => {
 
+    console.log('Editable Span')
+
     const [editMode, setEditMode] = useState(false);
     const [inputValue, setInputValue] = useState<string>(title);
 
-    const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>): void => {
+    const onChangeInputHandler = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
         setInputValue(e.currentTarget.value);
-    }
+    }, [])
 
-    const onDoubleClickHandler = () => {
+    const onDoubleClickHandler = useCallback(() => {
         setEditMode(!editMode);
         callback(inputValue);
-    }
+    }, [callback, editMode, inputValue])
 
     return editMode
         ? <input onChange={onChangeInputHandler} value={inputValue} autoFocus onBlur={onDoubleClickHandler}/>

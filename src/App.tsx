@@ -8,14 +8,15 @@ import {useTypedDispatch, useTypedSelector} from './hooks/hooks';
 import * as actionCreators from './reducers/action-creators/action-creators'
 import {bindActionCreators} from 'redux';
 
-
 type StyledPaperProps = {
-    primary?: boolean
+    primary?: {
+        hasDifferentStyle: boolean
+    }
 }
 
 const StyledPaper = styled(Paper, {})<StyledPaperProps>`
   background-color: red;
-  ${props => props.primary && css`
+  ${({primary: hasDifferentStyle}) => hasDifferentStyle && css`
     background: #4dad4d;
     color: black;
   `}
@@ -23,18 +24,20 @@ const StyledPaper = styled(Paper, {})<StyledPaperProps>`
 
 export const App = () => {
 
+    console.log('App called');
+
     const dispatch = useTypedDispatch();
-    const {addTodolistAC: addNewTodo} =  bindActionCreators(actionCreators, dispatch);
+    const {addTodolistAC: addNewTodo} = bindActionCreators(actionCreators, dispatch);
     const todolists = useTypedSelector(state => state.todolists);
 
     const addTodolist = useCallback((todolistTitle: string) => {
         addNewTodo(todolistTitle);
-    }, [addNewTodo]);
+    }, []);
 
     const mappedTodolists = todolists.map(tl => {
         return (
             <Grid item xs={3} key={tl.id}>
-                <StyledPaper primary elevation={8} style={{padding: '20px'}}>
+                <StyledPaper primary={{hasDifferentStyle: true}} elevation={8} style={{padding: '20px'}}>
                     <ToDoList
                         title={tl.title}
                         filter={tl.filter}
