@@ -1,5 +1,4 @@
 import {FilterValuesType} from '../components/ToDoList/TodoList';
-import {v1} from 'uuid';
 import * as actionCreators from './action-creators/action-creators';
 
 export type ActionTypesTodolists =
@@ -14,13 +13,7 @@ export type TodoListType = {
     filter: FilterValuesType
 }
 
-export const todolistID1 = v1();
-export const todolistID2 = v1();
-
-const initialState: Array<TodoListType> = [
-    {id: todolistID1, title: 'What to learn', filter: 'all'},
-    {id: todolistID2, title: 'What to buy', filter: 'all'},
-]
+const initialState: Array<TodoListType> = []
 
 export const todolistsReducer = (state: Array<TodoListType> = initialState, action: ActionTypesTodolists): Array<TodoListType> => {
     switch (action.type) {
