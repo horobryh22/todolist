@@ -6,7 +6,7 @@ import {useTypedSelector} from '../../hooks/hooks';
 
 
 export default {
-    title: 'Todolist/Task',
+    title: 'Todolist/Components/Task',
     component: Task,
     decorators: [ReduxStoreProviderDecorator],
     args: {}, // для всех историй будут использоваться компоненты, указанные в этом объекте

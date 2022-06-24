@@ -5,7 +5,7 @@ import {action} from '@storybook/addon-actions';
 
 
 export default {
-    title: 'Todolist/FillInput',
+    title: 'Todolist/Components/FillInput',
     component: FullInput,
     argTypes: {
         callback: {

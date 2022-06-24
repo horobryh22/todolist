@@ -4,7 +4,7 @@ import {App} from './App';
 import {ReduxStoreProviderDecorator} from './ReduxStoreProviderDecorator';
 
 export default {
-    title: 'Todolist/App',
+    title: 'Todolist/App/App',
     component: App,
     decorators: [ReduxStoreProviderDecorator],
     argTypes: {

@@ -13,7 +13,7 @@ const getCategory = (category: string) => {
 }
 
 export default {
-    title: 'components/Button',
+    title: 'Todolist/Components/Button',
     component: Button,
     argTypes: {
         color: {

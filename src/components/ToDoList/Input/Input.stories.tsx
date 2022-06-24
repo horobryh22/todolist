@@ -13,7 +13,7 @@ const getCategory = (category: string) => {
 }
 
 export default {
-    title: 'components/Input',
+    title: 'Todolist/Components/Input',
     component: Input,
     argTypes: {
         setError: {
