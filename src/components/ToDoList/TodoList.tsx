@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {FullInput} from './FullInput/FullInput';
 import {EditableSpan} from '../EditableSpan/EditableSpan';
 import {Button, IconButton} from '@mui/material';
@@ -7,6 +7,7 @@ import {useTypedDispatch, useTypedSelector} from '../../hooks/hooks';
 import {bindActionCreators} from 'redux';
 import * as actionCreators from '../../reducers/action-creators/action-creators';
 import {Task} from '../Task/Task';
+import {addTaskTC, getTasksTC} from '../../reducers/tasks-reducer';
 
 type ToDoListType = {
     title: string
@@ -22,12 +23,9 @@ export type TasksType = {
 
 export const ToDoList: React.FC<ToDoListType> = React.memo(({title, todolistID, filter}) => {
 
-    console.log('Todolist called')
-
     const dispatch = useTypedDispatch();
 
     const {
-        addTaskAC: addTask,
         removeToDoListAC: removeTodolist,
         changeFilterAC: changeFilter,
         changeTodolistNameAC: changeTodolistName
@@ -58,12 +56,16 @@ export const ToDoList: React.FC<ToDoListType> = React.memo(({title, todolistID, 
     }, [todolistID]);
 
     const addTaskHandler = useCallback((newTitle: string) => {
-        addTask(todolistID, newTitle);
+        dispatch(addTaskTC(todolistID, newTitle));
     }, [todolistID]);
 
     const changeTodolistNameHandler = useCallback((newTitle: string) => {
         changeTodolistName(todolistID, newTitle);
     }, [todolistID]);
+
+    useEffect(() => {
+        dispatch(getTasksTC(todolistID));
+    }, [])
 
     return (
         <div>

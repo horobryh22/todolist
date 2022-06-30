@@ -1,5 +1,6 @@
 import {v1} from 'uuid';
 import {FilterValuesType} from '../../components/ToDoList/TodoList';
+import {TaskDomainType, TodolistDomainType} from '../../api/todolist-api';
 
 const removeToDoListAC = (todolistID: string) => {
     return {
@@ -15,6 +16,23 @@ const addTodolistAC = (todolistTitle: string) => {
         payload: {
             todolistTitle,
             id: v1()
+        }
+    } as const
+};
+const setTodolistsAC = (todolists: TodolistDomainType[]) => {
+    return {
+        type: 'SET-TODOLISTS',
+        payload: {
+            todolists
+        }
+    } as const
+};
+const setTasksAC = (todolistId: string, tasks: TaskDomainType[]) => {
+    return {
+        type: 'SET-TASKS',
+        payload: {
+            todolistId,
+            tasks
         }
     } as const
 };
@@ -45,12 +63,11 @@ const removeTaskAC = (todolistID: string, taskId: string) => {
         }
     } as const;
 };
-const addTaskAC = (todolistID: string, taskName: string) => {
+const addTaskAC = (task: TaskDomainType) => {
     return {
         type: 'ADD-TASK',
         payload: {
-            todolistID,
-            taskName
+            task
         }
     } as const;
 };
@@ -83,5 +100,7 @@ export {
     removeTaskAC,
     addTaskAC,
     changeTaskStatusAC,
-    changeTaskTitleAC
+    changeTaskTitleAC,
+    setTodolistsAC,
+    setTasksAC
 }

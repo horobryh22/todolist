@@ -41,14 +41,14 @@ test('correct task should be removed', () => {
     expect(endState[todolistId2][0].title).toBe('HTML&CSS2');
 });
 
-test('correct task should be added', () => {
-    const endState = tasksReducer(startState, addTaskAC(todolistId1, taskName))
-
-    expect(endState[todolistId1].length).toBe(6);
-    expect(endState[todolistId1][0].title).toBe(taskName);
-    expect(endState[todolistId2].length).toBe(5);
-    expect(endState[todolistId2][0].title).toBe('HTML&CSS2');
-});
+// test('correct task should be added', () => {
+//     // const endState = tasksReducer(startState, addTaskAC(todolistId1, taskName))
+//
+//     // expect(endState[todolistId1].length).toBe(6);
+//     // expect(endState[todolistId1][0].title).toBe(taskName);
+//     // expect(endState[todolistId2].length).toBe(5);
+//     // expect(endState[todolistId2][0].title).toBe('HTML&CSS2');
+// });
 
 test('correct task should change its name', () => {
 

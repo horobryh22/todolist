@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {ToDoList} from './components/ToDoList/TodoList';
 import {FullInput} from './components/ToDoList/FullInput/FullInput';
@@ -7,6 +7,7 @@ import {Container, css, Grid, Paper, styled} from '@mui/material';
 import {useTypedDispatch, useTypedSelector} from './hooks/hooks';
 import * as actionCreators from './reducers/action-creators/action-creators'
 import {bindActionCreators} from 'redux';
+import {getTodolistsTC} from './reducers/todolists-reducer';
 
 type StyledPaperProps = {
     primary?: {
@@ -23,8 +24,6 @@ const StyledPaper = styled(Paper, {})<StyledPaperProps>`
 `;
 
 export const App = () => {
-
-    console.log('App called');
 
     const dispatch = useTypedDispatch();
     const {addTodolistAC: addNewTodo} = bindActionCreators(actionCreators, dispatch);
@@ -48,6 +47,10 @@ export const App = () => {
             </Grid>
         )
     });
+
+    useEffect(() => {
+        dispatch(getTodolistsTC());
+    }, []);
 
     return (
         <div>

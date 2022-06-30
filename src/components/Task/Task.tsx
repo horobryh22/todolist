@@ -6,6 +6,7 @@ import * as actionCreators from '../../reducers/action-creators/action-creators'
 import {Checkbox, IconButton} from '@mui/material';
 import {EditableSpan} from '../EditableSpan/EditableSpan';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {removeTaskTC} from '../../reducers/tasks-reducer';
 
 export type TaskPropsType = {
     todolistId: string
@@ -13,17 +14,16 @@ export type TaskPropsType = {
 }
 export const Task: React.FC<TaskPropsType> = React.memo(({task, todolistId}) => {
 
-    console.log('Task');
-
     const dispatch = useTypedDispatch();
     const {
-        removeTaskAC: removeTask,
         changeTaskStatusAC: changeTaskStatus,
         changeTaskTitleAC: changeTaskTitle,
     } = bindActionCreators(actionCreators, dispatch);
 
 
-    const onClickButtonHandler = useCallback(() => removeTask(todolistId, task.id), [task.id, todolistId]);
+    const onClickButtonHandler = useCallback(() => {
+        dispatch(removeTaskTC(todolistId, task.id))
+    }, [task.id, todolistId]);
 
     const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         changeTaskStatus(todolistId, task.id, e.currentTarget.checked);

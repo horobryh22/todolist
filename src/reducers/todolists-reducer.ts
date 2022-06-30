@@ -1,11 +1,15 @@
 import {FilterValuesType} from '../components/ToDoList/TodoList';
 import * as actionCreators from './action-creators/action-creators';
+import {setTodolistsAC} from './action-creators/action-creators';
+import {todolistAPI} from '../api/todolist-api';
+import {AppDispatch} from '../redux/store';
 
 export type ActionTypesTodolists =
     ReturnType<typeof actionCreators.removeToDoListAC>
     | ReturnType<typeof actionCreators.addTodolistAC>
     | ReturnType<typeof actionCreators.changeFilterAC>
-    | ReturnType<typeof actionCreators.changeTodolistNameAC>;
+    | ReturnType<typeof actionCreators.changeTodolistNameAC>
+    | ReturnType<typeof actionCreators.setTodolistsAC>;
 
 export type TodoListType = {
     id: string
@@ -33,8 +37,16 @@ export const todolistsReducer = (state: Array<TodoListType> = initialState, acti
                 ? {...td, title: action.payload.newTitle}
                 : td);
         }
+        case 'SET-TODOLISTS': {
+            return action.payload.todolists.map(tl => ({...tl, filter: 'all'}));
+        }
         default:
             return state;
     }
 }
 
+export const getTodolistsTC = () => async (dispatch: AppDispatch) => {
+    const response = await todolistAPI.getTodolists();
+    const todolists = response.data;
+    dispatch(setTodolistsAC(todolists));
+}
