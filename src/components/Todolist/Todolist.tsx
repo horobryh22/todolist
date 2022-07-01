@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useMemo} from 'react';
-import {FullInput} from './FullInput/FullInput';
 import {EditableSpan} from '../EditableSpan/EditableSpan';
 import {Button, IconButton} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -8,35 +7,28 @@ import {bindActionCreators} from 'redux';
 import * as actionCreators from '../../reducers/action-creators/action-creators';
 import {Task} from '../Task/Task';
 import {addTaskTC, getTasksTC} from '../../reducers/tasks-reducer';
+import {TaskStatus} from '../../api/todolist-api';
+import {FilterValuesType, removeTodolistTC, updateTodolistTitleTC} from '../../reducers/todolists-reducer';
+import {FullInput} from './FullInput/FullInput';
 
-type ToDoListType = {
+type TodolistPropsType = {
     title: string
     filter: FilterValuesType
     todolistID: string
 }
-export type FilterValuesType = 'all' | 'completed' | 'active';
-export type TasksType = {
-    id: string
-    title: string
-    isDone: boolean
-}
 
-export const ToDoList: React.FC<ToDoListType> = React.memo(({title, todolistID, filter}) => {
+export const Todolist: React.FC<TodolistPropsType> = React.memo(({title, todolistID, filter}) => {
 
     const dispatch = useTypedDispatch();
 
-    const {
-        removeToDoListAC: removeTodolist,
-        changeFilterAC: changeFilter,
-        changeTodolistNameAC: changeTodolistName
-    } = bindActionCreators(actionCreators, dispatch);
+    const {changeFilterAC: changeFilter} = bindActionCreators(actionCreators, dispatch);
 
     const tasks = useTypedSelector(state => state.tasks[todolistID]);
 
     const filteredTasks = useMemo(() => {
         return tasks.filter(task => {
-            if (filter === 'completed') return task.isDone;
-            if (filter === 'active') return !task.isDone;
+            if (filter === 'completed') return task.status === TaskStatus.Completed;
+            if (filter === 'active') return task.status === TaskStatus.New;
             return true;
         })
     }, [filter, tasks]);
@@ -52,7 +44,7 @@ export const ToDoList: React.FC<ToDoListType> = React.memo(({title, todolistID, 
     }, [todolistID]);
 
     const removeTodolistHandler = useCallback(() => {
-        removeTodolist(todolistID);
+        dispatch(removeTodolistTC(todolistID));
     }, [todolistID]);
 
     const addTaskHandler = useCallback((newTitle: string) => {
@@ -60,7 +52,7 @@ export const ToDoList: React.FC<ToDoListType> = React.memo(({title, todolistID, 
     }, [todolistID]);
 
     const changeTodolistNameHandler = useCallback((newTitle: string) => {
-        changeTodolistName(todolistID, newTitle);
+        dispatch(updateTodolistTitleTC(todolistID, newTitle));
     }, [todolistID]);
 
     useEffect(() => {

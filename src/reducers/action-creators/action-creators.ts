@@ -1,6 +1,5 @@
-import {v1} from 'uuid';
-import {FilterValuesType} from '../../components/ToDoList/TodoList';
-import {TaskDomainType, TodolistDomainType} from '../../api/todolist-api';
+import {TaskStatus, TaskType, TodolistType} from '../../api/todolist-api';
+import {FilterValuesType} from '../todolists-reducer';
 
 const removeToDoListAC = (todolistID: string) => {
     return {
@@ -10,16 +9,15 @@ const removeToDoListAC = (todolistID: string) => {
         }
     } as const
 };
-const addTodolistAC = (todolistTitle: string) => {
+const addTodolistAC = (todolist: TodolistType) => {
     return {
         type: 'ADD-TODOLIST',
         payload: {
-            todolistTitle,
-            id: v1()
+            todolist
         }
     } as const
 };
-const setTodolistsAC = (todolists: TodolistDomainType[]) => {
+const setTodolistsAC = (todolists: TodolistType[]) => {
     return {
         type: 'SET-TODOLISTS',
         payload: {
@@ -27,7 +25,7 @@ const setTodolistsAC = (todolists: TodolistDomainType[]) => {
         }
     } as const
 };
-const setTasksAC = (todolistId: string, tasks: TaskDomainType[]) => {
+const setTasksAC = (todolistId: string, tasks: TaskType[]) => {
     return {
         type: 'SET-TASKS',
         payload: {
@@ -63,7 +61,7 @@ const removeTaskAC = (todolistID: string, taskId: string) => {
         }
     } as const;
 };
-const addTaskAC = (task: TaskDomainType) => {
+const addTaskAC = (task: TaskType) => {
     return {
         type: 'ADD-TASK',
         payload: {
@@ -71,13 +69,13 @@ const addTaskAC = (task: TaskDomainType) => {
         }
     } as const;
 };
-const changeTaskStatusAC = (todolistID: string, taskId: string, isDone: boolean) => {
+const changeTaskStatusAC = (todolistID: string, taskId: string, status: TaskStatus) => {
     return {
         type: 'CHANGE-TASK-STATUS',
         payload: {
             todolistID,
             taskId,
-            isDone
+            status
         }
     } as const;
 };

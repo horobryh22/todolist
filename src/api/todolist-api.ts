@@ -4,26 +4,41 @@ const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
     headers: {
-        'API-KEY': 'de6874e6-cce6-4779-a943-116ce67f7800'
+        'API-KEY': '9f5fc3ee-790f-410c-959d-2faeddcc9f8e'
     }
 })
 
-export type TodolistDomainType = {
+export type TodolistType = {
     addedDate: string
     id: string
     order: number
     title: string
 }
 
-export type TaskDomainType = {
+export enum TaskStatus {
+    New = 0,
+    InProgress = 1,
+    Completed = 2,
+    Draft = 3
+}
+
+export enum TaskPriority {
+    Low = 0,
+    Middle = 1,
+    Hi = 2,
+    Urgently = 3,
+    Later = 4
+}
+
+export type TaskType = {
     addedDate: string
-    deadline: null | string
-    description: null | string
+    deadline: string
+    description: string
     id: string
     order: number
-    priority: number
-    startDate: null | string
-    status: number
+    priority: TaskPriority
+    startDate: string
+    status: TaskStatus
     title: string
     todoListId: string
 }
@@ -36,18 +51,18 @@ export type ResponseType<D = {}> = {
 }
 
 export type ResponseGetTasksType = {
-    error: null | string
-    items: Array<TaskDomainType>
+    error: string
+    items: Array<TaskType>
     totalCount: number
 }
 
-export type UpdateTaskModelType = {    /// исправить типы!!!!
+export type UpdateTaskModelType = {
     title: string
-    startDate: any
-    priority: any
-    description: any
-    deadline: any
-    status: any
+    startDate: string
+    priority: TaskPriority
+    description: string
+    deadline: string
+    status: TaskStatus
 }
 
 export const todolistAPI = {
@@ -61,10 +76,10 @@ export const todolistAPI = {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}`);
     },
     getTodolists() {
-        return instance.get<Array<TodolistDomainType>>('todo-lists');
+        return instance.get<Array<TodolistType>>('todo-lists');
     },
     createTodolist(title: string) {
-        return instance.post<ResponseType<{ item: TodolistDomainType }>>('todo-lists', {title});
+        return instance.post<ResponseType<{ item: TodolistType }>>('todo-lists', {title});
     },
     getTasks(todolistId: string) {
         return instance.get<ResponseGetTasksType>(`todo-lists/${todolistId}/tasks`, {
@@ -75,7 +90,7 @@ export const todolistAPI = {
         })
     },
     createTask(todolistId: string, title: string) {
-        return instance.post<ResponseType<{ item: TaskDomainType }>>(`todo-lists/${todolistId}/tasks`, {title})
+        return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, {title})
     },
     updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
         return instance.put<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
