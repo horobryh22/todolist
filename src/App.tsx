@@ -3,9 +3,10 @@ import './App.css';
 import {Todolist} from './components/Todolist/Todolist';
 import {FullInput} from './components/Todolist/FullInput/FullInput';
 import {ButtonAppBar} from './components/ButtonAppBar/ButtonAppBar';
-import {Container, css, Grid, Paper, styled} from '@mui/material';
+import {Container, css, Grid, LinearProgress, Paper, styled} from '@mui/material';
 import {useTypedDispatch, useTypedSelector} from './hooks/hooks';
 import {addTodolistTC, getTodolistsTC} from './reducers/todolists-reducer';
+import {ErrorSnackbar} from './components/ErrorSnackbar/ErrorSnackbar';
 
 type StyledPaperProps = {
     primary?: {
@@ -25,6 +26,7 @@ export const App = () => {
 
     const dispatch = useTypedDispatch();
     const todolists = useTypedSelector(state => state.todolists);
+    const status = useTypedSelector(state => state.app.status);
 
     const addTodolist = useCallback((todolistTitle: string) => {
         dispatch(addTodolistTC(todolistTitle));
@@ -35,9 +37,7 @@ export const App = () => {
             <Grid item xs={3} key={tl.id}>
                 <StyledPaper primary={{hasDifferentStyle: true}} elevation={8} style={{padding: '20px'}}>
                     <Todolist
-                        title={tl.title}
-                        filter={tl.filter}
-                        todolistID={tl.id}
+                        todolist={tl}
                         key={tl.id}
                     />
                 </StyledPaper>
@@ -51,6 +51,7 @@ export const App = () => {
 
     return (
         <div>
+            {status === 'loading' && <LinearProgress color="secondary"/>}
             <ButtonAppBar/>
             <Container fixed>
                 <Grid container>
@@ -59,6 +60,7 @@ export const App = () => {
                         justifyContent="center"
                         item xs={12}>
                         <FullInput
+                            disabled={false}
                             callback={addTodolist}
                             buttonName={'+'}
                         />
@@ -67,6 +69,7 @@ export const App = () => {
                         {mappedTodolists}
                     </Grid>
                 </Grid>
+                <ErrorSnackbar/>
             </Container>
         </div>
     )

@@ -1,5 +1,6 @@
 import {TaskStatus, TaskType, TodolistType} from '../../api/todolist-api';
 import {FilterValuesType} from '../todolists-reducer';
+import {RequestStatusType} from '../app-reducer';
 
 const removeToDoListAC = (todolistID: string) => {
     return {
@@ -14,6 +15,15 @@ const addTodolistAC = (todolist: TodolistType) => {
         type: 'ADD-TODOLIST',
         payload: {
             todolist
+        }
+    } as const
+};
+const setTodolistEntityStatusAC = (todolistId: string, entityStatus: RequestStatusType) => {
+    return {
+        type: 'SET-TODOLIST-ENTITY-STATUS',
+        payload: {
+            todolistId,
+            entityStatus
         }
     } as const
 };
@@ -100,5 +110,6 @@ export {
     changeTaskStatusAC,
     changeTaskTitleAC,
     setTodolistsAC,
-    setTasksAC
+    setTasksAC,
+    setTodolistEntityStatusAC
 }

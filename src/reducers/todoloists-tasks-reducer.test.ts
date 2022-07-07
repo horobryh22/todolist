@@ -19,8 +19,8 @@ beforeEach(() => {
     todolistId3 = v1();
 
     initialStateForTodolists = [
-        {id: todolistId1, title: 'What to learn', filter: 'all', order: 1, addedDate: ''},
-        {id: todolistId2, title: 'What to buy', filter: 'all', order: 1, addedDate: ''},
+        {id: todolistId1, title: 'What to learn', filter: 'all', order: 1, addedDate: '', entityStatus: 'idle'},
+        {id: todolistId2, title: 'What to buy', filter: 'all', order: 1, addedDate: '', entityStatus: 'idle'},
     ]
 
     initialStateForTasks = {

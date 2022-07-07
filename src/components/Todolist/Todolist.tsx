@@ -8,86 +8,94 @@ import * as actionCreators from '../../reducers/action-creators/action-creators'
 import {Task} from '../Task/Task';
 import {addTaskTC, getTasksTC} from '../../reducers/tasks-reducer';
 import {TaskStatus} from '../../api/todolist-api';
-import {FilterValuesType, removeTodolistTC, updateTodolistTitleTC} from '../../reducers/todolists-reducer';
+import {
+    FilterValuesType,
+    removeTodolistTC,
+    TodolistDomainType,
+    updateTodolistTitleTC
+} from '../../reducers/todolists-reducer';
 import {FullInput} from './FullInput/FullInput';
 
 type TodolistPropsType = {
-    title: string
-    filter: FilterValuesType
-    todolistID: string
+    todolist: TodolistDomainType
 }
 
-export const Todolist: React.FC<TodolistPropsType> = React.memo(({title, todolistID, filter}) => {
+export const Todolist: React.FC<TodolistPropsType> = React.memo(({todolist}) => {
 
     const dispatch = useTypedDispatch();
+    const disabledCondition = todolist.entityStatus === 'loading';
 
     const {changeFilterAC: changeFilter} = bindActionCreators(actionCreators, dispatch);
 
-    const tasks = useTypedSelector(state => state.tasks[todolistID]);
+    const tasks = useTypedSelector(state => state.tasks[todolist.id]);
 
     const filteredTasks = useMemo(() => {
         return tasks.filter(task => {
-            if (filter === 'completed') return task.status === TaskStatus.Completed;
-            if (filter === 'active') return task.status === TaskStatus.New;
+            if (todolist.filter === 'completed') return task.status === TaskStatus.Completed;
+            if (todolist.filter === 'active') return task.status === TaskStatus.New;
             return true;
         })
-    }, [filter, tasks]);
+    }, [todolist.filter, tasks]);
 
     const tasksList = filteredTasks.map((task) => {
-        return <Task todolistId={todolistID} task={task} key={task.id}/>
+        return <Task todolistId={todolist.id} task={task} key={task.id}/>
     });
 
     const tasksListChanged = tasksList.length ? tasksList : <div>Нет никаких задач</div>;
 
     const onClickHandler = useCallback((filter: FilterValuesType) => {
-        changeFilter(todolistID, filter);
-    }, [todolistID]);
+        changeFilter(todolist.id, filter);
+    }, [todolist.id]);
 
     const removeTodolistHandler = useCallback(() => {
-        dispatch(removeTodolistTC(todolistID));
-    }, [todolistID]);
+        dispatch(removeTodolistTC(todolist.id));
+    }, [todolist.id]);
 
     const addTaskHandler = useCallback((newTitle: string) => {
-        dispatch(addTaskTC(todolistID, newTitle));
-    }, [todolistID]);
+        dispatch(addTaskTC(todolist.id, newTitle));
+    }, [todolist.id]);
 
     const changeTodolistNameHandler = useCallback((newTitle: string) => {
-        dispatch(updateTodolistTitleTC(todolistID, newTitle));
-    }, [todolistID]);
+        dispatch(updateTodolistTitleTC(todolist.id, newTitle));
+    }, [todolist.id]);
 
     useEffect(() => {
-        dispatch(getTasksTC(todolistID));
+        dispatch(getTasksTC(todolist.id));
     }, [])
 
     return (
         <div>
             <h3>
-                <EditableSpan title={title} callback={changeTodolistNameHandler}/>
-                <IconButton onClick={removeTodolistHandler} color="primary">
+                <EditableSpan title={todolist.title} callback={changeTodolistNameHandler}/>
+                <IconButton
+                    onClick={removeTodolistHandler}
+                    color="primary"
+                    disabled={disabledCondition}
+                >
                     <DeleteIcon fontSize="medium"/>
                 </IconButton>
             </h3>
-            <FullInput callback={addTaskHandler} buttonName={'+'}/>
+            <FullInput callback={addTaskHandler} buttonName={'+'} disabled={disabledCondition}/>
             <ul style={{padding: '0'}}>
                 {tasksListChanged}
             </ul>
             <div>
                 <Button
-                    variant={filter === 'all' ? 'outlined' : 'text'}
+                    variant={todolist.filter === 'all' ? 'outlined' : 'text'}
                     size={'small'}
-                    color={filter === 'all' ? 'primary' : 'inherit'}
+                    color={todolist.filter === 'all' ? 'primary' : 'inherit'}
                     onClick={useCallback(() => onClickHandler('all'), [])}
                 >All</Button>
                 <Button
-                    variant={filter === 'active' ? 'outlined' : 'text'}
+                    variant={todolist.filter === 'active' ? 'outlined' : 'text'}
                     size={'small'}
-                    color={filter === 'active' ? 'error' : 'inherit'}
+                    color={todolist.filter === 'active' ? 'error' : 'inherit'}
                     onClick={useCallback(() => onClickHandler('active'), [])}
                 >Active</Button>
                 <Button
-                    variant={filter === 'completed' ? 'outlined' : 'text'}
+                    variant={todolist.filter === 'completed' ? 'outlined' : 'text'}
                     size={'small'}
-                    color={filter === 'completed' ? 'success' : 'inherit'}
+                    color={todolist.filter === 'completed' ? 'success' : 'inherit'}
                     onClick={useCallback(() => onClickHandler('completed'), [])}
                 >Completed</Button>
             </div>

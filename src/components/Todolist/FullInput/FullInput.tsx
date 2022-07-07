@@ -6,11 +6,10 @@ import AddIcon from '@mui/icons-material/Add';
 export type FullInputType = {
     callback: (taskName: string) => void
     buttonName: string
+    disabled?: boolean
 }
 
-export const FullInput: React.FC<FullInputType> = React.memo(({callback, buttonName}) => {
-
-    console.log('FullInput called')
+export const FullInput: React.FC<FullInputType> = React.memo(({callback, disabled}) => {
 
     const inputRef = useRef<HTMLInputElement>(null);
     const [error, setError] = useState<null | string>(null);
@@ -40,11 +39,14 @@ export const FullInput: React.FC<FullInputType> = React.memo(({callback, buttonN
                 error={Boolean(error)}
                 onKeyPress={onKeyPressHandler}
                 helperText={error}
-                size="small"/>
+                size="small"
+                disabled={disabled}
+            />
             <Button
                 variant={'contained'}
                 style={{maxWidth: '25px', maxHeight: '25px', minWidth: '25px', minHeight: '25px'}}
                 onClick={onClickButtonHandler}
+                disabled={disabled}
                 startIcon={<AddIcon style={{paddingLeft: '10px'}}/>}
             />
         </div>
