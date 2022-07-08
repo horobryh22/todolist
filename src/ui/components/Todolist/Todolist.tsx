@@ -2,19 +2,20 @@ import React, {useCallback, useEffect, useMemo} from 'react';
 import {EditableSpan} from '../EditableSpan/EditableSpan';
 import {Button, IconButton} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {useTypedDispatch, useTypedSelector} from '../../hooks/hooks';
+import {useTypedDispatch, useTypedSelector} from '../../../bll/hooks/hooks';
 import {bindActionCreators} from 'redux';
-import * as actionCreators from '../../reducers/action-creators/action-creators';
+import * as actionCreators from '../../../bll/redux/reducers/action-creators/action-creators';
 import {Task} from '../Task/Task';
-import {addTaskTC, getTasksTC} from '../../reducers/tasks-reducer';
-import {TaskStatus} from '../../api/todolist-api';
+import {addTaskTC, getTasksTC} from '../../../bll/redux/reducers/tasks-reducer/tasks-reducer';
+import {TASK_STATUS} from '../../../dal/api/todolist-api';
 import {
     FilterValuesType,
     removeTodolistTC,
     TodolistDomainType,
     updateTodolistTitleTC
-} from '../../reducers/todolists-reducer';
+} from '../../../bll/redux/reducers/todolists-reducer/todolists-reducer';
 import {FullInput} from './FullInput/FullInput';
+import {REQUEST_STATUS} from '../../../bll/redux/reducers/app-reducer/app-reducer';
 
 type TodolistPropsType = {
     todolist: TodolistDomainType
@@ -23,7 +24,7 @@ type TodolistPropsType = {
 export const Todolist: React.FC<TodolistPropsType> = React.memo(({todolist}) => {
 
     const dispatch = useTypedDispatch();
-    const disabledCondition = todolist.entityStatus === 'loading';
+    const disabledCondition = todolist.entityStatus === REQUEST_STATUS.LOADING;
 
     const {changeFilterAC: changeFilter} = bindActionCreators(actionCreators, dispatch);
 
@@ -31,8 +32,8 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(({todolist}) => 
 
     const filteredTasks = useMemo(() => {
         return tasks.filter(task => {
-            if (todolist.filter === 'completed') return task.status === TaskStatus.Completed;
-            if (todolist.filter === 'active') return task.status === TaskStatus.New;
+            if (todolist.filter === 'completed') return task.status === TASK_STATUS.Completed;
+            if (todolist.filter === 'active') return task.status === TASK_STATUS.New;
             return true;
         })
     }, [todolist.filter, tasks]);

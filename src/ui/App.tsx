@@ -4,9 +4,10 @@ import {Todolist} from './components/Todolist/Todolist';
 import {FullInput} from './components/Todolist/FullInput/FullInput';
 import {ButtonAppBar} from './components/ButtonAppBar/ButtonAppBar';
 import {Container, css, Grid, LinearProgress, Paper, styled} from '@mui/material';
-import {useTypedDispatch, useTypedSelector} from './hooks/hooks';
-import {addTodolistTC, getTodolistsTC} from './reducers/todolists-reducer';
+import {useTypedDispatch, useTypedSelector} from '../bll/hooks/hooks';
+import {addTodolistTC, getTodolistsTC} from '../bll/redux/reducers/todolists-reducer/todolists-reducer';
 import {ErrorSnackbar} from './components/ErrorSnackbar/ErrorSnackbar';
+import {REQUEST_STATUS} from '../bll/redux/reducers/app-reducer/app-reducer';
 
 type StyledPaperProps = {
     primary?: {
@@ -51,7 +52,7 @@ export const App = () => {
 
     return (
         <div>
-            {status === 'loading' && <LinearProgress color="secondary"/>}
+            {status === REQUEST_STATUS.LOADING && <LinearProgress color="secondary"/>}
             <ButtonAppBar/>
             <Container fixed>
                 <Grid container>

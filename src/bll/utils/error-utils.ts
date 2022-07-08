@@ -1,6 +1,5 @@
-import { Dispatch } from 'redux'
-import {ResponseType} from '../api/todolist-api';
-import {setAppErrorAC, setAppStatusAC} from '../reducers/app-reducer';
+import {ResponseType} from '../../dal/api/todolist-api';
+import {REQUEST_STATUS, setAppErrorAC, setAppStatusAC} from '../redux/reducers/app-reducer/app-reducer';
 import {AppDispatch} from '../redux/store';
 
 export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: AppDispatch) => {
@@ -9,10 +8,10 @@ export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: AppDisp
     } else {
         dispatch(setAppErrorAC('Some error occurred'))
     }
-    dispatch(setAppStatusAC('failed'))
+    dispatch(setAppStatusAC(REQUEST_STATUS.FAILED))
 }
 
 export const handleServerNetworkError = (error: { message: string }, dispatch: AppDispatch) => {
     dispatch(setAppErrorAC(error.message))
-    dispatch(setAppStatusAC('failed'))
+    dispatch(setAppStatusAC(REQUEST_STATUS.FAILED))
 }

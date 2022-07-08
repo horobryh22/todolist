@@ -1,8 +1,9 @@
 import {v1} from 'uuid';
-import {tasksReducer, TasksStateType} from './tasks-reducer';
+import {tasksReducer, TasksStateType} from '../tasks-reducer/tasks-reducer';
 import {TodolistDomainType, todolistsReducer} from './todolists-reducer';
-import {addTodolistAC, removeToDoListAC, setTodolistsAC} from './action-creators/action-creators';
-import {TaskPriority, TaskStatus} from '../api/todolist-api';
+import {addTodolistAC, removeToDoListAC, setTodolistsAC} from '../action-creators/action-creators';
+import {TaskPriority, TASK_STATUS} from '../../../../dal/api/todolist-api';
+import {REQUEST_STATUS} from '../app-reducer/app-reducer';
 
 
 let initialStateForTasks: TasksStateType;
@@ -19,8 +20,22 @@ beforeEach(() => {
     todolistId3 = v1();
 
     initialStateForTodolists = [
-        {id: todolistId1, title: 'What to learn', filter: 'all', order: 1, addedDate: '', entityStatus: 'idle'},
-        {id: todolistId2, title: 'What to buy', filter: 'all', order: 1, addedDate: '', entityStatus: 'idle'},
+        {
+            id: todolistId1,
+            title: 'What to learn',
+            filter: 'all',
+            order: 1,
+            addedDate: '',
+            entityStatus: REQUEST_STATUS.IDLE
+        },
+        {
+            id: todolistId2,
+            title: 'What to buy',
+            filter: 'all',
+            order: 1,
+            addedDate: '',
+            entityStatus: REQUEST_STATUS.IDLE
+        },
     ]
 
     initialStateForTasks = {
@@ -28,7 +43,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'HTML&CSS',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 order: 1,
                 addedDate: '',
                 startDate: '',
@@ -40,7 +55,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'JS',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 order: 1,
                 addedDate: '',
                 startDate: '',
@@ -52,7 +67,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'ReactJS',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 order: 1,
                 addedDate: '',
                 startDate: '',
@@ -64,7 +79,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'Rest API',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 order: 1,
                 addedDate: '',
                 startDate: '',
@@ -76,7 +91,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'GraphQL',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 order: 1,
                 addedDate: '',
                 startDate: '',
@@ -90,7 +105,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'HTML&CSS2',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 order: 1,
                 addedDate: '',
                 startDate: '',
@@ -102,7 +117,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'JS2',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 order: 1,
                 addedDate: '',
                 startDate: '',
@@ -114,7 +129,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'ReactJS2',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 order: 1,
                 addedDate: '',
                 startDate: '',
@@ -126,7 +141,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'Rest API2',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 order: 1,
                 addedDate: '',
                 startDate: '',
@@ -138,7 +153,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'GraphQL2',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 order: 1,
                 addedDate: '',
                 startDate: '',

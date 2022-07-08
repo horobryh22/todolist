@@ -15,7 +15,7 @@ export type TodolistType = {
     title: string
 }
 
-export enum TaskStatus {
+export enum TASK_STATUS {
     New = 0,
     InProgress = 1,
     Completed = 2,
@@ -38,7 +38,7 @@ export type TaskType = {
     order: number
     priority: TaskPriority
     startDate: string
-    status: TaskStatus
+    status: TASK_STATUS
     title: string
     todoListId: string
 }
@@ -62,7 +62,7 @@ export type UpdateTaskModelType = {
     priority: TaskPriority
     description: string
     deadline: string
-    status: TaskStatus
+    status: TASK_STATUS
 }
 
 export const todolistAPI = {

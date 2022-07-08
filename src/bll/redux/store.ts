@@ -1,9 +1,9 @@
 import {combineReducers, createStore, applyMiddleware, compose} from 'redux';
-import {ActionTypesTodolists, todolistsReducer} from '../reducers/todolists-reducer';
-import {ActionTypesReducer, tasksReducer} from '../reducers/tasks-reducer';
+import {ActionTypesTodolists, todolistsReducer} from './reducers/todolists-reducer/todolists-reducer';
+import {ActionTypesReducer, tasksReducer} from './reducers/tasks-reducer/tasks-reducer';
 import {devToolsEnhancer} from '@redux-devtools/extension';
 import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk';
-import {ActionTypesApp, appReducer} from '../reducers/app-reducer';
+import {ActionTypesApp, appReducer} from './reducers/app-reducer/app-reducer';
 
 const composedEnhancers = compose(applyMiddleware(thunk), devToolsEnhancer());
 

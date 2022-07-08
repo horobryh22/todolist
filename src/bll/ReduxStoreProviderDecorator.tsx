@@ -2,11 +2,11 @@ import React from 'react'
 import {Provider} from 'react-redux'
 import {combineReducers, createStore} from 'redux'
 import {v1} from 'uuid'
-import {tasksReducer} from './reducers/tasks-reducer';
-import {todolistsReducer} from './reducers/todolists-reducer';
+import {tasksReducer} from './redux/reducers/tasks-reducer/tasks-reducer';
+import {todolistsReducer} from './redux/reducers/todolists-reducer/todolists-reducer';
 import {AppRootState} from './redux/store';
-import {TaskPriority, TaskStatus} from './api/todolist-api';
-import {appReducer} from './reducers/app-reducer';
+import {TaskPriority, TASK_STATUS} from '../dal/api/todolist-api';
+import {appReducer, REQUEST_STATUS} from './redux/reducers/app-reducer/app-reducer';
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
@@ -16,8 +16,8 @@ const rootReducer = combineReducers({
 
 const initialGlobalState: AppRootState = {
     todolists: [
-        {id: 'todolistId1', title: 'What to learn', filter: 'all', addedDate: '', order: 0, entityStatus: 'idle'},
-        {id: 'todolistId2', title: 'What to buy', filter: 'all', addedDate: '', order: 0, entityStatus: 'idle'}
+        {id: 'todolistId1', title: 'What to learn', filter: 'all', addedDate: '', order: 0, entityStatus: REQUEST_STATUS.IDLE},
+        {id: 'todolistId2', title: 'What to buy', filter: 'all', addedDate: '', order: 0, entityStatus: REQUEST_STATUS.IDLE}
     ],
     tasks: {
         ['todolistId1']: [
@@ -26,7 +26,7 @@ const initialGlobalState: AppRootState = {
                 title: 'HTML&CSS',
                 order: 0,
                 addedDate: '',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 description: '',
                 deadline: '',
                 priority: TaskPriority.Low,
@@ -38,7 +38,7 @@ const initialGlobalState: AppRootState = {
                 title: 'JS',
                 order: 0,
                 addedDate: '',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 description: '',
                 deadline: '',
                 priority: TaskPriority.Low,
@@ -52,7 +52,7 @@ const initialGlobalState: AppRootState = {
                 title: 'Milk',
                 order: 0,
                 addedDate: '',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 description: '',
                 deadline: '',
                 priority: TaskPriority.Low,
@@ -64,7 +64,7 @@ const initialGlobalState: AppRootState = {
                 title: 'React Book',
                 order: 0,
                 addedDate: '',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 description: '',
                 deadline: '',
                 priority: TaskPriority.Low,
@@ -74,7 +74,7 @@ const initialGlobalState: AppRootState = {
         ]
     },
     app: {
-        status: 'idle',
+        status: REQUEST_STATUS.IDLE,
         error: null
     }
 };

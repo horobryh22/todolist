@@ -1,6 +1,7 @@
 import {v1} from 'uuid';
 import {FilterValuesType, TodolistDomainType, todolistsReducer} from './todolists-reducer';
-import {addTodolistAC, changeFilterAC, changeTodolistNameAC, removeToDoListAC} from './action-creators/action-creators';
+import {addTodolistAC, changeFilterAC, changeTodolistNameAC, removeToDoListAC} from '../action-creators/action-creators';
+import {REQUEST_STATUS} from '../app-reducer/app-reducer';
 
 let startState: Array<TodolistDomainType>;
 let todolistId1: string;
@@ -16,8 +17,8 @@ beforeEach(() => {
     newFilter = 'completed'
 
     startState = [
-        {id: todolistId1, title: "What to learn", filter: "all", order: 1, addedDate: '', entityStatus: 'idle'},
-        {id: todolistId2, title: "What to buy", filter: "all", order: 1, addedDate: '', entityStatus: 'idle'}
+        {id: todolistId1, title: "What to learn", filter: "all", order: 1, addedDate: '', entityStatus: REQUEST_STATUS.IDLE},
+        {id: todolistId2, title: "What to buy", filter: "all", order: 1, addedDate: '', entityStatus: REQUEST_STATUS.IDLE}
     ]
 })
 

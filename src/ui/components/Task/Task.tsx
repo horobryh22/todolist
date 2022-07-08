@@ -1,10 +1,10 @@
 import React, {ChangeEvent, useCallback} from 'react';
-import {useTypedDispatch} from '../../hooks/hooks';
+import {useTypedDispatch} from '../../../bll/hooks/hooks';
 import {Checkbox, IconButton} from '@mui/material';
 import {EditableSpan} from '../EditableSpan/EditableSpan';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {removeTaskTC, updateTaskStatusTC, updateTaskTitleTC} from '../../reducers/tasks-reducer';
-import {TaskStatus, TaskType} from '../../api/todolist-api';
+import {removeTaskTC, updateTaskStatusTC, updateTaskTitleTC} from '../../../bll/redux/reducers/tasks-reducer/tasks-reducer';
+import {TASK_STATUS, TaskType} from '../../../dal/api/todolist-api';
 
 export type TaskPropsType = {
     todolistId: string
@@ -19,11 +19,11 @@ export const Task: React.FC<TaskPropsType> = React.memo(({task, todolistId}) => 
     }, [task.id, todolistId]);
 
     const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        const status = e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New;
+        const status = e.currentTarget.checked ? TASK_STATUS.Completed : TASK_STATUS.New;
         dispatch(updateTaskStatusTC(task.id, todolistId, status));
     }, [task.id, todolistId]);
 
-    const taskClass = task.status === TaskStatus.Completed ? 'is-done' : '';
+    const taskClass = task.status === TASK_STATUS.Completed ? 'is-done' : '';
 
     const changeTaskTitleHandler = useCallback((newTitle: string) => {
         dispatch(updateTaskTitleTC(task.id, todolistId, newTitle));
@@ -32,7 +32,7 @@ export const Task: React.FC<TaskPropsType> = React.memo(({task, todolistId}) => 
     return (
         <li className={taskClass} style={{listStyleType: 'none'}}
             key={task.id}>
-            <Checkbox checked={task.status === TaskStatus.Completed} size="small" onChange={onChangeHandler}/>
+            <Checkbox checked={task.status === TASK_STATUS.Completed} size="small" onChange={onChangeHandler}/>
             <EditableSpan title={task.title} callback={changeTaskTitleHandler}/>
             <IconButton onClick={onClickButtonHandler} color="primary">
                 <DeleteIcon fontSize="small"/>

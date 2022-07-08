@@ -6,8 +6,8 @@ import {
     changeTaskTitleAC,
     removeTaskAC,
     setTasksAC
-} from './action-creators/action-creators';
-import {TaskPriority, TaskStatus} from '../api/todolist-api';
+} from '../action-creators/action-creators';
+import {TaskPriority, TASK_STATUS} from '../../../../dal/api/todolist-api';
 
 
 let startState: TasksStateType;
@@ -28,7 +28,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'HTML&CSS',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 priority: TaskPriority.Low,
                 todoListId: todolistId1,
                 description: '',
@@ -40,7 +40,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'JS',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 priority: TaskPriority.Low,
                 todoListId: todolistId1,
                 description: '',
@@ -52,7 +52,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'ReactJS',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 priority: TaskPriority.Low,
                 todoListId: todolistId1,
                 description: '',
@@ -64,7 +64,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'Rest API',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 priority: TaskPriority.Low,
                 todoListId: todolistId1,
                 description: '',
@@ -76,7 +76,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'GraphQL',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 priority: TaskPriority.Low,
                 todoListId: todolistId1,
                 description: '',
@@ -90,7 +90,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'HTML&CSS2',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 priority: TaskPriority.Low,
                 todoListId: todolistId2,
                 description: '',
@@ -102,7 +102,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'JS2',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 priority: TaskPriority.Low,
                 todoListId: todolistId2,
                 description: '',
@@ -114,7 +114,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'ReactJS2',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 priority: TaskPriority.Low,
                 todoListId: todolistId2,
                 description: '',
@@ -126,7 +126,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'Rest API2',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 priority: TaskPriority.Low,
                 todoListId: todolistId2,
                 description: '',
@@ -138,7 +138,7 @@ beforeEach(() => {
             {
                 id: v1(),
                 title: 'GraphQL2',
-                status: TaskStatus.Completed,
+                status: TASK_STATUS.Completed,
                 priority: TaskPriority.Low,
                 todoListId: todolistId2,
                 description: '',
@@ -170,7 +170,7 @@ test('correct task should be added', () => {
         order: 1,
         priority: TaskPriority.Low,
         startDate: '',
-        status: TaskStatus.New,
+        status: TASK_STATUS.New,
         title: taskName,
         todoListId: todolistId1
     };
@@ -193,10 +193,10 @@ test('correct task should change its name', () => {
 
 test('correct task should change its status', () => {
 
-    const endState = tasksReducer(startState, changeTaskStatusAC(todolistId1, startState[todolistId1][1].id, TaskStatus.New));
+    const endState = tasksReducer(startState, changeTaskStatusAC(todolistId1, startState[todolistId1][1].id, TASK_STATUS.New));
 
-    expect(endState[todolistId1][1].status).toBe(TaskStatus.New);
-    expect(endState[todolistId2][1].status).toBe(TaskStatus.Completed);
+    expect(endState[todolistId1][1].status).toBe(TASK_STATUS.New);
+    expect(endState[todolistId2][1].status).toBe(TASK_STATUS.Completed);
 });
 
 test('tasks should be correct set', () => {
@@ -205,7 +205,7 @@ test('tasks should be correct set', () => {
         {
             id: v1(),
             title: 'Test Task',
-            status: TaskStatus.Completed,
+            status: TASK_STATUS.Completed,
             priority: TaskPriority.Low,
             todoListId: todolistId2,
             description: '',

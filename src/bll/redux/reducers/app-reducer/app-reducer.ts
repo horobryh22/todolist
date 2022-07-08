@@ -1,20 +1,18 @@
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
-
-// enum REQUEST_STATUS {
-//     IDLE  = 'idle',
-//     LOADING = 'loading',
-//     SUCCESS = 'succeeded',
-//     FAILED = 'failed'
-// }
+export enum REQUEST_STATUS {
+    IDLE  = 'idle',
+    LOADING = 'loading',
+    SUCCESS = 'succeeded',
+    FAILED = 'failed'
+}
 
 const initialState = {
-    status: 'idle' as RequestStatusType,
+    status: 'idle' as REQUEST_STATUS,
     error: null as null | string
 }
 
-type InitialStateType = typeof initialState;
+export type AppStateType = typeof initialState;
 
-export const appReducer = (state: InitialStateType = initialState, action: ActionTypesApp): InitialStateType => {
+export const appReducer = (state: AppStateType = initialState, action: ActionTypesApp): AppStateType => {
     switch (action.type) {
         case 'APP/SET-STATUS':
             return {...state, status: action.payload.appStatus}
@@ -25,7 +23,7 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
     }
 }
 
-export const setAppStatusAC = (appStatus: RequestStatusType) => {
+export const setAppStatusAC = (appStatus: REQUEST_STATUS) => {
     return {
         type: 'APP/SET-STATUS',
         payload: {

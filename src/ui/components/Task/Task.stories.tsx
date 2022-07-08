@@ -1,8 +1,8 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
 import {Task} from './Task';
-import {ReduxStoreProviderDecorator} from '../../ReduxStoreProviderDecorator';
-import {useTypedSelector} from '../../hooks/hooks';
+import {ReduxStoreProviderDecorator} from '../../../bll/ReduxStoreProviderDecorator';
+import {useTypedSelector} from '../../../bll/hooks/hooks';
 
 
 export default {
