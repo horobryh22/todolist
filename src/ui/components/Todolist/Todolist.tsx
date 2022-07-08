@@ -67,7 +67,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(({todolist}) => 
     return (
         <div>
             <h3>
-                <EditableSpan title={todolist.title} callback={changeTodolistNameHandler}/>
+                <EditableSpan title={todolist.title} callback={changeTodolistNameHandler} disabled={disabledCondition}/>
                 <IconButton
                     onClick={removeTodolistHandler}
                     color="primary"
