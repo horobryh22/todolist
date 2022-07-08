@@ -50,7 +50,8 @@ beforeEach(() => {
                 deadline: '',
                 description: '',
                 priority: TaskPriority.Low,
-                todoListId: todolistId1
+                todoListId: todolistId1,
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -62,7 +63,8 @@ beforeEach(() => {
                 deadline: '',
                 description: '',
                 priority: TaskPriority.Low,
-                todoListId: todolistId1
+                todoListId: todolistId1,
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -74,7 +76,8 @@ beforeEach(() => {
                 deadline: '',
                 description: '',
                 priority: TaskPriority.Low,
-                todoListId: todolistId1
+                todoListId: todolistId1,
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -86,7 +89,8 @@ beforeEach(() => {
                 deadline: '',
                 description: '',
                 priority: TaskPriority.Low,
-                todoListId: todolistId1
+                todoListId: todolistId1,
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -98,7 +102,8 @@ beforeEach(() => {
                 deadline: '',
                 description: '',
                 priority: TaskPriority.Low,
-                todoListId: todolistId1
+                todoListId: todolistId1,
+                entityStatus: REQUEST_STATUS.IDLE
             },
         ],
         [todolistId2]: [
@@ -112,7 +117,8 @@ beforeEach(() => {
                 deadline: '',
                 description: '',
                 priority: TaskPriority.Low,
-                todoListId: todolistId2
+                todoListId: todolistId2,
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -124,7 +130,8 @@ beforeEach(() => {
                 deadline: '',
                 description: '',
                 priority: TaskPriority.Low,
-                todoListId: todolistId2
+                todoListId: todolistId2,
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -136,7 +143,8 @@ beforeEach(() => {
                 deadline: '',
                 description: '',
                 priority: TaskPriority.Low,
-                todoListId: todolistId2
+                todoListId: todolistId2,
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -148,7 +156,8 @@ beforeEach(() => {
                 deadline: '',
                 description: '',
                 priority: TaskPriority.Low,
-                todoListId: todolistId2
+                todoListId: todolistId2,
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -160,7 +169,8 @@ beforeEach(() => {
                 deadline: '',
                 description: '',
                 priority: TaskPriority.Low,
-                todoListId: todolistId2
+                todoListId: todolistId2,
+                entityStatus: REQUEST_STATUS.IDLE
             },
         ]
     }

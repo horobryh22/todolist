@@ -5,9 +5,11 @@ import {
     changeTaskStatusAC,
     changeTaskTitleAC,
     removeTaskAC,
+    setTaskEntityStatusAC,
     setTasksAC
 } from '../action-creators/action-creators';
-import {TaskPriority, TASK_STATUS} from '../../../../dal/api/todolist-api';
+import {TASK_STATUS, TaskPriority} from '../../../../dal/api/todolist-api';
+import {REQUEST_STATUS} from '../app-reducer/app-reducer';
 
 
 let startState: TasksStateType;
@@ -35,7 +37,8 @@ beforeEach(() => {
                 deadline: '',
                 startDate: '',
                 addedDate: '',
-                order: 1
+                order: 1,
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -47,7 +50,8 @@ beforeEach(() => {
                 deadline: '',
                 startDate: '',
                 addedDate: '',
-                order: 1
+                order: 1,
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -59,7 +63,8 @@ beforeEach(() => {
                 deadline: '',
                 startDate: '',
                 addedDate: '',
-                order: 1
+                order: 1,
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -71,7 +76,8 @@ beforeEach(() => {
                 deadline: '',
                 startDate: '',
                 addedDate: '',
-                order: 1
+                order: 1,
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -83,7 +89,8 @@ beforeEach(() => {
                 deadline: '',
                 startDate: '',
                 addedDate: '',
-                order: 1
+                order: 1,
+                entityStatus: REQUEST_STATUS.IDLE
             },
         ],
         [todolistId2]: [
@@ -97,7 +104,8 @@ beforeEach(() => {
                 deadline: '',
                 startDate: '',
                 addedDate: '',
-                order: 1
+                order: 1,
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -109,7 +117,8 @@ beforeEach(() => {
                 deadline: '',
                 startDate: '',
                 addedDate: '',
-                order: 1
+                order: 1,
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -121,7 +130,8 @@ beforeEach(() => {
                 deadline: '',
                 startDate: '',
                 addedDate: '',
-                order: 1
+                order: 1,
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -133,7 +143,8 @@ beforeEach(() => {
                 deadline: '',
                 startDate: '',
                 addedDate: '',
-                order: 1
+                order: 1,
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -145,7 +156,8 @@ beforeEach(() => {
                 deadline: '',
                 startDate: '',
                 addedDate: '',
-                order: 1
+                order: 1,
+                entityStatus: REQUEST_STATUS.IDLE
             },
         ],
         [todolistId3]: []
@@ -215,8 +227,16 @@ test('tasks should be correct set', () => {
             order: 1
         },
     ]
-    const endState = tasksReducer(startState, setTasksAC(todolistId3,tasks));
+    const endState = tasksReducer(startState, setTasksAC(todolistId3, tasks));
 
     expect(endState[todolistId3].length).toBe(1);
     expect(endState[todolistId3][0].title).toBe('Test Task');
+});
+
+test('tasks entity status should be set correct', () => {
+
+    const endState = tasksReducer(startState,
+        setTaskEntityStatusAC(todolistId2, startState[todolistId2][0].id, REQUEST_STATUS.LOADING));
+
+    expect(endState[todolistId2][0].entityStatus).toBe(REQUEST_STATUS.LOADING);
 });

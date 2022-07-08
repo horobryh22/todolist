@@ -27,6 +27,16 @@ const setTodolistEntityStatusAC = (todolistId: string, entityStatus: REQUEST_STA
         }
     } as const
 };
+const setTaskEntityStatusAC = (todolistId: string, taskId: string, entityStatus: REQUEST_STATUS) => {
+    return {
+        type: 'SET-TASK-ENTITY-STATUS',
+        payload: {
+            taskId,
+            todolistId,
+            entityStatus
+        }
+    } as const
+};
 const setTodolistsAC = (todolists: TodolistType[]) => {
     return {
         type: 'SET-TODOLISTS',
@@ -111,5 +121,6 @@ export {
     changeTaskTitleAC,
     setTodolistsAC,
     setTasksAC,
-    setTodolistEntityStatusAC
+    setTodolistEntityStatusAC,
+    setTaskEntityStatusAC
 }

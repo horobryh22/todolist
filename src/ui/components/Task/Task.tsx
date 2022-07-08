@@ -3,16 +3,24 @@ import {useTypedDispatch} from '../../../bll/hooks/hooks';
 import {Checkbox, IconButton} from '@mui/material';
 import {EditableSpan} from '../EditableSpan/EditableSpan';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {removeTaskTC, updateTaskStatusTC, updateTaskTitleTC} from '../../../bll/redux/reducers/tasks-reducer/tasks-reducer';
-import {TASK_STATUS, TaskType} from '../../../dal/api/todolist-api';
+import {
+    removeTaskTC,
+    TaskDomainType,
+    updateTaskStatusTC,
+    updateTaskTitleTC
+} from '../../../bll/redux/reducers/tasks-reducer/tasks-reducer';
+import {TASK_STATUS} from '../../../dal/api/todolist-api';
+import {REQUEST_STATUS} from '../../../bll/redux/reducers/app-reducer/app-reducer';
 
 export type TaskPropsType = {
     todolistId: string
-    task: TaskType
+    task: TaskDomainType
 }
 export const Task: React.FC<TaskPropsType> = React.memo(({task, todolistId}) => {
 
     const dispatch = useTypedDispatch();
+
+    const disabledCondition = task.entityStatus === REQUEST_STATUS.LOADING;
 
     const onClickButtonHandler = useCallback(() => {
         dispatch(removeTaskTC(todolistId, task.id))
@@ -32,9 +40,10 @@ export const Task: React.FC<TaskPropsType> = React.memo(({task, todolistId}) => 
     return (
         <li className={taskClass} style={{listStyleType: 'none'}}
             key={task.id}>
-            <Checkbox checked={task.status === TASK_STATUS.Completed} size="small" onChange={onChangeHandler}/>
-            <EditableSpan title={task.title} callback={changeTaskTitleHandler}/>
-            <IconButton onClick={onClickButtonHandler} color="primary">
+            <Checkbox checked={task.status === TASK_STATUS.Completed} size="small" onChange={onChangeHandler}
+                      disabled={disabledCondition}/>
+            <EditableSpan title={task.title} callback={changeTaskTitleHandler} disabled={disabledCondition}/>
+            <IconButton onClick={onClickButtonHandler} color="primary" disabled={disabledCondition}>
                 <DeleteIcon fontSize="small"/>
             </IconButton>
         </li>

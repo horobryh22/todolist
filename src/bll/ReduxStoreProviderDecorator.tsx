@@ -31,7 +31,8 @@ const initialGlobalState: AppRootState = {
                 deadline: '',
                 priority: TaskPriority.Low,
                 startDate: '',
-                todoListId: 'todolistId1'
+                todoListId: 'todolistId1',
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -43,7 +44,8 @@ const initialGlobalState: AppRootState = {
                 deadline: '',
                 priority: TaskPriority.Low,
                 startDate: '',
-                todoListId: 'todolistId1'
+                todoListId: 'todolistId1',
+                entityStatus: REQUEST_STATUS.IDLE
             }
         ],
         ['todolistId2']: [
@@ -57,7 +59,8 @@ const initialGlobalState: AppRootState = {
                 deadline: '',
                 priority: TaskPriority.Low,
                 startDate: '',
-                todoListId: 'todolistId2'
+                todoListId: 'todolistId2',
+                entityStatus: REQUEST_STATUS.IDLE
             },
             {
                 id: v1(),
@@ -69,7 +72,8 @@ const initialGlobalState: AppRootState = {
                 deadline: '',
                 priority: TaskPriority.Low,
                 startDate: '',
-                todoListId: 'todolistId2'
+                todoListId: 'todolistId2',
+                entityStatus: REQUEST_STATUS.IDLE
             }
         ]
     },
