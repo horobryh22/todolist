@@ -1,74 +1,49 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
-import {Todolist} from './components/Todolist/Todolist';
-import {FullInput} from './components/Todolist/FullInput/FullInput';
 import {ButtonAppBar} from './components/ButtonAppBar/ButtonAppBar';
-import {Container, css, Grid, LinearProgress, Paper, styled} from '@mui/material';
-import {useTypedDispatch, useTypedSelector} from '../bll/hooks/hooks';
-import {addTodolistTC, getTodolistsTC} from '../bll/redux/reducers/todolists-reducer/todolists-reducer';
+import {CircularProgress, Container, Grid, LinearProgress} from '@mui/material';
+import {useTypedDispatch, useTypedSelector} from 'bll/hooks/hooks';
 import {ErrorSnackbar} from './components/ErrorSnackbar/ErrorSnackbar';
-import {REQUEST_STATUS} from '../bll/redux/reducers/app-reducer/app-reducer';
+import {
+    initializeAppTC,
+    REQUEST_STATUS
+} from 'bll/redux/reducers/app-reducer/app-reducer';
+import {Login} from 'ui/components/Login/Login';
+import {Navigate, Route, Routes} from 'react-router-dom';
+import {TodolistsList} from 'ui/components/TodolistsList/TodolistsList';
 
-type StyledPaperProps = {
-    primary?: {
-        hasDifferentStyle: boolean
-    }
-}
-
-const StyledPaper = styled(Paper, {})<StyledPaperProps>`
-  background-color: red;
-  ${({primary: hasDifferentStyle}) => hasDifferentStyle && css`
-    background: #4dad4d;
-    color: black;
-  `}
-`;
 
 export const App = () => {
 
     const dispatch = useTypedDispatch();
-    const todolists = useTypedSelector(state => state.todolists);
+
     const status = useTypedSelector(state => state.app.status);
+    const isInitialized = useTypedSelector(state => state.app.isInitialized);
 
-    const addTodolist = useCallback((todolistTitle: string) => {
-        dispatch(addTodolistTC(todolistTitle));
-    }, []);
-
-    const mappedTodolists = todolists.map(tl => {
-        return (
-            <Grid item xs={3} key={tl.id}>
-                <StyledPaper primary={{hasDifferentStyle: true}} elevation={8} style={{padding: '20px'}}>
-                    <Todolist
-                        todolist={tl}
-                        key={tl.id}
-                    />
-                </StyledPaper>
-            </Grid>
-        )
-    });
 
     useEffect(() => {
-        dispatch(getTodolistsTC());
-    }, []);
+        dispatch(initializeAppTC());
+    }, [])
+
+    if (!isInitialized) {
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
+    }
 
     return (
         <div>
             {status === REQUEST_STATUS.LOADING && <LinearProgress color="secondary"/>}
             <ButtonAppBar/>
             <Container fixed>
-                <Grid container>
-                    <Grid
-                        container
-                        justifyContent="center"
-                        item xs={12}>
-                        <FullInput
-                            disabled={false}
-                            callback={addTodolist}
-                            buttonName={'+'}
-                        />
-                    </Grid>
-                    <Grid container spacing={2} style={{paddingTop: '40px'}}>
-                        {mappedTodolists}
-                    </Grid>
+                <Grid container justifyContent={'center'}>
+                    <Routes>
+                        <Route path={'/'} element={<TodolistsList/>}/>
+                        <Route path={'/login'} element={<Login/>}/>
+                        <Route path={'/404'} element={<h1>404: PAGE NOT FOUND</h1>}/>
+                        <Route path={'*'} element={<Navigate to={'/404'}/>}/>
+                    </Routes>
                 </Grid>
                 <ErrorSnackbar/>
             </Container>

@@ -5,7 +5,7 @@ import {v1} from 'uuid'
 import {tasksReducer} from './redux/reducers/tasks-reducer/tasks-reducer';
 import {todolistsReducer} from './redux/reducers/todolists-reducer/todolists-reducer';
 import {AppRootState} from './redux/store';
-import {TaskPriority, TASK_STATUS} from '../dal/api/todolist-api';
+import {TaskPriority, TASK_STATUS} from 'dal/api/todolist-api';
 import {appReducer, REQUEST_STATUS} from './redux/reducers/app-reducer/app-reducer';
 
 const rootReducer = combineReducers({
@@ -79,7 +79,11 @@ const initialGlobalState: AppRootState = {
     },
     app: {
         status: REQUEST_STATUS.IDLE,
-        error: null
+        error: null,
+        isInitialized: false
+    },
+    auth: {
+        isLoggedIn: false
     }
 };
 

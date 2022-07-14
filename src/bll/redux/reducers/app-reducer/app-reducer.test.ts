@@ -9,7 +9,8 @@ beforeEach(() => {
 
     startState = {
         error: null,
-        status: REQUEST_STATUS.IDLE
+        status: REQUEST_STATUS.IDLE,
+        isInitialized: false
     }
 
 })

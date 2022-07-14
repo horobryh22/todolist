@@ -65,6 +65,13 @@ export type UpdateTaskModelType = {
     status: TASK_STATUS
 }
 
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe?: boolean
+    captcha?: string
+}
+
 export const todolistAPI = {
     updateTodolist(todolistId: string, title: string) {
         return instance.put<ResponseType>(
@@ -97,5 +104,23 @@ export const todolistAPI = {
     },
     deleteTask(todolistId: string, taskId: string) {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
+    }
+}
+
+type AuthResponseType = {
+    id: number
+    email: string
+    login: string
+}
+
+export const authAPI = {
+    login: (data: LoginParamsType) => {
+        return instance.post<ResponseType<{userId: number}>>(`auth/login`, data);
+    },
+    logout: () => {
+        return instance.delete<ResponseType>(`auth/login`);
+    },
+    me: () => {
+        return instance.get<ResponseType<AuthResponseType>>('auth/me');
     }
 }
