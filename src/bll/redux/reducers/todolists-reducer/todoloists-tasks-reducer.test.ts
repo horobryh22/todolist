@@ -1,7 +1,12 @@
 import {v1} from 'uuid';
 import {tasksReducer, TasksStateType} from '../tasks-reducer/tasks-reducer';
 import {TodolistDomainType, todolistsReducer} from './todolists-reducer';
-import {addTodolistAC, removeToDoListAC, setTodolistsAC} from '../action-creators/action-creators';
+import {
+    addTodolistAC,
+    clearAppData,
+    removeToDoListAC,
+    setTodolistsAC
+} from '../action-creators/action-creators';
 import {TaskPriority, TASK_STATUS} from '../../../../dal/api/todolist-api';
 import {REQUEST_STATUS} from '../app-reducer/app-reducer';
 
@@ -242,4 +247,16 @@ test('todolists and tasks should be set', () => {
     expect(endStateTodolists[1].title).toBe('What to eat');
     expect(endStateTasks[todolistId1]).toEqual([]);
     expect(endStateTasks[todolistId2]).toEqual([]);
+})
+
+test('todolists and tasks should be empty', () => {
+
+
+    const action = clearAppData();
+
+    const endStateTodolists = todolistsReducer(initialStateForTodolists, action);
+    const endStateTasks = tasksReducer(initialStateForTasks, action);
+
+    expect(endStateTodolists).toEqual([]);
+    expect(endStateTasks).toEqual({});
 })

@@ -2,6 +2,11 @@ import {TASK_STATUS, TaskType, TodolistType} from '../../../../dal/api/todolist-
 import {FilterValuesType} from '../todolists-reducer/todolists-reducer';
 import {REQUEST_STATUS} from '../app-reducer/app-reducer';
 
+const clearAppData = () => {
+    return {
+        type: 'CLEAR-APP-DATA',
+    } as const
+};
 const removeToDoListAC = (todolistID: string) => {
     return {
         type: 'REMOVE-TODOLIST',
@@ -122,5 +127,6 @@ export {
     setTodolistsAC,
     setTasksAC,
     setTodolistEntityStatusAC,
-    setTaskEntityStatusAC
+    setTaskEntityStatusAC,
+    clearAppData
 }

@@ -1,26 +1,32 @@
-import {AppDispatch} from 'bll/redux/store';
+import {AppDispatch, AppRootState} from 'bll/redux/store';
 import {REQUEST_STATUS, setAppStatusAC} from '../../reducers/app-reducer/app-reducer';
 import {FormikInitialValuesType} from 'ui/components/Login/Login';
 import {authAPI} from 'dal/api/todolist-api';
 import {handleServerAppError, handleServerNetworkError} from 'bll/utils/error-utils';
+import {
+    clearAppData,
+    removeToDoListAC,
+    setTodolistsAC
+} from 'bll/redux/reducers/action-creators/action-creators';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 
 const initialState = {
     isLoggedIn: false
 }
-type InitialStateType = typeof initialState
 
-export const authReducer = (state: InitialStateType = initialState, action: ActionsTypesAuth): InitialStateType => {
-    switch (action.type) {
-        case 'login/SET-IS-LOGGED-IN':
-            return {...state, isLoggedIn: action.value}
-        default:
-            return state
+
+export const slice = createSlice({
+    name: 'auth',
+    initialState: initialState,
+    reducers: {
+        setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
+            state.isLoggedIn = action.payload;
+        },
     }
-}
+})
 
-export const setIsLoggedInAC = (value: boolean) =>
-    ({type: 'login/SET-IS-LOGGED-IN', value} as const)
+export const authReducer = slice.reducer;
 
 export const loginTC = (data: FormikInitialValuesType) => async (dispatch: AppDispatch) => {
     try {
@@ -28,7 +34,7 @@ export const loginTC = (data: FormikInitialValuesType) => async (dispatch: AppDi
         const response = await authAPI.login(data);
         if (!response.data.resultCode) {
             dispatch(setAppStatusAC(REQUEST_STATUS.SUCCESS));
-            dispatch(setIsLoggedInAC(true));
+            dispatch(setIsLoggedIn(true));
         } else {
             handleServerAppError(response.data, dispatch);
         }
@@ -37,13 +43,14 @@ export const loginTC = (data: FormikInitialValuesType) => async (dispatch: AppDi
     }
 }
 
-export const logoutTC = () => async (dispatch: AppDispatch) => {
+export const logoutTC = () => async (dispatch: AppDispatch, store: any) => {
     try {
         dispatch(setAppStatusAC(REQUEST_STATUS.LOADING))
         const response = await authAPI.logout()
         if (response.data.resultCode === 0) {
-            dispatch(setIsLoggedInAC(false))
+            dispatch(setIsLoggedIn(false))
             dispatch(setAppStatusAC(REQUEST_STATUS.SUCCESS))
+            dispatch(clearAppData());
         } else {
             handleServerAppError(response.data, dispatch)
         }
@@ -52,4 +59,6 @@ export const logoutTC = () => async (dispatch: AppDispatch) => {
     }
 }
 
-export type ActionsTypesAuth = ReturnType<typeof setIsLoggedInAC>;
+export type ActionsTypesAuth = ReturnType<typeof setIsLoggedIn>;
+
+export const {setIsLoggedIn} = slice.actions;

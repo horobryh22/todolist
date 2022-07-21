@@ -10,6 +10,7 @@ import {todolistAPI, TodolistType} from '../../../../dal/api/todolist-api';
 import {AppDispatch, AppThunkType} from '../../store';
 import {REQUEST_STATUS, setAppStatusAC} from '../app-reducer/app-reducer';
 import {handleServerAppError, handleServerNetworkError} from '../../../utils/error-utils';
+import {getTasksTC} from 'bll/redux/reducers/tasks-reducer/tasks-reducer';
 
 export type ActionTypesTodolists =
     ReturnType<typeof actionCreators.removeToDoListAC>
@@ -17,7 +18,8 @@ export type ActionTypesTodolists =
     | ReturnType<typeof actionCreators.changeFilterAC>
     | ReturnType<typeof actionCreators.changeTodolistNameAC>
     | ReturnType<typeof actionCreators.setTodolistsAC>
-    | ReturnType<typeof actionCreators.setTodolistEntityStatusAC>;
+    | ReturnType<typeof actionCreators.setTodolistEntityStatusAC>
+    | ReturnType<typeof actionCreators.clearAppData>;
 
 export type FilterValuesType = 'all' | 'completed' | 'active';
 
@@ -53,6 +55,9 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
             return state.map(tl => tl.id === action.payload.todolistId
                 ? {...tl, entityStatus: action.payload.entityStatus}
                 : tl)
+        }
+        case 'CLEAR-APP-DATA': {
+            return []
         }
         default:
             return state;

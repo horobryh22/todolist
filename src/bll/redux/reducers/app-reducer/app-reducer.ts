@@ -1,7 +1,7 @@
 import {AppDispatch} from 'bll/redux/store';
-import {setIsLoggedInAC} from 'bll/redux/reducers/auth-reducer/auth-reducer';
 import {authAPI} from 'dal/api/todolist-api';
 import {handleServerAppError, handleServerNetworkError} from 'bll/utils/error-utils';
+import {setIsLoggedIn} from 'bll/redux/reducers/auth-reducer/auth-reducer';
 
 export enum REQUEST_STATUS {
     IDLE  = 'idle',
@@ -62,7 +62,7 @@ export const initializeAppTC = () => async (dispatch: AppDispatch) => {
     try {
         const response = await authAPI.me();
         if (response.data.resultCode === 0) {
-            dispatch(setIsLoggedInAC(true));
+            dispatch(setIsLoggedIn(true));
         } else {
             handleServerAppError(response.data, dispatch);
         }

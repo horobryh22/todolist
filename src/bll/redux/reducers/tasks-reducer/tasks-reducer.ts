@@ -23,7 +23,8 @@ export type ActionTypesReducer =
     | ReturnType<typeof addTodolistAC>
     | ReturnType<typeof actionCreators.setTodolistsAC>
     | ReturnType<typeof actionCreators.setTasksAC>
-    | ReturnType<typeof actionCreators.setTaskEntityStatusAC>;
+    | ReturnType<typeof actionCreators.setTaskEntityStatusAC>
+    | ReturnType<typeof actionCreators.clearAppData>;
 
 
 export type TaskDomainType = TaskType & {
@@ -43,6 +44,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
                     ? {...task,  entityStatus: action.payload.entityStatus}
                     : task)}
         case 'SET-TASKS':
+            debugger;
             return {
                 ...state,
                 [action.payload.todolistId]: action.payload.tasks.map(task => ({...task, entityStatus: REQUEST_STATUS.IDLE}))
@@ -80,11 +82,14 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             delete copyState[action.payload.todolistID];
             return copyState;
         case 'SET-TODOLISTS':
+            debugger;
             const newState = {...state};
             action.payload.todolists.forEach((tl) => {
                 newState[tl.id] = [];
             })
             return newState;
+        case 'CLEAR-APP-DATA':
+            return {}
         default:
             return state;
     }
