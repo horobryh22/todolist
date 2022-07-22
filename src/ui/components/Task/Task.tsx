@@ -1,5 +1,4 @@
 import React, {ChangeEvent, useCallback} from 'react';
-import {useTypedDispatch} from '../../../bll/hooks/hooks';
 import {Checkbox, IconButton} from '@mui/material';
 import {EditableSpan} from '../EditableSpan/EditableSpan';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -11,6 +10,7 @@ import {
 } from '../../../bll/redux/reducers/tasks-reducer/tasks-reducer';
 import {TASK_STATUS} from '../../../dal/api/todolist-api';
 import {REQUEST_STATUS} from '../../../bll/redux/reducers/app-reducer/app-reducer';
+import {useAppDispatch} from 'hooks';
 
 export type TaskPropsType = {
     todolistId: string
@@ -18,7 +18,7 @@ export type TaskPropsType = {
 }
 export const Task: React.FC<TaskPropsType> = React.memo(({task, todolistId}) => {
 
-    const dispatch = useTypedDispatch();
+    const dispatch = useAppDispatch();
 
     const disabledCondition = task.entityStatus === REQUEST_STATUS.LOADING;
 

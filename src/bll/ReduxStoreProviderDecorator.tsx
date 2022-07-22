@@ -4,9 +4,9 @@ import {combineReducers, createStore} from 'redux'
 import {v1} from 'uuid'
 import {tasksReducer} from './redux/reducers/tasks-reducer/tasks-reducer';
 import {todolistsReducer} from './redux/reducers/todolists-reducer/todolists-reducer';
-import {AppRootState} from './redux/store';
 import {TaskPriority, TASK_STATUS} from 'dal/api/todolist-api';
 import {appReducer, REQUEST_STATUS} from './redux/reducers/app-reducer/app-reducer';
+import {RootState} from 'bll/redux/store';
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
     app: appReducer
 })
 
-const initialGlobalState: AppRootState = {
+const initialGlobalState: RootState = {
     todolists: [
         {id: 'todolistId1', title: 'What to learn', filter: 'all', addedDate: '', order: 0, entityStatus: REQUEST_STATUS.IDLE},
         {id: 'todolistId2', title: 'What to buy', filter: 'all', addedDate: '', order: 0, entityStatus: REQUEST_STATUS.IDLE}

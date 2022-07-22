@@ -5,9 +5,10 @@ import {
 } from 'bll/redux/reducers/todolists-reducer/todolists-reducer';
 import {css, Grid, Paper, styled} from '@mui/material';
 import {Todolist} from 'ui/components/Todolist/Todolist';
-import {useTypedDispatch, useTypedSelector} from 'bll/hooks/hooks';
 import {FullInput} from 'ui/components/Todolist/FullInput/FullInput';
 import {Navigate} from 'react-router-dom';
+import {useAppSelector} from 'hooks/useTypedSelector/useTypedSelector';
+import {useAppDispatch} from 'hooks';
 
 type StyledPaperProps = {
     primary?: {
@@ -25,9 +26,9 @@ const StyledPaper = styled(Paper, {})<StyledPaperProps>`
 
 export const TodolistsList = () => {
 
-    const dispatch = useTypedDispatch();
-    const todolists = useTypedSelector(state => state.todolists);
-    const isLoggedIn = useTypedSelector(state => state.auth.isLoggedIn);
+    const dispatch = useAppDispatch();
+    const todolists = useAppSelector(state => state.todolists);
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
 
     const addTodolist = useCallback((todolistTitle: string) => {
         dispatch(addTodolistTC(todolistTitle));

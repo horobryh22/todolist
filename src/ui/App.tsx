@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import './App.css';
 import {ButtonAppBar} from './components/ButtonAppBar/ButtonAppBar';
 import {CircularProgress, Container, Grid, LinearProgress} from '@mui/material';
-import {useTypedDispatch, useTypedSelector} from 'bll/hooks/hooks';
 import {ErrorSnackbar} from './components/ErrorSnackbar/ErrorSnackbar';
 import {
     initializeAppTC,
@@ -11,14 +10,16 @@ import {
 import {Login} from 'ui/components/Login/Login';
 import {Navigate, Route, Routes} from 'react-router-dom';
 import {TodolistsList} from 'ui/components/TodolistsList/TodolistsList';
+import {useAppSelector} from 'hooks/useTypedSelector/useTypedSelector';
+import {useAppDispatch} from 'hooks';
 
 
 export const App = () => {
 
-    const dispatch = useTypedDispatch();
+    const dispatch = useAppDispatch();
 
-    const status = useTypedSelector(state => state.app.status);
-    const isInitialized = useTypedSelector(state => state.app.isInitialized);
+    const status = useAppSelector(state => state.app.status);
+    const isInitialized = useAppSelector(state => state.app.isInitialized);
 
 
     useEffect(() => {

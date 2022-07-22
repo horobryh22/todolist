@@ -2,13 +2,14 @@ import React, {useCallback, useEffect, useMemo} from 'react';
 import {EditableSpan} from '../EditableSpan/EditableSpan';
 import {Button, IconButton} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {useTypedDispatch, useTypedSelector} from '../../../bll/hooks/hooks';
-import {bindActionCreators} from 'redux';
-import * as actionCreators from '../../../bll/redux/reducers/action-creators/action-creators';
 import {Task} from '../Task/Task';
-import {addTaskTC, getTasksTC} from '../../../bll/redux/reducers/tasks-reducer/tasks-reducer';
+import {
+    addTaskTC,
+    getTasksTC
+} from '../../../bll/redux/reducers/tasks-reducer/tasks-reducer';
 import {TASK_STATUS} from '../../../dal/api/todolist-api';
 import {
+    changeFilter,
     FilterValuesType,
     removeTodolistTC,
     TodolistDomainType,
@@ -16,6 +17,8 @@ import {
 } from '../../../bll/redux/reducers/todolists-reducer/todolists-reducer';
 import {FullInput} from './FullInput/FullInput';
 import {REQUEST_STATUS} from '../../../bll/redux/reducers/app-reducer/app-reducer';
+import {useAppSelector} from 'hooks/useTypedSelector/useTypedSelector';
+import {useAppDispatch} from 'hooks';
 
 type TodolistPropsType = {
     todolist: TodolistDomainType
@@ -23,12 +26,10 @@ type TodolistPropsType = {
 
 export const Todolist: React.FC<TodolistPropsType> = React.memo(({todolist}) => {
 
-    const dispatch = useTypedDispatch();
+    const dispatch = useAppDispatch();
     const disabledCondition = todolist.entityStatus === REQUEST_STATUS.LOADING;
 
-    const {changeFilterAC: changeFilter} = bindActionCreators(actionCreators, dispatch);
-
-    const tasks = useTypedSelector(state => state.tasks[todolist.id]);
+    const tasks = useAppSelector(state => state.tasks[todolist.id]);
 
     const filteredTasks = useMemo(() => {
         return tasks.filter(task => {
@@ -42,10 +43,11 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(({todolist}) => 
         return <Task todolistId={todolist.id} task={task} key={task.id}/>
     });
 
-    const tasksListChanged = tasksList.length ? tasksList : <div>Нет никаких задач</div>;
+    const tasksListChanged = tasksList.length ? tasksList :
+        <div>Нет никаких задач</div>;
 
     const onClickHandler = useCallback((filter: FilterValuesType) => {
-        changeFilter(todolist.id, filter);
+        dispatch(changeFilter({todolistId: todolist.id, filter}))
     }, [todolist.id]);
 
     const removeTodolistHandler = useCallback(() => {
@@ -67,7 +69,8 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(({todolist}) => 
     return (
         <div>
             <h3>
-                <EditableSpan title={todolist.title} callback={changeTodolistNameHandler} disabled={disabledCondition}/>
+                <EditableSpan title={todolist.title} callback={changeTodolistNameHandler}
+                              disabled={disabledCondition}/>
                 <IconButton
                     onClick={removeTodolistHandler}
                     color="primary"
@@ -76,7 +79,8 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(({todolist}) => 
                     <DeleteIcon fontSize="medium"/>
                 </IconButton>
             </h3>
-            <FullInput callback={addTaskHandler} buttonName={'+'} disabled={disabledCondition}/>
+            <FullInput callback={addTaskHandler} buttonName={'+'}
+                       disabled={disabledCondition}/>
             <ul style={{padding: '0'}}>
                 {tasksListChanged}
             </ul>

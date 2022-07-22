@@ -6,14 +6,15 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import {useTypedDispatch, useTypedSelector} from 'bll/hooks/hooks';
 import {logoutTC} from 'bll/redux/reducers/auth-reducer/auth-reducer';
+import {useAppDispatch} from 'hooks';
+import {useAppSelector} from 'hooks/useTypedSelector/useTypedSelector';
 
 export const ButtonAppBar = React.memo(() => {
 
-    const dispatch = useTypedDispatch();
+    const dispatch = useAppDispatch();
 
-    const isLoggedIn = useTypedSelector(state => state.auth.isLoggedIn);
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
 
     const onClickHandler = () => {
         dispatch(logoutTC());

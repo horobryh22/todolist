@@ -1,6 +1,11 @@
-import {appReducer, AppStateType, REQUEST_STATUS, setAppErrorAC, setAppStatusAC} from './app-reducer';
+import {appReducer, REQUEST_STATUS, setAppError, setAppStatus} from './app-reducer';
+import {Nullable} from 'types';
 
-let startState: AppStateType;
+let startState: {
+    error: Nullable<string>,
+    status: REQUEST_STATUS,
+    isInitialized: boolean
+}
 let error: string;
 
 beforeEach(() => {
@@ -16,14 +21,14 @@ beforeEach(() => {
 })
 
 test('correct app status should be set', () => {
-    const endState = appReducer(startState, setAppStatusAC(REQUEST_STATUS.LOADING));
+    const endState = appReducer(startState, setAppStatus(REQUEST_STATUS.LOADING));
 
     expect(endState.status).toBe(REQUEST_STATUS.LOADING);
     expect(endState.error).toBeNull();
 });
 
 test('the error should be set inside app state', () => {
-    const endState = appReducer(startState, setAppErrorAC(error));
+    const endState = appReducer(startState, setAppError(error));
 
     expect(endState.error).toBe(error);
     expect(endState.status).toBe(REQUEST_STATUS.IDLE);

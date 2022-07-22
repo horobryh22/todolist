@@ -1,15 +1,9 @@
-import {combineReducers} from 'redux';
-import {
-    ActionTypesTodolists,
-    todolistsReducer
-} from './reducers/todolists-reducer/todolists-reducer';
-import {ActionTypesReducer, tasksReducer} from './reducers/tasks-reducer/tasks-reducer';
-import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk';
-import {ActionTypesApp, appReducer} from 'bll/redux/reducers/app-reducer/app-reducer';
-import {
-    ActionsTypesAuth,
-    authReducer
-} from 'bll/redux/reducers/auth-reducer/auth-reducer';
+import {Action, AnyAction, combineReducers} from 'redux';
+import {todolistsReducer} from './reducers/todolists-reducer/todolists-reducer';
+import {tasksReducer} from './reducers/tasks-reducer/tasks-reducer';
+import thunk, {ThunkDispatch} from 'redux-thunk';
+import {appReducer} from 'bll/redux/reducers/app-reducer/app-reducer';
+import {authReducer} from 'bll/redux/reducers/auth-reducer/auth-reducer';
 import {configureStore} from '@reduxjs/toolkit';
 import {logger} from 'redux-logger';
 
@@ -28,14 +22,18 @@ export const store = configureStore({
             .concat(logger)
 })
 
-export type AppRootState = ReturnType<typeof store.getState>;
-export type AppActionsType =
-    ActionTypesReducer
-    | ActionTypesTodolists
-    | ActionTypesApp
-    | ActionsTypesAuth;
-export type AppDispatch = ThunkDispatch<AppRootState, unknown, AppActionsType>;
-export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, AppRootState, unknown, AppActionsType>;
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+
+type ThunkAction<R, // Return type of the thunk function
+    S, // state type used by getState
+    E, // any "extra argument" injected into the thunk
+    A extends Action // known types of actions that can be dispatched
+    > = (dispatch: ThunkDispatch<S, E, A>, getState: () => S, extraArgument: E) => R
+
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, AnyAction>;
 
 
 

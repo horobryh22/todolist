@@ -4,14 +4,16 @@ import {
     Checkbox,
     FormControl,
     FormControlLabel,
-    FormGroup, FormLabel,
+    FormGroup,
+    FormLabel,
     Grid,
     TextField
 } from '@mui/material';
 import {useFormik} from 'formik';
 import {loginTC} from 'bll/redux/reducers/auth-reducer/auth-reducer';
-import {useTypedDispatch, useTypedSelector} from 'bll/hooks/hooks';
 import {Navigate} from 'react-router-dom';
+import {useAppSelector} from 'hooks/useTypedSelector/useTypedSelector';
+import {useAppDispatch} from 'hooks';
 
 type FormikErrorType = {
     email?: string
@@ -44,9 +46,9 @@ const validate = (values: FormikInitialValuesType) => {
 
 export const Login = () => {
 
-    const dispatch = useTypedDispatch();
+    const dispatch = useAppDispatch();
 
-    const isLoggedIn = useTypedSelector(state => state.auth.isLoggedIn);
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
 
     const formik = useFormik({
         initialValues: {

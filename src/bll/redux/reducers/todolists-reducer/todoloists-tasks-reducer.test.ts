@@ -1,12 +1,12 @@
 import {v1} from 'uuid';
 import {tasksReducer, TasksStateType} from '../tasks-reducer/tasks-reducer';
-import {TodolistDomainType, todolistsReducer} from './todolists-reducer';
 import {
-    addTodolistAC,
+    addTodolist,
     clearAppData,
-    removeToDoListAC,
-    setTodolistsAC
-} from '../action-creators/action-creators';
+    removeTodolist, setTodolists,
+    TodolistDomainType,
+    todolistsReducer
+} from './todolists-reducer';
 import {TaskPriority, TASK_STATUS} from '../../../../dal/api/todolist-api';
 import {REQUEST_STATUS} from '../app-reducer/app-reducer';
 
@@ -183,8 +183,8 @@ beforeEach(() => {
 
 test('todolist and its tasks should be removed', () => {
 
-    const endStateTodolists = todolistsReducer(initialStateForTodolists, removeToDoListAC(todolistId1));
-    const endStateTasks = tasksReducer(initialStateForTasks, removeToDoListAC(todolistId1));
+    const endStateTodolists = todolistsReducer(initialStateForTodolists, removeTodolist({todolistId: todolistId1}));
+    const endStateTasks = tasksReducer(initialStateForTasks, removeTodolist({todolistId: todolistId1}));
 
     expect(endStateTasks).not.toBe(initialStateForTasks);
     expect(endStateTasks).not.toBe(initialStateForTasks);
@@ -203,8 +203,8 @@ test('todolist and tasks should be created and added', () => {
         title: 'What to study'
     }
 
-    const endStateTodolists = todolistsReducer(initialStateForTodolists, addTodolistAC(todolist));
-    const endStateTasks = tasksReducer(initialStateForTasks, addTodolistAC(todolist));
+    const endStateTodolists = todolistsReducer(initialStateForTodolists, addTodolist({todolist}));
+    const endStateTasks = tasksReducer(initialStateForTasks, addTodolist({todolist}));
 
     const keys = Object.keys(endStateTasks);
     const newKey = keys.find(k => k !== todolistId1 && k !== todolistId2);
@@ -237,7 +237,7 @@ test('todolists and tasks should be set', () => {
             title: 'What to eat'
         }
     ]
-    const action = setTodolistsAC(todolists);
+    const action = setTodolists({todolists});
 
     const endStateTodolists = todolistsReducer(initialStateForTodolists, action);
     const endStateTasks = tasksReducer(initialStateForTasks, action);

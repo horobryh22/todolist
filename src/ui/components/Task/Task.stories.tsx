@@ -2,7 +2,7 @@ import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
 import {Task} from './Task';
 import {ReduxStoreProviderDecorator} from '../../../bll/ReduxStoreProviderDecorator';
-import {useTypedSelector} from '../../../bll/hooks/hooks';
+import {useAppSelector} from 'hooks';
 
 
 export default {
@@ -22,7 +22,7 @@ export default {
 
 const TaskWithDispatch = (props: any) => { // на случай если еще захочу прокидывать в нее еще что-то кроме того, что берем из Redux
 
-    const task = useTypedSelector(state => state.tasks['todolistId1'][0]);
+    const task = useAppSelector(state => state.tasks['todolistId1'][0]);
 
     return (
         <Task todolistId={'todolistId1'} task={task} {...props}/>
