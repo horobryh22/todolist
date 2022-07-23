@@ -1,9 +1,8 @@
-import {AppDispatch, AppThunk, RootState} from '../../store';
+import {AppThunk, RootState} from '../../store';
 import {TASK_STATUS, TaskType, todolistAPI} from '../../../../dal/api/todolist-api';
 import {REQUEST_STATUS, setAppStatus} from '../app-reducer/app-reducer';
 import {handleServerAppError, handleServerNetworkError} from '../../../utils/error-utils';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {AnyAction} from 'redux'
 
 import {
     addTodolist,
@@ -27,18 +26,20 @@ export const tasksSlice = createSlice({
     initialState,
     reducers: {
         setTaskEntityStatus: (state, action: PayloadAction<{ todolistId: string, taskId: string, entityStatus: REQUEST_STATUS }>) => {
-            state[action.payload.todolistId] = state[action.payload.todolistId].map(task => task.id === action.payload.taskId
-                ? {...task, entityStatus: action.payload.entityStatus}
-                : task)
+            const task = state[action.payload.todolistId].find(task => task.id === action.payload.taskId);
+            if (task) task.entityStatus = action.payload.entityStatus;
         },
         setTasks: (state, action: PayloadAction<{ todolistId: string, tasks: TaskType[] }>) => {
-            state[action.payload.todolistId] = action.payload.tasks.map(task => ({
-                ...task,
-                entityStatus: REQUEST_STATUS.IDLE
-            }))
+            action.payload.tasks.forEach(task => (
+                state[action.payload.todolistId].push({
+                    ...task,
+                    entityStatus: REQUEST_STATUS.IDLE
+                })
+            ))
         },
         removeTask: (state, action: PayloadAction<{ todolistID: string, taskId: string }>) => {
-            state[action.payload.todolistID] = state[action.payload.todolistID].filter(el => el.id !== action.payload.taskId)
+            const index = state[action.payload.todolistID].findIndex(el => el.id === action.payload.taskId);
+            state[action.payload.todolistID].splice(index, 1);
         },
         addTask: (state, action: PayloadAction<{ task: TaskType }>) => {
             state[action.payload.task.todoListId].unshift({
@@ -47,16 +48,12 @@ export const tasksSlice = createSlice({
             })
         },
         changeTaskStatus: (state, action: PayloadAction<{ todolistID: string, taskId: string, status: TASK_STATUS }>) => {
-            state[action.payload.todolistID] = state[action.payload.todolistID].map(el => el.id === action.payload.taskId ? {
-                ...el,
-                status: action.payload.status
-            } : el)
+            const task = state[action.payload.todolistID].find(el => el.id === action.payload.taskId);
+            if (task) task.status = action.payload.status;
         },
         changeTaskTitle: (state, action: PayloadAction<{ todolistId: string, taskId: string, newTitle: string }>) => {
-            state[action.payload.todolistId] = state[action.payload.todolistId].map(el => el.id === action.payload.taskId ? {
-                ...el,
-                title: action.payload.newTitle
-            } : el)
+            const task = state[action.payload.todolistId].find(el => el.id === action.payload.taskId);
+            if (task) task.title = action.payload.newTitle;
         },
     },
     extraReducers: builder => {

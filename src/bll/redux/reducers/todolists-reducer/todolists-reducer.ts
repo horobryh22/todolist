@@ -18,7 +18,8 @@ export const todolistsSlice = createSlice({
     initialState,
     reducers: {
         removeTodolist: (state, action: PayloadAction<{ todolistId: string }>) => {
-            return state.filter(td => td.id !== action.payload.todolistId);
+            const index = state.findIndex(td => td.id === action.payload.todolistId);
+            state.splice(index, 1);
         },
         addTodolist: (state, action: PayloadAction<{ todolist: TodolistType }>) => {
             state.unshift({
@@ -28,29 +29,28 @@ export const todolistsSlice = createSlice({
             })
         },
         changeFilter: (state, action: PayloadAction<{ todolistId: string, filter: FilterValuesType }>) => {
-            return state.map(td => td.id === action.payload.todolistId
-                ? {...td, filter: action.payload.filter}
-                : td);
+            const todolist = state.find(td => td.id === action.payload.todolistId);
+            if (todolist) todolist.filter = action.payload.filter;
         },
         changeTodolistTitle: (state, action: PayloadAction<{ todolistId: string, title: string }>) => {
-            return state.map(td => td.id === action.payload.todolistId
-                ? {...td, title: action.payload.title}
-                : td);
+            const todolist = state.find(td => td.id === action.payload.todolistId);
+            if (todolist) todolist.title = action.payload.title;
         },
         setTodolists: (state, action: PayloadAction<{ todolists: TodolistType[] }>) => {
-            return action.payload.todolists.map(tl => ({
-                ...tl,
-                filter: 'all',
-                entityStatus: REQUEST_STATUS.IDLE
-            }));
+            action.payload.todolists.forEach(tl => {
+                state.push({
+                    ...tl,
+                    filter: 'all',
+                    entityStatus: REQUEST_STATUS.IDLE
+                })
+            });
         },
         setTodolistEntityStatus: (state, action: PayloadAction<{ todolistId: string, entityStatus: REQUEST_STATUS }>) => {
-            return state.map(tl => tl.id === action.payload.todolistId
-                ? {...tl, entityStatus: action.payload.entityStatus}
-                : tl)
+            const todolist = state.find(td => td.id === action.payload.todolistId);
+            if (todolist) todolist.entityStatus = action.payload.entityStatus;
         },
         clearAppData: () => {
-            return []
+            return [];
         }
     }
 })
