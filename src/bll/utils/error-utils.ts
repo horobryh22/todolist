@@ -4,7 +4,7 @@ import {
     setAppError,
     setAppStatus
 } from '../redux/reducers/app-reducer/app-reducer';
-import {AppDispatch, AppThunk, RootState} from '../redux/store';
+import {RootState} from '../redux/store';
 import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
 
