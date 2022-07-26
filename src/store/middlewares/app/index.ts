@@ -1,0 +1,1 @@
+export {initializeAppTC} from './initializeApp'
