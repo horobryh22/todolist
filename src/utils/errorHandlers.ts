@@ -1,5 +1,5 @@
-import {ResponseType} from 'api/todolists/todolistsAPI';
 import {ThunkDispatch} from 'redux-thunk';
+import {ResponseType} from 'api/types';
 import {AnyAction} from 'redux';
 import {RootState, setAppError, setAppStatus} from 'store';
 import {REQUEST_STATUS} from 'enums';

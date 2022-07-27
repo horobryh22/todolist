@@ -1,8 +1,8 @@
-import {REQUEST_STATUS} from 'enums';
-import {handleServerAppError, handleServerNetworkError} from 'utils/errorHandlers';
+import {handleServerAppError, handleServerNetworkError} from 'utils';
 import {FormikInitialValuesType} from 'components/login';
-import {AppDispatch} from 'store/types';
 import {authAPI} from 'api';
+import {AppDispatch} from 'store/types';
+import {REQUEST_STATUS} from 'enums';
 import {setAppStatus, setIsLoggedIn} from 'store/reducers';
 
 export const loginTC = (data: FormikInitialValuesType) => async (dispatch: AppDispatch) => {

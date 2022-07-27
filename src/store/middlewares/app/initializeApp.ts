@@ -1,8 +1,7 @@
-import {authAPI} from 'api/todolists/todolistsAPI';
-
-import {handleServerAppError, handleServerNetworkError} from 'utils/errorHandlers';
-import {AppDispatch} from 'store/types';
 import {setIsInitialized, setIsLoggedIn} from 'store/reducers';
+import {handleServerAppError, handleServerNetworkError} from 'utils';
+import {authAPI} from 'api';
+import {AppDispatch} from 'store/types';
 
 export const initializeAppTC = () => async (dispatch: AppDispatch) => {
     try {

@@ -1,9 +1,8 @@
-import {AppThunk} from 'store/store';
-import {setAppStatus} from 'store/reducers/app/app';
+import {setAppStatus, setTasks} from 'store/reducers';
+import {handleServerNetworkError} from 'utils';
+import {AppThunk} from 'store/types';
 import {REQUEST_STATUS} from 'enums';
-import {todolistsAPI} from 'api/todolists/todolistsAPI';
-import {handleServerNetworkError} from 'utils/errorHandlers';
-import {setTasks} from 'store/reducers/tasks/tasks';
+import {todolistsAPI} from 'api';
 
 export const getTasksTC = (todolistId: string): AppThunk => async (dispatch) => {
     try {

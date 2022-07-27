@@ -5,9 +5,9 @@ import {
     addTodolist,
     clearAppData,
     removeTodolist,
-    setTodolists
+    setTodolists,
+    TaskStateType
 } from 'store/reducers';
-import {TaskStateType} from 'store/reducers';
 import {TaskType} from 'types';
 
 
@@ -70,8 +70,8 @@ const tasksSlice = createSlice({
 export default tasksSlice.reducer;
 
 export const {
-    removeTask,
     addTask,
+    removeTask,
     changeTaskStatus,
     changeTaskTitle,
     setTaskEntityStatus,

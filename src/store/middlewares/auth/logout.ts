@@ -1,12 +1,11 @@
-import {AppDispatch} from 'store/store';
-import {setAppStatus} from 'store/reducers/app/app';
+import {handleServerAppError, handleServerNetworkError} from 'utils';
+import {authAPI} from 'api';
+import {clearAppData, setAppStatus, setIsLoggedIn} from 'store/reducers';
+import {AppDispatch} from 'store/types';
 import {REQUEST_STATUS} from 'enums';
-import {authAPI} from 'api/todolists/todolistsAPI';
-import {clearAppData} from 'store/reducers/todolists/todolists';
-import {handleServerAppError, handleServerNetworkError} from 'utils/errorHandlers';
-import {setIsLoggedIn} from 'store/reducers/auth/auth';
 
-export const logoutTC = () => async (dispatch: AppDispatch, store: any) => {
+
+export const logoutTC = () => async (dispatch: AppDispatch) => {
     try {
         dispatch(setAppStatus(REQUEST_STATUS.LOADING))
         const response = await authAPI.logout()

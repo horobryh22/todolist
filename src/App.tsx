@@ -1,17 +1,10 @@
 import React, {useEffect} from 'react';
-import 'App.css';
-import {ButtonAppBar} from 'components/buttonAppBar/ButtonAppBar';
 import {CircularProgress, Container, Grid, LinearProgress} from '@mui/material';
-import {ErrorSnackbar} from 'components/errorSnackbar/ErrorSnackbar';
-import {
-    initializeAppTC,
-    REQUEST_STATUS
-} from 'store/reducers/app/app';
-import {Login} from 'components/login/Login';
 import {Navigate, Route, Routes} from 'react-router-dom';
-import {TodolistsList} from 'components/todolistsList/TodolistsList';
-import {useAppSelector} from 'hooks/useAppSelector/useAppSelector';
-import {useAppDispatch} from 'hooks';
+import {useAppDispatch, useAppSelector} from 'hooks';
+import {ButtonAppBar, ErrorSnackbar, Login, TodolistsList} from 'components';
+import {REQUEST_STATUS} from 'enums';
+import {initializeAppTC} from 'store';
 
 
 export const App = () => {

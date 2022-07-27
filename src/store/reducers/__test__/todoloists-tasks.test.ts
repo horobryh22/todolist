@@ -1,22 +1,19 @@
 import {v1} from 'uuid';
-import {tasks, TasksStateType} from 'store/reducers/tasks/tasks';
 import {
-    addTodolist,
+    todolistsReducer,
+    tasksReducer,
     clearAppData,
-    removeTodolist, setTodolists,
-    TodolistDomainType,
-    todolists
-} from 'store/reducers/todolists/todolists';
-import {TaskPriority, TASK_STATUS} from 'api/todolists/todolistsAPI';
-import {REQUEST_STATUS} from 'store/reducers/app/app';
+    addTodolist,
+    removeTodolist, setTodolists
+} from 'store';
+import {REQUEST_STATUS, TaskPriority, TASK_STATUS} from 'enums'
+import {TaskStateType, TodolistDomainType} from 'store/reducers';
 
-
-let initialStateForTasks: TasksStateType;
+let initialStateForTasks: TaskStateType;
 let initialStateForTodolists: Array<TodolistDomainType>;
 let todolistId1: string;
 let todolistId2: string;
 let todolistId3: string;
-
 
 beforeEach(() => {
 
@@ -183,8 +180,8 @@ beforeEach(() => {
 
 test('todolists and its tasks should be removed', () => {
 
-    const endStateTodolists = todolists(initialStateForTodolists, removeTodolist({todolistId: todolistId1}));
-    const endStateTasks = tasks(initialStateForTasks, removeTodolist({todolistId: todolistId1}));
+    const endStateTodolists = todolistsReducer(initialStateForTodolists, removeTodolist({todolistId: todolistId1}));
+    const endStateTasks = tasksReducer(initialStateForTasks, removeTodolist({todolistId: todolistId1}));
 
     expect(endStateTasks).not.toBe(initialStateForTasks);
     expect(endStateTasks).not.toBe(initialStateForTasks);
@@ -203,8 +200,8 @@ test('todolists and tasks should be created and added', () => {
         title: 'What to study'
     }
 
-    const endStateTodolists = todolists(initialStateForTodolists, addTodolist({todolist}));
-    const endStateTasks = tasks(initialStateForTasks, addTodolist({todolist}));
+    const endStateTodolists = todolistsReducer(initialStateForTodolists, addTodolist({todolist}));
+    const endStateTasks = tasksReducer(initialStateForTasks, addTodolist({todolist}));
 
     const keys = Object.keys(endStateTasks);
     const newKey = keys.find(k => k !== todolistId1 && k !== todolistId2);
@@ -221,7 +218,7 @@ test('todolists and tasks should be created and added', () => {
 test('todolists and tasks should be set', () => {
 
     const initialStateForTodolists: TodolistDomainType[] = [];
-    const initialStateForTasks: TasksStateType = {};
+    const initialStateForTasks: TaskStateType = {};
 
     const todolists = [
         {
@@ -239,8 +236,8 @@ test('todolists and tasks should be set', () => {
     ]
     const action = setTodolists({todolists});
 
-    const endStateTodolists = todolists(initialStateForTodolists, action);
-    const endStateTasks = tasks(initialStateForTasks, action);
+    const endStateTodolists = todolistsReducer(initialStateForTodolists, action);
+    const endStateTasks = tasksReducer(initialStateForTasks, action);
 
     expect(endStateTodolists.length).toBe(2);
     expect(endStateTodolists[0].title).toBe('What to study');
@@ -254,8 +251,8 @@ test('todolists and tasks should be empty', () => {
 
     const action = clearAppData();
 
-    const endStateTodolists = todolists(initialStateForTodolists, action);
-    const endStateTasks = tasks(initialStateForTasks, action);
+    const endStateTodolists = todolistsReducer(initialStateForTodolists, action);
+    const endStateTasks = tasksReducer(initialStateForTasks, action);
 
     expect(endStateTodolists).toEqual([]);
     expect(endStateTasks).toEqual({});

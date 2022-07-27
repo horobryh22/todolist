@@ -1,9 +1,8 @@
-import {AppThunk} from 'store/store';
-import {setAppStatus} from 'store/reducers/app/app';
+import {handleServerNetworkError} from 'utils';
+import {AppThunk} from 'store/types';
 import {REQUEST_STATUS} from 'enums';
-import {todolistsAPI} from 'api/todolists/todolistsAPI';
-import {handleServerNetworkError} from 'utils/errorHandlers';
-import {setTodolists} from 'store/reducers/todolists/todolists';
+import {todolistsAPI} from 'api';
+import {setAppStatus, setTodolists} from 'store/reducers';
 
 export const getTodolistsTC = (): AppThunk => async (dispatch) => {
     try {
