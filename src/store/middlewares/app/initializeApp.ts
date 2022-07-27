@@ -1,11 +1,12 @@
-import {handleServerAppError, handleServerNetworkError} from 'utils';
-import {authAPI} from 'api';
-import {AppDispatch} from 'store/types';
-import {setIsInitialized, setIsLoggedIn} from 'store/reducers';
+import { authAPI } from 'api';
+import { setIsInitialized, setIsLoggedIn } from 'store/reducers';
+import { AppDispatch } from 'store/types';
+import { handleServerAppError, handleServerNetworkError } from 'utils';
 
 export const initializeAppTC = () => async (dispatch: AppDispatch) => {
     try {
         const response = await authAPI.me();
+
         if (!response.data.resultCode) {
             dispatch(setIsLoggedIn(true));
         } else {
@@ -16,4 +17,4 @@ export const initializeAppTC = () => async (dispatch: AppDispatch) => {
     } finally {
         dispatch(setIsInitialized(true));
     }
-}
+};

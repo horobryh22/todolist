@@ -1,2 +1,2 @@
-export {loginTC} from './login'
-export {logoutTC} from './logout'
+export { loginTC } from './login';
+export { logoutTC } from './logout';

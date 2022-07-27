@@ -1,5 +1,11 @@
-import {ThunkAction} from 'redux-thunk';
-import {AnyAction} from 'redux';
-import {RootState} from 'store';
+import { AnyAction } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, AnyAction>;
+import { RootState } from 'store';
+
+export type AppThunk<ReturnType = void> = ThunkAction<
+    ReturnType,
+    RootState,
+    unknown,
+    AnyAction
+>;

@@ -1,5 +1,5 @@
-import {RootState} from 'store/types';
+import { RootState } from 'store/types';
 
-export const selectIsLoggedIn = (state: RootState) => {
+export const selectIsLoggedIn = (state: RootState): boolean => {
     return state.auth.isLoggedIn;
-}
+};

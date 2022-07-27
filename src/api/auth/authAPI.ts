@@ -1,5 +1,5 @@
-import {AuthResponseType, LoginParamsType, ResponseType} from 'api/types';
-import {instance} from 'api/config';
+import { instance } from 'api/config';
+import { AuthResponseType, LoginParamsType, ResponseType } from 'api/types';
 
 export const authAPI = {
     login: (data: LoginParamsType) => {
@@ -10,5 +10,5 @@ export const authAPI = {
     },
     me: () => {
         return instance.get<ResponseType<AuthResponseType>>('auth/me');
-    }
-}
+    },
+};

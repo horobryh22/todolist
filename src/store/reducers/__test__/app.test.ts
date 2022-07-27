@@ -1,27 +1,25 @@
-import {Nullable} from 'types';
-import {appReducer} from 'store';
-import {REQUEST_STATUS} from 'enums';
-import {setAppError, setAppStatus} from 'store/reducers';
+import { REQUEST_STATUS } from 'enums';
+import { appReducer } from 'store';
+import { setAppError, setAppStatus } from 'store/reducers';
+import { Nullable } from 'types';
 
 let startState: {
-    error: Nullable<string>,
-    status: REQUEST_STATUS,
-    isInitialized: boolean
-}
+    error: Nullable<string>;
+    status: REQUEST_STATUS;
+    isInitialized: boolean;
+};
 
 let error: string;
 
 beforeEach(() => {
-
     error = 'some error';
 
     startState = {
         error: null,
         status: REQUEST_STATUS.IDLE,
-        isInitialized: false
-    }
-
-})
+        isInitialized: false,
+    };
+});
 
 test('correct app status should be set', () => {
     const endState = appReducer(startState, setAppStatus(REQUEST_STATUS.LOADING));

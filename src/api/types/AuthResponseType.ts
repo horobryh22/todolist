@@ -1,5 +1,5 @@
 export type AuthResponseType = {
-    id: number
-    email: string
-    login: string
-}
+    id: number;
+    email: string;
+    login: string;
+};

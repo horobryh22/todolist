@@ -42,7 +42,15 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "jest:integration": "jest -c integration/jest.config.js",
-    "test:integration": "start-server-and-test storybook http-get://localhost:9009 jest:integration"
+    "test:integration": "start-server-and-test storybook http-get://localhost:9009 jest:integration",
+    "prepare": "husky install",
+    "lint-fix": "eslint --fix"
+  },
+  "lint-staged": {
+    "**/*.{js,ts,jsx,tsx}": [
+      "npm run lint-fix",
+      "prettier --write"
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -95,8 +103,20 @@
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "eslint": "^7.32.0 || ^8.2.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "7.29.4",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.0",
     "jest-image-snapshot": "^5.1.0",
     "jest-puppeteer": "^6.1.0",
+    "prettier": "^2.7.1",
     "puppeteer": "^14.4.0",
     "start-server-and-test": "^1.14.0",
     "webpack": "^5.72.0"

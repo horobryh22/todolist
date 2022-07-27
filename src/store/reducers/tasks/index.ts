@@ -4,5 +4,5 @@ export {
     setTaskEntityStatus,
     setTasks,
     changeTaskStatus,
-    addTask
+    addTask,
 } from './tasks';

@@ -1,1 +1,1 @@
-export {setIsLoggedIn} from './auth';
+export { setIsLoggedIn } from './auth';

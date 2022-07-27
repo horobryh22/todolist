@@ -3,9 +3,9 @@ export type {
     TodolistDomainType,
     TaskDomainType,
     TaskStateType,
-    AuthStateType
+    AuthStateType,
 } from './types';
-export {setAppStatus, setAppError, setIsInitialized} from './app';
+export { setAppStatus, setAppError, setIsInitialized } from './app';
 export {
     changeFilter,
     clearAppData,
@@ -13,15 +13,14 @@ export {
     setTodolists,
     setTodolistEntityStatus,
     changeTodolistTitle,
-    addTodolist
+    addTodolist,
 } from './todolists';
-export {setIsLoggedIn} from './auth';
+export { setIsLoggedIn } from './auth';
 export {
     changeTaskTitle,
     removeTask,
     changeTaskStatus,
     setTasks,
     setTaskEntityStatus,
-    addTask
+    addTask,
 } from './tasks';
-

@@ -1,5 +1,5 @@
-import {TaskDomainType} from './TaskDomainType';
+import { TaskDomainType } from './TaskDomainType';
 
 export type TaskStateType = {
-    [key: string]: Array<TaskDomainType>
-}
+    [key: string]: Array<TaskDomainType>;
+};

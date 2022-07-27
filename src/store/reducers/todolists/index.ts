@@ -5,5 +5,5 @@ export {
     changeFilter,
     changeTodolistTitle,
     setTodolistEntityStatus,
-    clearAppData
+    clearAppData,
 } from './todolists';

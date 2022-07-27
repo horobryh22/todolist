@@ -1,6 +1,6 @@
-import {TaskDomainType} from 'store/reducers';
+import { TaskDomainType } from 'store/reducers';
 
 export type TaskPropsType = {
-    todolistId: string
-    task: TaskDomainType
-}
+    todolistId: string;
+    task: TaskDomainType;
+};

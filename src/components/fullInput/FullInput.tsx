@@ -1,16 +1,18 @@
-import React, {KeyboardEvent, useCallback, useRef, useState} from 'react';
-import {Button, TextField} from '@mui/material';
+import React, { KeyboardEvent, useCallback, useRef, useState } from 'react';
+
 import AddIcon from '@mui/icons-material/Add';
-import {FullInputType} from './types';
+import { Button, TextField } from '@mui/material';
 
-export const FullInput: React.FC<FullInputType> = React.memo(({callback, disabled}) => {
+import { FullInputType } from './types';
 
+export const FullInput = React.memo(({ callback, disabled }: FullInputType) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [error, setError] = useState<null | string>(null);
 
     const onClickButtonHandler = useCallback((): void => {
         if (inputRef.current) {
             const trimmedTitle = inputRef.current.value.trim();
+
             if (trimmedTitle) {
                 callback(trimmedTitle);
                 if (error !== null) setError(null);
@@ -21,9 +23,12 @@ export const FullInput: React.FC<FullInputType> = React.memo(({callback, disable
         }
     }, [callback, error]);
 
-    const onKeyPressHandler = useCallback((e: KeyboardEvent<HTMLInputElement>): void => {
-        e.key === 'Enter' && onClickButtonHandler();
-    }, [onClickButtonHandler]);
+    const onKeyPressHandler = useCallback(
+        (e: KeyboardEvent<HTMLInputElement>): void => {
+            if (e.key === 'Enter') onClickButtonHandler();
+        },
+        [onClickButtonHandler],
+    );
 
     return (
         <div>
@@ -37,13 +42,17 @@ export const FullInput: React.FC<FullInputType> = React.memo(({callback, disable
                 disabled={disabled}
             />
             <Button
-                variant={'contained'}
-                style={{maxWidth: '25px', maxHeight: '25px', minWidth: '25px', minHeight: '25px'}}
+                variant="contained"
+                style={{
+                    maxWidth: '25px',
+                    maxHeight: '25px',
+                    minWidth: '25px',
+                    minHeight: '25px',
+                }}
                 onClick={onClickButtonHandler}
                 disabled={disabled}
-                startIcon={<AddIcon style={{paddingLeft: '10px'}}/>}
+                startIcon={<AddIcon style={{ paddingLeft: '10px' }} />}
             />
         </div>
     );
 });
-

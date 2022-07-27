@@ -1,1 +1,1 @@
-export type {FormikErrorType, FormikInitialValuesType} from './types'
+export type { FormikErrorType, FormikInitialValuesType } from './types';

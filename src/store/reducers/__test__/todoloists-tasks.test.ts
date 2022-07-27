@@ -1,14 +1,9 @@
-import {v1} from 'uuid';
-import {
-    todolistsReducer,
-    tasksReducer,
-} from 'store';
-import {REQUEST_STATUS, TASK_PRIORITY, TASK_STATUS} from 'enums'
-import {
-    addTodolist,
-    clearAppData, removeTodolist, setTodolists
-} from 'store/reducers';
-import {TaskStateType, TodolistDomainType} from 'store/reducers/types'
+import { v1 } from 'uuid';
+
+import { REQUEST_STATUS, TASK_PRIORITY, TASK_STATUS } from 'enums';
+import { todolistsReducer, tasksReducer } from 'store';
+import { addTodolist, clearAppData, removeTodolist, setTodolists } from 'store/reducers';
+import { TaskStateType, TodolistDomainType } from 'store/reducers/types';
 
 let initialStateForTasks: TaskStateType;
 let initialStateForTodolists: Array<TodolistDomainType>;
@@ -17,7 +12,6 @@ let todolistId2: string;
 let todolistId3: string;
 
 beforeEach(() => {
-
     todolistId1 = v1();
     todolistId2 = v1();
     todolistId3 = v1();
@@ -29,7 +23,7 @@ beforeEach(() => {
             filter: 'all',
             order: 1,
             addedDate: '',
-            entityStatus: REQUEST_STATUS.IDLE
+            entityStatus: REQUEST_STATUS.IDLE,
         },
         {
             id: todolistId2,
@@ -37,9 +31,9 @@ beforeEach(() => {
             filter: 'all',
             order: 1,
             addedDate: '',
-            entityStatus: REQUEST_STATUS.IDLE
+            entityStatus: REQUEST_STATUS.IDLE,
         },
-    ]
+    ];
 
     initialStateForTasks = {
         [todolistId1]: [
@@ -54,7 +48,7 @@ beforeEach(() => {
                 description: '',
                 priority: TASK_PRIORITY.Low,
                 todoListId: todolistId1,
-                entityStatus: REQUEST_STATUS.IDLE
+                entityStatus: REQUEST_STATUS.IDLE,
             },
             {
                 id: v1(),
@@ -67,7 +61,7 @@ beforeEach(() => {
                 description: '',
                 priority: TASK_PRIORITY.Low,
                 todoListId: todolistId1,
-                entityStatus: REQUEST_STATUS.IDLE
+                entityStatus: REQUEST_STATUS.IDLE,
             },
             {
                 id: v1(),
@@ -80,7 +74,7 @@ beforeEach(() => {
                 description: '',
                 priority: TASK_PRIORITY.Low,
                 todoListId: todolistId1,
-                entityStatus: REQUEST_STATUS.IDLE
+                entityStatus: REQUEST_STATUS.IDLE,
             },
             {
                 id: v1(),
@@ -93,7 +87,7 @@ beforeEach(() => {
                 description: '',
                 priority: TASK_PRIORITY.Low,
                 todoListId: todolistId1,
-                entityStatus: REQUEST_STATUS.IDLE
+                entityStatus: REQUEST_STATUS.IDLE,
             },
             {
                 id: v1(),
@@ -106,7 +100,7 @@ beforeEach(() => {
                 description: '',
                 priority: TASK_PRIORITY.Low,
                 todoListId: todolistId1,
-                entityStatus: REQUEST_STATUS.IDLE
+                entityStatus: REQUEST_STATUS.IDLE,
             },
         ],
         [todolistId2]: [
@@ -121,7 +115,7 @@ beforeEach(() => {
                 description: '',
                 priority: TASK_PRIORITY.Low,
                 todoListId: todolistId2,
-                entityStatus: REQUEST_STATUS.IDLE
+                entityStatus: REQUEST_STATUS.IDLE,
             },
             {
                 id: v1(),
@@ -134,7 +128,7 @@ beforeEach(() => {
                 description: '',
                 priority: TASK_PRIORITY.Low,
                 todoListId: todolistId2,
-                entityStatus: REQUEST_STATUS.IDLE
+                entityStatus: REQUEST_STATUS.IDLE,
             },
             {
                 id: v1(),
@@ -147,7 +141,7 @@ beforeEach(() => {
                 description: '',
                 priority: TASK_PRIORITY.Low,
                 todoListId: todolistId2,
-                entityStatus: REQUEST_STATUS.IDLE
+                entityStatus: REQUEST_STATUS.IDLE,
             },
             {
                 id: v1(),
@@ -160,7 +154,7 @@ beforeEach(() => {
                 description: '',
                 priority: TASK_PRIORITY.Low,
                 todoListId: todolistId2,
-                entityStatus: REQUEST_STATUS.IDLE
+                entityStatus: REQUEST_STATUS.IDLE,
             },
             {
                 id: v1(),
@@ -173,39 +167,47 @@ beforeEach(() => {
                 description: '',
                 priority: TASK_PRIORITY.Low,
                 todoListId: todolistId2,
-                entityStatus: REQUEST_STATUS.IDLE
+                entityStatus: REQUEST_STATUS.IDLE,
             },
-        ]
-    }
-})
+        ],
+    };
+});
 
 test('todolists and its tasks should be removed', () => {
-
-    const endStateTodolists = todolistsReducer(initialStateForTodolists, removeTodolist({todolistId: todolistId1}));
-    const endStateTasks = tasksReducer(initialStateForTasks, removeTodolist({todolistId: todolistId1}));
+    const endStateTodolists = todolistsReducer(
+        initialStateForTodolists,
+        removeTodolist({ todolistId: todolistId1 }),
+    );
+    const endStateTasks = tasksReducer(
+        initialStateForTasks,
+        removeTodolist({ todolistId: todolistId1 }),
+    );
 
     expect(endStateTasks).not.toBe(initialStateForTasks);
     expect(endStateTasks).not.toBe(initialStateForTasks);
     expect(endStateTodolists.length).toBe(1);
     expect(endStateTasks[todolistId1]).toBeUndefined();
     expect(endStateTasks[todolistId2]).toBeDefined();
-    expect(endStateTasks).toEqual({[todolistId2]: endStateTasks[todolistId2]});
-})
+    expect(endStateTasks).toEqual({ [todolistId2]: endStateTasks[todolistId2] });
+});
 
 test('todolists and tasks should be created and added', () => {
-
     const todolist = {
         addedDate: '',
         id: todolistId3,
         order: 1,
-        title: 'What to study'
-    }
+        title: 'What to study',
+    };
 
-    const endStateTodolists = todolistsReducer(initialStateForTodolists, addTodolist({todolist}));
-    const endStateTasks = tasksReducer(initialStateForTasks, addTodolist({todolist}));
+    const endStateTodolists = todolistsReducer(
+        initialStateForTodolists,
+        addTodolist({ todolist }),
+    );
+    const endStateTasks = tasksReducer(initialStateForTasks, addTodolist({ todolist }));
 
     const keys = Object.keys(endStateTasks);
     const newKey = keys.find(k => k !== todolistId1 && k !== todolistId2);
+
     if (!newKey) {
         throw Error('new key should be added');
     }
@@ -214,10 +216,9 @@ test('todolists and tasks should be created and added', () => {
     expect(endStateTodolists.length).toBe(3);
     expect(endStateTasks[newKey]).toEqual([]);
     expect(endStateTodolists[0].id).toBe(newKey);
-})
+});
 
 test('todolists and tasks should be set', () => {
-
     const initialStateForTodolists: TodolistDomainType[] = [];
     const initialStateForTasks: TaskStateType = {};
 
@@ -226,16 +227,16 @@ test('todolists and tasks should be set', () => {
             addedDate: '',
             id: todolistId1,
             order: 1,
-            title: 'What to study'
+            title: 'What to study',
         },
         {
             addedDate: '',
             id: todolistId2,
             order: 1,
-            title: 'What to eat'
-        }
-    ]
-    const action = setTodolists({todolists});
+            title: 'What to eat',
+        },
+    ];
+    const action = setTodolists({ todolists });
 
     const endStateTodolists = todolistsReducer(initialStateForTodolists, action);
     const endStateTasks = tasksReducer(initialStateForTasks, action);
@@ -245,11 +246,9 @@ test('todolists and tasks should be set', () => {
     expect(endStateTodolists[1].title).toBe('What to eat');
     expect(endStateTasks[todolistId1]).toEqual([]);
     expect(endStateTasks[todolistId2]).toEqual([]);
-})
+});
 
 test('todolists and tasks should be empty', () => {
-
-
     const action = clearAppData();
 
     const endStateTodolists = todolistsReducer(initialStateForTodolists, action);
@@ -257,4 +256,4 @@ test('todolists and tasks should be empty', () => {
 
     expect(endStateTodolists).toEqual([]);
     expect(endStateTasks).toEqual({});
-})
+});

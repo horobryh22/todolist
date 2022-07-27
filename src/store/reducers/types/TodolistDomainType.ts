@@ -1,7 +1,7 @@
-import {FilterValuesType, TodolistType} from 'types';
-import {REQUEST_STATUS} from 'enums';
+import { REQUEST_STATUS } from 'enums';
+import { FilterValuesType, TodolistType } from 'types';
 
 export type TodolistDomainType = TodolistType & {
-    filter: FilterValuesType
-    entityStatus: REQUEST_STATUS
-}
+    filter: FilterValuesType;
+    entityStatus: REQUEST_STATUS;
+};

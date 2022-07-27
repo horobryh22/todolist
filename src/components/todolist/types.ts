@@ -1,5 +1,5 @@
-import {TodolistDomainType} from 'store/reducers';
+import { TodolistDomainType } from 'store/reducers';
 
 export type TodolistPropsType = {
-    todolist: TodolistDomainType
-}
+    todolist: TodolistDomainType;
+};
