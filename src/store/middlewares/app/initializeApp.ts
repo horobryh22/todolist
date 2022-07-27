@@ -1,7 +1,7 @@
-import {setIsInitialized, setIsLoggedIn} from 'store/reducers';
 import {handleServerAppError, handleServerNetworkError} from 'utils';
 import {authAPI} from 'api';
 import {AppDispatch} from 'store/types';
+import {setIsInitialized, setIsLoggedIn} from 'store/reducers';
 
 export const initializeAppTC = () => async (dispatch: AppDispatch) => {
     try {

@@ -1,12 +1,14 @@
 import {v1} from 'uuid';
 import {FilterValuesType} from 'types';
 import {todolistsReducer} from 'store';
+import {REQUEST_STATUS} from 'enums';
 import {
     addTodolist,
     changeFilter,
-    changeTodolistTitle, removeTodolist, TodolistDomainType
+    changeTodolistTitle,
+    removeTodolist
 } from 'store/reducers';
-import {REQUEST_STATUS} from 'enums';
+import {TodolistDomainType} from 'store/reducers/types';
 
 
 let startState: Array<TodolistDomainType>;

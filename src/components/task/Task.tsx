@@ -3,10 +3,10 @@ import {Checkbox, IconButton} from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useAppDispatch} from 'hooks';
-import {removeTaskTC, updateTaskStatusTC, updateTaskTitleTC} from 'store';
 import {REQUEST_STATUS, TASK_STATUS} from 'enums';
 import {EditableSpan} from 'components';
 import {TaskPropsType} from './types';
+import {removeTaskTC, updateTaskStatusTC, updateTaskTitleTC} from 'store/middlewares';
 
 
 export const Task: React.FC<TaskPropsType> = React.memo(({task, todolistId}) => {

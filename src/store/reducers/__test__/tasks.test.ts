@@ -6,8 +6,9 @@ import {
     changeTaskStatus,
     changeTaskTitle,
     removeTask, setTaskEntityStatus,
-    setTasks, TaskStateType
+    setTasks
 } from 'store/reducers';
+import {TaskStateType} from 'store/reducers/types';
 
 let startState: TaskStateType;
 let todolistId1: string;

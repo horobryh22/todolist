@@ -1,8 +1,8 @@
 import {handleServerAppError, handleServerNetworkError} from 'utils';
-import {changeTodolistTitle, setAppStatus} from 'store/reducers';
 import {AppThunk} from 'store/types';
 import {REQUEST_STATUS} from 'enums';
 import {todolistsAPI} from 'api';
+import {changeTodolistTitle, setAppStatus} from 'store/reducers';
 
 export const updateTodolistTitleTC = (todolistId: string, title: string): AppThunk => async (dispatch) => {
     try {

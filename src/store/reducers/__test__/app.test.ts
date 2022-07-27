@@ -1,6 +1,7 @@
 import {Nullable} from 'types';
-import {appReducer, setAppError, setAppStatus} from 'store';
+import {appReducer} from 'store';
 import {REQUEST_STATUS} from 'enums';
+import {setAppError, setAppStatus} from 'store/reducers';
 
 let startState: {
     error: Nullable<string>,

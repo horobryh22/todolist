@@ -2,12 +2,13 @@ import {v1} from 'uuid';
 import {
     todolistsReducer,
     tasksReducer,
-    clearAppData,
-    addTodolist,
-    removeTodolist, setTodolists
 } from 'store';
 import {REQUEST_STATUS, TaskPriority, TASK_STATUS} from 'enums'
-import {TaskStateType, TodolistDomainType} from 'store/reducers';
+import {
+    addTodolist,
+    clearAppData, removeTodolist, setTodolists
+} from 'store/reducers';
+import {TaskStateType, TodolistDomainType} from 'store/reducers/types'
 
 let initialStateForTasks: TaskStateType;
 let initialStateForTodolists: Array<TodolistDomainType>;

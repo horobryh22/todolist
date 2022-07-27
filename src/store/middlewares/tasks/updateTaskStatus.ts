@@ -1,8 +1,8 @@
 import {handleServerAppError, handleServerNetworkError} from 'utils';
 import {REQUEST_STATUS, TASK_STATUS} from 'enums';
-import {changeTaskStatus, setAppStatus, setTaskEntityStatus} from 'store/reducers';
 import {AppThunk, RootState} from 'store/types';
 import {todolistsAPI} from 'api';
+import {changeTaskStatus, setAppStatus, setTaskEntityStatus} from 'store/reducers';
 
 export const updateTaskStatusTC = (taskId: string, todolistId: string, status: TASK_STATUS): AppThunk => async (dispatch, getState: () => RootState) => {
     try {

@@ -1,8 +1,9 @@
 import {ThunkDispatch} from 'redux-thunk';
 import {ResponseType} from 'api/types';
 import {AnyAction} from 'redux';
-import {RootState, setAppError, setAppStatus} from 'store';
 import {REQUEST_STATUS} from 'enums';
+import {RootState} from 'store';
+import {setAppError, setAppStatus} from 'store/reducers';
 
 export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: ThunkDispatch<RootState, unknown, AnyAction>) => {
     if (data.messages.length) {

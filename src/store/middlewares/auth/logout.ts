@@ -1,8 +1,8 @@
 import {handleServerAppError, handleServerNetworkError} from 'utils';
 import {authAPI} from 'api';
-import {clearAppData, setAppStatus, setIsLoggedIn} from 'store/reducers';
 import {AppDispatch} from 'store/types';
 import {REQUEST_STATUS} from 'enums';
+import {clearAppData, setAppStatus, setIsLoggedIn} from 'store/reducers';
 
 
 export const logoutTC = () => async (dispatch: AppDispatch) => {

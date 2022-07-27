@@ -4,7 +4,7 @@ import {Navigate, Route, Routes} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from 'hooks';
 import {ButtonAppBar, ErrorSnackbar, Login, TodolistsList} from 'components';
 import {REQUEST_STATUS} from 'enums';
-import {initializeAppTC} from 'store';
+import {initializeAppTC} from 'store/middlewares';
 
 
 export const App = () => {

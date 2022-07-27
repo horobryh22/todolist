@@ -1,19 +1,18 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {REQUEST_STATUS, TASK_STATUS} from 'enums'
 
+import {TaskType} from 'types';
+import {TaskStateType} from 'store/reducers';
 import {
     addTodolist,
     clearAppData,
     removeTodolist,
-    setTodolists,
-    TaskStateType
-} from 'store/reducers';
-import {TaskType} from 'types';
-
+    setTodolists
+} from 'store/reducers/todolists';
 
 const initialState: TaskStateType = {}
 
-const tasksSlice = createSlice({
+export const tasksSlice = createSlice({
     name: 'tasks',
     initialState,
     reducers: {

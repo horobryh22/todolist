@@ -6,15 +6,16 @@ import {Task} from 'components';
 import {useAppSelector} from 'hooks';
 import {useAppDispatch} from 'hooks';
 import {FilterValuesType} from 'types';
+import {REQUEST_STATUS, TASK_STATUS} from 'enums';
+import {TodolistPropsType} from './types';
 import {
     addTaskTC,
-    changeFilter,
     getTasksTC,
     removeTodolistTC,
     updateTodolistTitleTC
-} from 'store';
-import {REQUEST_STATUS, TASK_STATUS} from 'enums';
-import {TodolistPropsType} from './types';
+} from 'store/middlewares';
+import {changeFilter} from 'store/reducers';
+
 
 
 export const Todolist: React.FC<TodolistPropsType> = React.memo(({todolist}) => {
