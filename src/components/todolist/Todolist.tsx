@@ -1,12 +1,10 @@
-import React, {useCallback, useEffect, useMemo} from 'react';
-import {EditableSpan, FullInput} from 'components';
+import React, {useCallback, useEffect} from 'react';
+import {EditableSpan, FullInput, Task} from 'components';
 import {Button, IconButton} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {Task} from 'components';
-import {useAppSelector} from 'hooks';
-import {useAppDispatch} from 'hooks';
+import {useAppDispatch, useAppSelector} from 'hooks';
 import {FilterValuesType} from 'types';
-import {REQUEST_STATUS, TASK_STATUS} from 'enums';
+import {REQUEST_STATUS} from 'enums';
 import {TodolistPropsType} from './types';
 import {
     addTaskTC,
@@ -15,7 +13,7 @@ import {
     updateTodolistTitleTC
 } from 'store/middlewares';
 import {changeFilter} from 'store/reducers';
-
+import {selectFilteredTasksById} from 'store/selectors';
 
 
 export const Todolist: React.FC<TodolistPropsType> = React.memo(({todolist}) => {
@@ -24,17 +22,9 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(({todolist}) => 
 
     const disabledCondition = todolist.entityStatus === REQUEST_STATUS.LOADING;
 
-    const tasks = useAppSelector(state => state.tasks[todolist.id]); //нужно исправить!!!
+    const tasks = useAppSelector(state => selectFilteredTasksById(state, todolist.id, todolist.filter));
 
-    const filteredTasks = useMemo(() => {
-        return tasks.filter(task => {
-            if (todolist.filter === 'completed') return task.status === TASK_STATUS.Completed;
-            if (todolist.filter === 'active') return task.status === TASK_STATUS.New;
-            return true;
-        })
-    }, [todolist.filter, tasks]);
-
-    const tasksList = filteredTasks.map((task) => {
+    const tasksList = tasks.map((task) => {
         return <Task todolistId={todolist.id} task={task} key={task.id}/>
     });
 

@@ -3,7 +3,7 @@ import {
     todolistsReducer,
     tasksReducer,
 } from 'store';
-import {REQUEST_STATUS, TaskPriority, TASK_STATUS} from 'enums'
+import {REQUEST_STATUS, TASK_PRIORITY, TASK_STATUS} from 'enums'
 import {
     addTodolist,
     clearAppData, removeTodolist, setTodolists
@@ -52,7 +52,7 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 description: '',
-                priority: TaskPriority.Low,
+                priority: TASK_PRIORITY.Low,
                 todoListId: todolistId1,
                 entityStatus: REQUEST_STATUS.IDLE
             },
@@ -65,7 +65,7 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 description: '',
-                priority: TaskPriority.Low,
+                priority: TASK_PRIORITY.Low,
                 todoListId: todolistId1,
                 entityStatus: REQUEST_STATUS.IDLE
             },
@@ -78,7 +78,7 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 description: '',
-                priority: TaskPriority.Low,
+                priority: TASK_PRIORITY.Low,
                 todoListId: todolistId1,
                 entityStatus: REQUEST_STATUS.IDLE
             },
@@ -91,7 +91,7 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 description: '',
-                priority: TaskPriority.Low,
+                priority: TASK_PRIORITY.Low,
                 todoListId: todolistId1,
                 entityStatus: REQUEST_STATUS.IDLE
             },
@@ -104,7 +104,7 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 description: '',
-                priority: TaskPriority.Low,
+                priority: TASK_PRIORITY.Low,
                 todoListId: todolistId1,
                 entityStatus: REQUEST_STATUS.IDLE
             },
@@ -119,7 +119,7 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 description: '',
-                priority: TaskPriority.Low,
+                priority: TASK_PRIORITY.Low,
                 todoListId: todolistId2,
                 entityStatus: REQUEST_STATUS.IDLE
             },
@@ -132,7 +132,7 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 description: '',
-                priority: TaskPriority.Low,
+                priority: TASK_PRIORITY.Low,
                 todoListId: todolistId2,
                 entityStatus: REQUEST_STATUS.IDLE
             },
@@ -145,7 +145,7 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 description: '',
-                priority: TaskPriority.Low,
+                priority: TASK_PRIORITY.Low,
                 todoListId: todolistId2,
                 entityStatus: REQUEST_STATUS.IDLE
             },
@@ -158,7 +158,7 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 description: '',
-                priority: TaskPriority.Low,
+                priority: TASK_PRIORITY.Low,
                 todoListId: todolistId2,
                 entityStatus: REQUEST_STATUS.IDLE
             },
@@ -171,7 +171,7 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 description: '',
-                priority: TaskPriority.Low,
+                priority: TASK_PRIORITY.Low,
                 todoListId: todolistId2,
                 entityStatus: REQUEST_STATUS.IDLE
             },

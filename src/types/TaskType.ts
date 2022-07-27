@@ -1,4 +1,4 @@
-import {TASK_STATUS, TaskPriority} from 'enums';
+import {TASK_STATUS, TASK_PRIORITY} from 'enums';
 
 export type TaskType = {
     addedDate: string
@@ -6,7 +6,7 @@ export type TaskType = {
     description: string
     id: string
     order: number
-    priority: TaskPriority
+    priority: TASK_PRIORITY
     startDate: string
     status: TASK_STATUS
     title: string
