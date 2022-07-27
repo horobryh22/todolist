@@ -88,6 +88,9 @@
       "last 1 safari version"
     ]
   },
+  "resolutions": {
+    "eslint-plugin-react": "7.28.0"
+  },
   "devDependencies": {
     "@storybook/addon-actions": "^6.4.22",
     "@storybook/addon-essentials": "^6.4.22",
@@ -111,7 +114,6 @@
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "7.29.4",
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.0",
     "jest-image-snapshot": "^5.1.0",
