@@ -1,6 +1,6 @@
 import { REQUEST_STATUS } from 'enums';
 import { appReducer } from 'store';
-import { setAppError, setAppStatus } from 'store/reducers';
+import { setAppError, setAppStatus, setIsInitialized } from 'store/reducers';
 import { Nullable } from 'types';
 
 let startState: {
@@ -33,4 +33,10 @@ test('the error should be set inside app state', () => {
 
     expect(endState.error).toBe(error);
     expect(endState.status).toBe(REQUEST_STATUS.IDLE);
+});
+
+test('app should be initialized', () => {
+    const endState = appReducer(startState, setIsInitialized(true));
+
+    expect(endState.isInitialized).toBeTruthy();
 });

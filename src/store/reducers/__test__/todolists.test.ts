@@ -7,6 +7,7 @@ import {
     changeFilter,
     changeTodolistTitle,
     removeTodolist,
+    setTodolistEntityStatus,
 } from 'store/reducers';
 import { TodolistDomainType } from 'store/reducers/types';
 import { FilterValuesType } from 'types';
@@ -91,4 +92,17 @@ test('correct filter of todolists should be changed', () => {
 
     expect(endState[0].filter).toBe('all');
     expect(endState[1].filter).toBe(newFilter);
+});
+
+test('correct entity status of todolists should be changed', () => {
+    const endState = todolistsReducer(
+        startState,
+        setTodolistEntityStatus({
+            entityStatus: REQUEST_STATUS.LOADING,
+            todolistId: todolistId2,
+        }),
+    );
+
+    expect(endState[0].entityStatus).toBe(REQUEST_STATUS.IDLE);
+    expect(endState[1].entityStatus).toBe(REQUEST_STATUS.LOADING);
 });

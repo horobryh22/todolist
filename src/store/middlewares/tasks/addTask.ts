@@ -15,7 +15,7 @@ export const addTaskTC =
             if (!response.data.resultCode) {
                 const task = response.data.data.item;
 
-                dispatch(addTask({ task }));
+                dispatch(addTask(task));
                 dispatch(setAppStatus(REQUEST_STATUS.SUCCESS));
             } else {
                 handleServerAppError<{ item: TaskType }>(response.data, dispatch);

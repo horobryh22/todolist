@@ -191,7 +191,7 @@ test('correct task should be added', () => {
         title: taskName,
         todoListId: todolistId1,
     };
-    const endState = tasksReducer(startState, addTask({ task }));
+    const endState = tasksReducer(startState, addTask(task));
 
     expect(endState[todolistId1].length).toBe(6);
     expect(endState[todolistId1][0].title).toBe(taskName);
