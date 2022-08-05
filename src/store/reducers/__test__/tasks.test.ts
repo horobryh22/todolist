@@ -3,14 +3,15 @@ import { v1 } from 'uuid';
 import { REQUEST_STATUS, TASK_PRIORITY, TASK_STATUS } from 'enums';
 import { tasksReducer } from 'store';
 import {
-    addTask,
-    changeTaskStatus,
-    changeTaskTitle,
-    removeTask,
-    setTaskEntityStatus,
-    setTasks,
-} from 'store/reducers';
+    addTaskTC,
+    getTasksTC,
+    removeTaskTC,
+    updateTaskStatusTC,
+    updateTaskTitleTC,
+} from 'store/middlewares';
+import { setTaskEntityStatus } from 'store/reducers';
 import { TaskStateType } from 'store/reducers/types';
+import { TaskType } from 'types';
 
 let startState: TaskStateType;
 let todolistId1: string;
@@ -164,12 +165,15 @@ beforeEach(() => {
 });
 
 test('correct task should be removed', () => {
+    const payload = {
+        todolistId: todolistId1,
+        data: {
+            taskId: startState[todolistId1][0].id,
+        },
+    };
     const endState = tasksReducer(
         startState,
-        removeTask({
-            todolistID: todolistId1,
-            taskId: startState[todolistId1][0].id,
-        }),
+        removeTaskTC.fulfilled(payload, '', payload),
     );
 
     expect(endState[todolistId1].length).toBe(4);
@@ -191,7 +195,15 @@ test('correct task should be added', () => {
         title: taskName,
         todoListId: todolistId1,
     };
-    const endState = tasksReducer(startState, addTask(task));
+    const endState = tasksReducer(
+        startState,
+        addTaskTC.fulfilled(task, '', {
+            todolistId: todolistId1,
+            data: {
+                title: taskName,
+            },
+        }),
+    );
 
     expect(endState[todolistId1].length).toBe(6);
     expect(endState[todolistId1][0].title).toBe(taskName);
@@ -200,13 +212,16 @@ test('correct task should be added', () => {
 });
 
 test('correct task should change its name', () => {
+    const payload = {
+        todolistId: todolistId1,
+        data: {
+            taskId: startState[todolistId1][1].id,
+            title: taskName,
+        },
+    };
     const endState = tasksReducer(
         startState,
-        changeTaskTitle({
-            todolistId: todolistId1,
-            taskId: startState[todolistId1][1].id,
-            newTitle: taskName,
-        }),
+        updateTaskTitleTC.fulfilled(payload, '', payload),
     );
 
     expect(endState[todolistId1].length).toBe(5);
@@ -215,13 +230,16 @@ test('correct task should change its name', () => {
 });
 
 test('correct task should change its status', () => {
-    const endState = tasksReducer(
-        startState,
-        changeTaskStatus({
-            todolistID: todolistId1,
+    const payload = {
+        todolistId: todolistId1,
+        data: {
             taskId: startState[todolistId1][1].id,
             status: TASK_STATUS.New,
-        }),
+        },
+    };
+    const endState = tasksReducer(
+        startState,
+        updateTaskStatusTC.fulfilled(payload, '', payload),
     );
 
     expect(endState[todolistId1][1].status).toBe(TASK_STATUS.New);
@@ -229,7 +247,7 @@ test('correct task should change its status', () => {
 });
 
 test('tasks should be correct set', () => {
-    const tasks = [
+    const tasks: TaskType[] = [
         {
             id: v1(),
             title: 'Test task',
@@ -243,13 +261,15 @@ test('tasks should be correct set', () => {
             order: 1,
         },
     ];
+    const payload = { todolistId: todolistId3, data: { tasks } };
     const endState = tasksReducer(
         startState,
-        setTasks({ todolistId: todolistId3, tasks }),
+        getTasksTC.fulfilled(payload, '', todolistId3),
     );
 
     expect(endState[todolistId3].length).toBe(1);
     expect(endState[todolistId3][0].title).toBe('Test task');
+    expect(endState[todolistId3][0].todoListId).toBe(todolistId2);
 });
 
 test('tasks entity status should be set correct', () => {

@@ -5,22 +5,6 @@ export type {
     TaskStateType,
     AuthStateType,
 } from './types';
-export { setAppStatus, setAppError, setIsInitialized } from './app';
-export {
-    changeFilter,
-    clearAppData,
-    removeTodolist,
-    setTodolists,
-    setTodolistEntityStatus,
-    changeTodolistTitle,
-    addTodolist,
-} from './todolists';
-export { setIsLoggedIn } from './auth';
-export {
-    changeTaskTitle,
-    removeTask,
-    changeTaskStatus,
-    setTasks,
-    setTaskEntityStatus,
-    addTask,
-} from './tasks';
+export { setAppStatus, setAppError } from './app';
+export { changeFilter, setTodolistEntityStatus } from './todolists';
+export { setTaskEntityStatus } from './tasks';

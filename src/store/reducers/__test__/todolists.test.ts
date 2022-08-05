@@ -3,12 +3,11 @@ import { v1 } from 'uuid';
 import { REQUEST_STATUS } from 'enums';
 import { todolistsReducer } from 'store';
 import {
-    addTodolist,
-    changeFilter,
-    changeTodolistTitle,
-    removeTodolist,
-    setTodolistEntityStatus,
-} from 'store/reducers';
+    addTodolistTC,
+    removeTodolistTC,
+    updateTodolistTitleTC,
+} from 'store/middlewares';
+import { changeFilter, setTodolistEntityStatus } from 'store/reducers';
 import { TodolistDomainType } from 'store/reducers/types';
 import { FilterValuesType } from 'types';
 
@@ -47,7 +46,7 @@ beforeEach(() => {
 test('correct todolists should be removed', () => {
     const endState = todolistsReducer(
         startState,
-        removeTodolist({ todolistId: todolistId1 }),
+        removeTodolistTC.fulfilled(todolistId1, '', todolistId1),
     );
 
     expect(endState.length).toBe(1);
@@ -61,19 +60,25 @@ test('correct todolists should be added', () => {
         order: 1,
         title: newTodolistTitle,
     };
-    const endState = todolistsReducer(startState, addTodolist({ todolist }));
+    const endState = todolistsReducer(
+        startState,
+        addTodolistTC.fulfilled(todolist, '', newTodolistTitle),
+    );
 
     expect(endState.length).toBe(3);
     expect(endState[0].title).toBe(newTodolistTitle);
 });
 
 test('correct todolists should change its name', () => {
+    const payload = {
+        todolistId: todolistId2,
+        data: {
+            title: newTodolistTitle,
+        },
+    };
     const endState = todolistsReducer(
         startState,
-        changeTodolistTitle({
-            todolistId: todolistId2,
-            title: newTodolistTitle,
-        }),
+        updateTodolistTitleTC.fulfilled(payload, '', payload),
     );
 
     expect(endState[0].title).toBe('What to learn');

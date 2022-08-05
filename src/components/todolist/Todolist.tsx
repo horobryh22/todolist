@@ -46,14 +46,19 @@ export const Todolist = React.memo(({ todolist }: TodolistPropsType) => {
 
     const addTaskHandler = useCallback(
         (newTitle: string) => {
-            dispatch(addTaskTC(todolist.id, newTitle));
+            dispatch(addTaskTC({ todolistId: todolist.id, data: { title: newTitle } }));
         },
         [todolist.id],
     );
 
     const changeTodolistNameHandler = useCallback(
         (newTitle: string) => {
-            dispatch(updateTodolistTitleTC(todolist.id, newTitle));
+            dispatch(
+                updateTodolistTitleTC({
+                    todolistId: todolist.id,
+                    data: { title: newTitle },
+                }),
+            );
         },
         [todolist.id],
     );

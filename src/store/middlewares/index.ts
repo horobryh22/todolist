@@ -2,7 +2,7 @@ export {
     removeTodolistTC,
     addTodolistTC,
     updateTodolistTitleTC,
-    getTodolistsTC,
+    fetchTodolistsTC,
 } from './todolists';
 export {
     getTasksTC,

@@ -1,8 +1,13 @@
 import { v1 } from 'uuid';
 
 import { REQUEST_STATUS, TASK_PRIORITY, TASK_STATUS } from 'enums';
-import { todolistsReducer, tasksReducer } from 'store';
-import { addTodolist, clearAppData, removeTodolist, setTodolists } from 'store/reducers';
+import { tasksReducer, todolistsReducer } from 'store';
+import {
+    addTodolistTC,
+    fetchTodolistsTC,
+    logoutTC,
+    removeTodolistTC,
+} from 'store/middlewares';
 import { TaskStateType, TodolistDomainType } from 'store/reducers/types';
 
 let initialStateForTasks: TaskStateType;
@@ -174,14 +179,10 @@ beforeEach(() => {
 });
 
 test('todolists and its tasks should be removed', () => {
-    const endStateTodolists = todolistsReducer(
-        initialStateForTodolists,
-        removeTodolist({ todolistId: todolistId1 }),
-    );
-    const endStateTasks = tasksReducer(
-        initialStateForTasks,
-        removeTodolist({ todolistId: todolistId1 }),
-    );
+    const action = removeTodolistTC.fulfilled(todolistId1, '', todolistId1);
+
+    const endStateTodolists = todolistsReducer(initialStateForTodolists, action);
+    const endStateTasks = tasksReducer(initialStateForTasks, action);
 
     expect(endStateTasks).not.toBe(initialStateForTasks);
     expect(endStateTasks).not.toBe(initialStateForTasks);
@@ -201,9 +202,12 @@ test('todolists and tasks should be created and added', () => {
 
     const endStateTodolists = todolistsReducer(
         initialStateForTodolists,
-        addTodolist({ todolist }),
+        addTodolistTC.fulfilled(todolist, '', 'What to study'),
     );
-    const endStateTasks = tasksReducer(initialStateForTasks, addTodolist({ todolist }));
+    const endStateTasks = tasksReducer(
+        initialStateForTasks,
+        addTodolistTC.fulfilled(todolist, '', 'What to study'),
+    );
 
     const keys = Object.keys(endStateTasks);
     const newKey = keys.find(k => k !== todolistId1 && k !== todolistId2);
@@ -216,6 +220,7 @@ test('todolists and tasks should be created and added', () => {
     expect(endStateTodolists.length).toBe(3);
     expect(endStateTasks[newKey]).toEqual([]);
     expect(endStateTodolists[0].id).toBe(newKey);
+    expect(endStateTodolists[0].title).toBe('What to study');
 });
 
 test('todolists and tasks should be set', () => {
@@ -236,7 +241,7 @@ test('todolists and tasks should be set', () => {
             title: 'What to eat',
         },
     ];
-    const action = setTodolists({ todolists });
+    const action = fetchTodolistsTC.fulfilled(todolists, '');
 
     const endStateTodolists = todolistsReducer(initialStateForTodolists, action);
     const endStateTasks = tasksReducer(initialStateForTasks, action);
@@ -249,7 +254,7 @@ test('todolists and tasks should be set', () => {
 });
 
 test('todolists and tasks should be empty', () => {
-    const action = clearAppData();
+    const action = logoutTC.fulfilled;
 
     const endStateTodolists = todolistsReducer(initialStateForTodolists, action);
     const endStateTasks = tasksReducer(initialStateForTasks, action);

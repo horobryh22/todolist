@@ -1,4 +1,4 @@
 export { removeTodolistTC } from './removeTodolist';
-export { getTodolistsTC } from './getTodolists';
+export { fetchTodolistsTC } from './fetchTodolists';
 export { addTodolistTC } from './addTodolist';
 export { updateTodolistTitleTC } from './updateTodolistTitle';

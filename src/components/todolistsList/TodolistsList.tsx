@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 
 import { Todolist, FullInput } from 'components';
 import { useAppDispatch, useAppSelector } from 'hooks';
-import { addTodolistTC, getTodolistsTC } from 'store/middlewares';
+import { addTodolistTC, fetchTodolistsTC } from 'store/middlewares';
 import { selectIsLoggedIn, selectTodolists } from 'store/selectors';
 import { ReturnComponentType } from 'types';
 
@@ -30,7 +30,7 @@ export const TodolistsList = (): ReturnComponentType => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            dispatch(getTodolistsTC());
+            dispatch(fetchTodolistsTC());
         }
     }, []);
 

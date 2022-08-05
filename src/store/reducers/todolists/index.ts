@@ -1,9 +1,1 @@
-export {
-    setTodolists,
-    addTodolist,
-    removeTodolist,
-    changeFilter,
-    changeTodolistTitle,
-    setTodolistEntityStatus,
-    clearAppData,
-} from './todolists';
+export { changeFilter, setTodolistEntityStatus } from './todolists';

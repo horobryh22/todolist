@@ -1,12 +1,21 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
 import { todolistsAPI } from 'api';
 import { REQUEST_STATUS } from 'enums';
-import { changeTaskTitle, setAppStatus, setTaskEntityStatus } from 'store/reducers';
-import { AppThunk, RootState } from 'store/types';
+import { PayloadType, ThunkConfigType } from 'store/middlewares/types';
+import { setAppStatus, setTaskEntityStatus } from 'store/reducers';
 import { handleServerAppError, handleServerNetworkError } from 'utils';
 
-export const updateTaskTitleTC =
-    (taskId: string, todolistId: string, title: string): AppThunk =>
-    async (dispatch, getState: () => RootState) => {
+export const updateTaskTitleTC = createAsyncThunk<
+    PayloadType<{ taskId: string; title: string }>,
+    PayloadType<{ taskId: string; title: string }>,
+    ThunkConfigType
+>(
+    'tasks/updateTaskTitle',
+    async (
+        { todolistId, data: { taskId, title } },
+        { dispatch, rejectWithValue, getState },
+    ) => {
         try {
             dispatch(
                 setTaskEntityStatus({
@@ -31,22 +40,22 @@ export const updateTaskTitleTC =
                     status: task.status,
                 });
 
-                if (!response.data.resultCode) {
-                    dispatch(changeTaskTitle({ todolistId, taskId, newTitle: title }));
-                    dispatch(setAppStatus(REQUEST_STATUS.SUCCESS));
-                    dispatch(
-                        setTaskEntityStatus({
-                            todolistId,
-                            taskId,
-                            entityStatus: REQUEST_STATUS.SUCCESS,
-                        }),
-                    );
-                } else {
+                if (response.data.resultCode) {
                     handleServerAppError(response.data, dispatch);
+
+                    return rejectWithValue(null);
                 }
+
+                return { todolistId, data: { taskId, title } };
             }
+
+            return rejectWithValue(null);
         } catch (e) {
             handleServerNetworkError(e as Error, dispatch);
+
+            return rejectWithValue(null);
+        } finally {
+            dispatch(setAppStatus(REQUEST_STATUS.SUCCESS));
             dispatch(
                 setTaskEntityStatus({
                     todolistId,
@@ -55,4 +64,5 @@ export const updateTaskTitleTC =
                 }),
             );
         }
-    };
+    },
+);

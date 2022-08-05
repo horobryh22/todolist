@@ -1,26 +1,36 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
 import { todolistsAPI } from 'api';
 import { REQUEST_STATUS } from 'enums';
-import { addTask, setAppStatus } from 'store/reducers';
-import { AppThunk } from 'store/types';
+import { PayloadType, ThunkConfigType } from 'store/middlewares/types';
+import { setAppStatus } from 'store/reducers';
 import { TaskType } from 'types';
 import { handleServerAppError, handleServerNetworkError } from 'utils';
 
-export const addTaskTC =
-    (todolistId: string, title: string): AppThunk =>
-    async dispatch => {
+export const addTaskTC = createAsyncThunk<
+    TaskType,
+    PayloadType<{ title: string }>,
+    ThunkConfigType
+>(
+    'tasks/addTask',
+    async ({ todolistId, data: { title } }, { dispatch, rejectWithValue }) => {
         try {
             dispatch(setAppStatus(REQUEST_STATUS.LOADING));
             const response = await todolistsAPI.createTask(todolistId, title);
 
-            if (!response.data.resultCode) {
-                const task = response.data.data.item;
-
-                dispatch(addTask(task));
-                dispatch(setAppStatus(REQUEST_STATUS.SUCCESS));
-            } else {
+            if (response.data.resultCode) {
                 handleServerAppError<{ item: TaskType }>(response.data, dispatch);
+
+                return rejectWithValue(null);
             }
+
+            return response.data.data.item;
         } catch (e) {
             handleServerNetworkError(e as Error, dispatch);
+
+            return rejectWithValue(null);
+        } finally {
+            dispatch(setAppStatus(REQUEST_STATUS.SUCCESS));
         }
-    };
+    },
+);

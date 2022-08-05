@@ -1,8 +1,1 @@
-export {
-    changeTaskTitle,
-    removeTask,
-    setTaskEntityStatus,
-    setTasks,
-    changeTaskStatus,
-    addTask,
-} from './tasks';
+export { setTaskEntityStatus } from './tasks';

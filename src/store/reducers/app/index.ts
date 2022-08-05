@@ -1,1 +1,1 @@
-export { setAppStatus, setAppError, setIsInitialized } from './app';
+export { setAppStatus, setAppError } from './app';

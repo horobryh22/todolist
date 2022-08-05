@@ -1,20 +1,24 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
 import { authAPI } from 'api';
-import { setIsInitialized, setIsLoggedIn } from 'store/reducers';
-import { AppDispatch } from 'store/types';
+import { ThunkConfigType } from 'store/middlewares/types';
 import { handleServerAppError, handleServerNetworkError } from 'utils';
 
-export const initializeAppTC = () => async (dispatch: AppDispatch) => {
-    try {
-        const response = await authAPI.me();
+export const initializeAppTC = createAsyncThunk<void, void, ThunkConfigType>(
+    'app/initializeApp',
+    async (_, { dispatch, rejectWithValue }) => {
+        try {
+            const response = await authAPI.me();
 
-        if (!response.data.resultCode) {
-            dispatch(setIsLoggedIn(true));
-        } else {
-            handleServerAppError(response.data, dispatch);
+            if (response.data.resultCode) {
+                handleServerAppError(response.data, dispatch);
+
+                return rejectWithValue(null);
+            }
+        } catch (e) {
+            handleServerNetworkError(e as Error, dispatch);
+
+            return rejectWithValue(null);
         }
-    } catch (e) {
-        handleServerNetworkError(e as Error, dispatch);
-    } finally {
-        dispatch(setIsInitialized(true));
-    }
-};
+    },
+);

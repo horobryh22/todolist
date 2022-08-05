@@ -1,27 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { REQUEST_STATUS } from 'enums';
+import {
+    addTodolistTC,
+    fetchTodolistsTC,
+    logoutTC,
+    removeTodolistTC,
+    updateTodolistTitleTC,
+} from 'store/middlewares';
 import { TodolistDomainType } from 'store/reducers';
-import { FilterValuesType, TodolistType } from 'types';
-
-const initialState: Array<TodolistDomainType> = [];
+import { FilterValuesType } from 'types';
 
 const todolistsSlice = createSlice({
     name: 'todolists',
-    initialState,
+    initialState: [] as Array<TodolistDomainType>,
     reducers: {
-        removeTodolist: (state, action: PayloadAction<{ todolistId: string }>) => {
-            const index = state.findIndex(td => td.id === action.payload.todolistId);
-
-            state.splice(index, 1);
-        },
-        addTodolist: (state, action: PayloadAction<{ todolist: TodolistType }>) => {
-            state.unshift({
-                ...action.payload.todolist,
-                filter: 'all',
-                entityStatus: REQUEST_STATUS.IDLE,
-            });
-        },
         changeFilter: (
             state,
             action: PayloadAction<{ todolistId: string; filter: FilterValuesType }>,
@@ -29,23 +22,6 @@ const todolistsSlice = createSlice({
             const todolist = state.find(td => td.id === action.payload.todolistId);
 
             if (todolist) todolist.filter = action.payload.filter;
-        },
-        changeTodolistTitle: (
-            state,
-            action: PayloadAction<{ todolistId: string; title: string }>,
-        ) => {
-            const todolist = state.find(td => td.id === action.payload.todolistId);
-
-            if (todolist) todolist.title = action.payload.title;
-        },
-        setTodolists: (state, action: PayloadAction<{ todolists: TodolistType[] }>) => {
-            action.payload.todolists.forEach(tl => {
-                state.push({
-                    ...tl,
-                    filter: 'all',
-                    entityStatus: REQUEST_STATUS.IDLE,
-                });
-            });
         },
         setTodolistEntityStatus: (
             state,
@@ -55,20 +31,41 @@ const todolistsSlice = createSlice({
 
             if (todolist) todolist.entityStatus = action.payload.entityStatus;
         },
-        clearAppData: () => {
-            return [];
-        },
+    },
+    extraReducers: builder => {
+        builder
+            .addCase(addTodolistTC.fulfilled, (state, action) => {
+                state.unshift({
+                    ...action.payload,
+                    filter: 'all',
+                    entityStatus: REQUEST_STATUS.IDLE,
+                });
+            })
+            .addCase(fetchTodolistsTC.fulfilled, (state, action) => {
+                action.payload.forEach(tl => {
+                    state.push({
+                        ...tl,
+                        filter: 'all',
+                        entityStatus: REQUEST_STATUS.IDLE,
+                    });
+                });
+            })
+            .addCase(removeTodolistTC.fulfilled, (state, action) => {
+                const index = state.findIndex(td => td.id === action.payload);
+
+                state.splice(index, 1);
+            })
+            .addCase(updateTodolistTitleTC.fulfilled, (state, action) => {
+                const todolist = state.find(td => td.id === action.payload.todolistId);
+
+                if (todolist) todolist.title = action.payload.data.title;
+            })
+            .addCase(logoutTC.fulfilled, () => {
+                return [];
+            });
     },
 });
 
 export default todolistsSlice.reducer;
 
-export const {
-    removeTodolist,
-    addTodolist,
-    setTodolistEntityStatus,
-    changeTodolistTitle,
-    setTodolists,
-    changeFilter,
-    clearAppData,
-} = todolistsSlice.actions;
+export const { setTodolistEntityStatus, changeFilter } = todolistsSlice.actions;

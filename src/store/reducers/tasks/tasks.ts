@@ -1,20 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { REQUEST_STATUS, TASK_STATUS } from 'enums';
-import { TaskStateType } from 'store/reducers';
+import { REQUEST_STATUS } from 'enums';
 import {
-    addTodolist,
-    clearAppData,
-    removeTodolist,
-    setTodolists,
-} from 'store/reducers/todolists';
-import { TaskType } from 'types';
-
-const initialState: TaskStateType = {};
+    addTaskTC,
+    addTodolistTC,
+    fetchTodolistsTC,
+    getTasksTC,
+    logoutTC,
+    removeTaskTC,
+    removeTodolistTC,
+    updateTaskStatusTC,
+    updateTaskTitleTC,
+} from 'store/middlewares';
+import { TaskStateType } from 'store/reducers';
 
 export const tasksSlice = createSlice({
     name: 'tasks',
-    initialState,
+    initialState: {} as TaskStateType,
     reducers: {
         setTaskEntityStatus: (
             state,
@@ -30,88 +32,61 @@ export const tasksSlice = createSlice({
 
             if (task) task.entityStatus = action.payload.entityStatus;
         },
-        setTasks: (
-            state,
-            action: PayloadAction<{ todolistId: string; tasks: TaskType[] }>,
-        ) => {
-            action.payload.tasks.forEach(task =>
-                state[action.payload.todolistId].push({
-                    ...task,
-                    entityStatus: REQUEST_STATUS.IDLE,
-                }),
-            );
-        },
-        removeTask: (
-            state,
-            action: PayloadAction<{ todolistID: string; taskId: string }>,
-        ) => {
-            const index = state[action.payload.todolistID].findIndex(
-                el => el.id === action.payload.taskId,
-            );
-
-            state[action.payload.todolistID].splice(index, 1);
-        },
-        addTask: (state, action: PayloadAction<{ task: TaskType }>) => {
-            state[action.payload.task.todoListId].unshift({
-                ...action.payload.task,
-                entityStatus: REQUEST_STATUS.IDLE,
-            });
-        },
-        changeTaskStatus: (
-            state,
-            action: PayloadAction<{
-                todolistID: string;
-                taskId: string;
-                status: TASK_STATUS;
-            }>,
-        ) => {
-            const task = state[action.payload.todolistID].find(
-                el => el.id === action.payload.taskId,
-            );
-
-            if (task) task.status = action.payload.status;
-        },
-        changeTaskTitle: (
-            state,
-            action: PayloadAction<{
-                todolistId: string;
-                taskId: string;
-                newTitle: string;
-            }>,
-        ) => {
-            const task = state[action.payload.todolistId].find(
-                el => el.id === action.payload.taskId,
-            );
-
-            if (task) task.title = action.payload.newTitle;
-        },
     },
     extraReducers: builder => {
         builder
-            .addCase(clearAppData, () => {
+            .addCase(logoutTC.fulfilled, () => {
                 return {};
             })
-            .addCase(removeTodolist, (state, action) => {
-                delete state[action.payload.todolistId];
+            .addCase(removeTodolistTC.fulfilled, (state, action) => {
+                delete state[action.payload];
             })
-            .addCase(addTodolist, (state, action) => {
-                state[action.payload.todolist.id] = [];
+            .addCase(addTodolistTC.fulfilled, (state, action) => {
+                state[action.payload.id] = [];
             })
-            .addCase(setTodolists, (state, action) => {
-                action.payload.todolists.forEach(tl => {
+            .addCase(fetchTodolistsTC.fulfilled, (state, action) => {
+                action.payload.forEach(tl => {
                     state[tl.id] = [];
                 });
+            })
+            .addCase(addTaskTC.fulfilled, (state, action) => {
+                state[action.payload.todoListId].unshift({
+                    ...action.payload,
+                    entityStatus: REQUEST_STATUS.IDLE,
+                });
+            })
+            .addCase(getTasksTC.fulfilled, (state, action) => {
+                action.payload.data.tasks.forEach(task =>
+                    state[action.payload.todolistId].push({
+                        ...task,
+                        entityStatus: REQUEST_STATUS.IDLE,
+                    }),
+                );
+            })
+            .addCase(removeTaskTC.fulfilled, (state, action) => {
+                const index = state[action.payload.todolistId].findIndex(
+                    el => el.id === action.payload.data.taskId,
+                );
+
+                state[action.payload.todolistId].splice(index, 1);
+            })
+            .addCase(updateTaskStatusTC.fulfilled, (state, action) => {
+                const task = state[action.payload.todolistId].find(
+                    el => el.id === action.payload.data.taskId,
+                );
+
+                if (task) task.status = action.payload.data.status;
+            })
+            .addCase(updateTaskTitleTC.fulfilled, (state, action) => {
+                const task = state[action.payload.todolistId].find(
+                    el => el.id === action.payload.data.taskId,
+                );
+
+                if (task) task.title = action.payload.data.title;
             });
     },
 });
 
 export default tasksSlice.reducer;
 
-export const {
-    addTask,
-    removeTask,
-    changeTaskStatus,
-    changeTaskTitle,
-    setTaskEntityStatus,
-    setTasks,
-} = tasksSlice.actions;
+export const { setTaskEntityStatus } = tasksSlice.actions;

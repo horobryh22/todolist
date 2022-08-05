@@ -18,7 +18,7 @@ export const Task = React.memo(({ task, todolistId }: TaskPropsType) => {
     const taskClass = task.status === TASK_STATUS.Completed ? 'is-done' : '';
 
     const onClickButtonHandler = useCallback(() => {
-        dispatch(removeTaskTC(todolistId, task.id));
+        dispatch(removeTaskTC({ todolistId, data: { taskId: task.id } }));
     }, [task.id, todolistId]);
 
     const onChangeHandler = useCallback(
@@ -27,14 +27,21 @@ export const Task = React.memo(({ task, todolistId }: TaskPropsType) => {
                 ? TASK_STATUS.Completed
                 : TASK_STATUS.New;
 
-            dispatch(updateTaskStatusTC(task.id, todolistId, status));
+            dispatch(
+                updateTaskStatusTC({ todolistId, data: { status, taskId: task.id } }),
+            );
         },
         [task.id, todolistId],
     );
 
     const changeTaskTitleHandler = useCallback(
         (newTitle: string) => {
-            dispatch(updateTaskTitleTC(task.id, todolistId, newTitle));
+            dispatch(
+                updateTaskTitleTC({
+                    todolistId,
+                    data: { title: newTitle, taskId: task.id },
+                }),
+            );
         },
         [task.id, todolistId],
     );
