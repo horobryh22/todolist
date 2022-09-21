@@ -3,7 +3,7 @@
 ## About
 TodoList - a list of tasks that need to be completed, typically organized in order of priority.
 
-## Techologies stack:
+## Technologies stack:
 * ReactJS
 * TypeScript
 * Redux Toolkit
